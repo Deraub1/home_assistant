@@ -755,10 +755,11 @@ document.addEventListener('DOMContentLoaded', () => {
     let spokenFeedback = '';
     const normalizedCommand = normalizeVoiceText(cmd);
     const turnOnRequested = /\b(?:allume|allumer|on|active)\b/.test(normalizedCommand);
-    const turnOffRequested = /\b(?:eteins|eteindre|off|desactive|stop)\b/.test(normalizedCommand);
+    const turnOffRequested = /\b(?:eteins?|eteint|eteignez|eteindre|off|desactive(?:r|z)?|stop)\b/.test(normalizedCommand);
     const allLedsRequested = normalizedCommand.includes('toutes les led')
       || normalizedCommand.includes('tous les led')
       || normalizedCommand.includes('toute la led')
+      || /\bles leds?\b/.test(normalizedCommand)
       || normalizedCommand.includes('tout le ruban')
       || normalizedCommand.includes('ensemble des led');
 

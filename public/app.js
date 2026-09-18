@@ -707,8 +707,8 @@ document.addEventListener('DOMContentLoaded', () => {
         voiceSessionActive = false;
         voiceTranscript.textContent = `"${transcript}"`;
         addLog('🎙️ Session vocale continue arrêtée', 'info');
-        speakResponse('D’accord, je me mets en attente.');
         recognition.stop();
+        window.setTimeout(() => speakResponse('Bye bye.'), 100);
         return;
       }
       if (recognitionMode === 'wake') {
@@ -716,8 +716,8 @@ document.addEventListener('DOMContentLoaded', () => {
           voiceSessionActive = true;
           voiceTranscript.textContent = 'Oui, je vous écoute. Parlez maintenant...';
           addLog('🎙️ Mot d’activation « Home Assistant » détecté', 'info');
-          speakResponse('Oui, je vous écoute.');
           recognition.stop();
+          window.setTimeout(() => speakResponse('Oui, je vous écoute.'), 100);
         }
         return;
       }

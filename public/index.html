@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home Assistant</title>
+  <link rel="icon" type="image/png" sizes="586x586" href="favicon.png">
+  <link rel="apple-touch-icon" sizes="586x586" href="favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <svg class="icon-sprite" aria-hidden="true">
+    <symbol id="icon-moon" viewBox="0 0 24 24"><path d="M20 15.2A8.5 8.5 0 0 1 8.8 4 8.5 8.5 0 1 0 20 15.2Z"/></symbol>
+    <symbol id="icon-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42"/></symbol>
+    <symbol id="icon-refresh" viewBox="0 0 24 24"><path d="M20 11a8.1 8.1 0 0 0-14.8-3L3 11m0-5v5h5M4 13a8.1 8.1 0 0 0 14.8 3L21 13m0 5v-5h-5"/></symbol>
+    <symbol id="icon-chevron" viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"/></symbol>
+    <symbol id="icon-network" viewBox="0 0 24 24"><rect x="3" y="4" width="6" height="6" rx="1"/><rect x="15" y="14" width="6" height="6" rx="1"/><path d="M9 7h3a3 3 0 0 1 3 3v4M15 17h-3a3 3 0 0 1-3-3v-4"/></symbol>
+    <symbol id="icon-lightbulb" viewBox="0 0 24 24"><path d="M9 18h6m-5 3h4M8 14a6 6 0 1 1 8 0c-.8.7-1 1.3-1 2H9c0-.7-.2-1.3-1-2Z"/></symbol>
+    <symbol id="icon-zap" viewBox="0 0 24 24"><path d="m13 2-9 12h7l-1 8 9-12h-7l1-8Z"/></symbol>
+    <symbol id="icon-mic" viewBox="0 0 24 24"><rect x="8" y="3" width="8" height="12" rx="4"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3m-3 0h6"/></symbol>
+    <symbol id="icon-volume" viewBox="0 0 24 24"><path d="M4 10v4h4l5 4V6l-5 4H4Zm13.5-2a6 6 0 0 1 0 8M16 5a10 10 0 0 1 0 14"/></symbol>
+    <symbol id="icon-sliders" viewBox="0 0 24 24"><path d="M4 6h10m4 0h2M4 12h3m4 0h9M4 18h10m4 0h2"/><circle cx="16" cy="6" r="2"/><circle cx="9" cy="12" r="2"/><circle cx="16" cy="18" r="2"/></symbol>
+    <symbol id="icon-clipboard" viewBox="0 0 24 24"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4V3h6v1M9 10h6m-6 4h6m-6 4h4"/></symbol>
+    <symbol id="icon-history" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7L3 8m0-5v5h5"/><path d="M12 7v5l3 2"/></symbol>
+    <symbol id="icon-code" viewBox="0 0 24 24"><path d="m8 8-4 4 4 4m8-8 4 4-4 4m-3-12-2 16"/></symbol>
+    <symbol id="icon-check" viewBox="0 0 24 24"><path d="m5 12 4 4L19 6"/></symbol>
+  </svg>
+  <div id="appSplash" class="app-splash" aria-label="Chargement de Home Assistant">
+    <img class="app-splash-circuits" src="splash-circuits.svg" alt="" aria-hidden="true">
+    <img class="app-splash-logo" src="home-assistant-logo.png" alt="Logo Home Assistant">
+  </div>
+
+  <div class="app-container">
+
+    <!-- Top Bar Header -->
+    <header class="top-header">
+      <div class="brand">
+        <div class="brand-icon">
+          <img src="favicon.png" alt="Logo Home Assistant">
+        </div>
+        <div>
+          <h1>Home Assistant</h1>
+          <p class="subtitle">Pilotez votre circuit physique en temps réel</p>
+        </div>
+      </div>
+
+      <div class="header-status">
+        <button id="btnThemeToggle" class="btn-icon" title="Changer le thème (Clair / Sombre)">
+          <svg class="ui-icon" aria-hidden="true"><use href="#icon-moon"></use></svg><span id="themeToggleText">Sombre</span>
+        </button>
+        <div class="status-badge status-offline" id="connectionBadge">
+          <span class="status-dot"></span>
+          <span id="statusText">Non connecté</span>
+        </div>
+        <button id="btnCheckPing" class="btn-icon" title="Tester le signal / Ping">
+          <svg class="ui-icon" aria-hidden="true"><use href="#icon-refresh"></use></svg><span id="pingValue">-- ms</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Content Layout -->
+    <main class="dashboard-grid">
+
+      <!-- Left Column: Hardware Configuration & Presets -->
+      <div class="left-column-stack">
+
+        <section class="card config-card">
+          <div class="card-header">
+            <h2><svg class="ui-icon" aria-hidden="true"><use href="#icon-network"></use></svg> Configuration du Circuit Physique</h2>
+          </div>
+
+          <div class="form-group">
+            <label for="deviceUrl">Adresse IP / URL de la LED (ESP8266 / ESP32 / Arduino / RPi)</label>
+            <div class="input-with-btn">
+              <input type="url" id="deviceUrl" placeholder="/api/led ou http://192.168.1.45/api/led"
+                value="http://192.168.1.45/api/led" required />
+              <button id="btnSaveConfig" class="btn btn-primary">Enregistrer</button>
+            </div>
+            <span class="field-hint">Ex: <code>/api/led</code> si l'application est hébergée par l'ESP8266, ou
+              <code>http://192.168.1.45/api/led</code> depuis un autre serveur.</span>
+          </div>
+
+          <div class="form-group">
+            <label for="totalLedsInput"><svg class="ui-icon" aria-hidden="true"><use href="#icon-lightbulb"></use></svg> Nombre de LEDs dans le circuit</label>
+            <div class="input-with-btn">
+              <input type="number" id="totalLedsInput" min="1" max="100" value="1" required />
+              <button id="btnUpdateTotalLeds" class="btn btn-secondary">Appliquer</button>
+            </div>
+            <span class="field-hint">Définit le nombre total de LEDs physiques du circuit.</span>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="httpMethod">Méthode HTTP</label>
+              <select id="httpMethod" class="form-select">
+                <option value="POST_JSON" selected>POST avec Body JSON</option>
+                <option value="GET_QUERY">GET avec Query Params (?state=on...)</option>
+                <option value="POST_FORM">POST URL-Encoded</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label>Mode Réseau</label>
+              <label class="toggle-speech-feedback network-security-toggle" title="Utiliser une connexion chiffrée vers le circuit">
+                <input type="checkbox" id="secureTransport" />
+                <span>Connexion sécurisée HTTPS</span>
+              </label>
+              <span class="field-hint network-mode-note">HTTPS chiffre les échanges ; le circuit doit disposer d’un certificat TLS et autoriser le CORS.</span>
+            </div>
+          </div>
+
+          <div class="divider"></div>
+
+          <h3><svg class="ui-icon" aria-hidden="true"><use href="#icon-zap"></use></svg> Raccourcis Rapides</h3>
+          <div class="presets-grid">
+            <button class="preset-chip preset-all" data-action="all"><svg class="ui-icon" aria-hidden="true"><use href="#icon-zap"></use></svg> Allumer tout</button>
+            <button class="preset-chip preset-off" data-action="off"><svg class="ui-icon" aria-hidden="true"><use href="#icon-lightbulb"></use></svg> Éteindre tout</button>
+          </div>
+
+          <div class="code-help-trigger">
+            <button id="btnOpenCodeModal" class="btn btn-secondary full-width">
+               Obtenir le Code C++ pour mon ESP32 / Arduino
+            </button>
+          </div>
+        </section>
+
+      </div>
+
+      <!-- Center Column: Visual LED Mirror & Switch -->
+      <section class="card control-card">
+
+        <!-- Live LED Visual Orb Mirror -->
+        <div class="led-mirror-container">
+          <div id="ledOrbGrid" class="led-orb-wrapper" aria-label="Miroir visuel des LEDs du circuit"></div>
+          <div class="led-status-label">
+            <span id="ledStateText">ÉTEINT</span>
+            <span id="ledDetailsText" class="sub-detail">0% • #000000</span>
+          </div>
+        </div>
+
+        <!-- Contrôles des trois LEDs principales -->
+        <div class="led-control-buttons" aria-label="Contrôle des trois premières LEDs">
+          <button type="button" class="led-control-button led-control-red" data-led="1" aria-label="Allumer ou éteindre la LED rouge">
+            <span class="led-control-light" aria-hidden="true"></span>
+            <span class="led-control-label">Rouge</span>
+          </button>
+          <button type="button" class="led-control-button led-control-yellow" data-led="2" aria-label="Allumer ou éteindre la LED jaune">
+            <span class="led-control-light" aria-hidden="true"></span>
+            <span class="led-control-label">Jaune</span>
+          </button>
+          <button type="button" class="led-control-button led-control-green" data-led="3" aria-label="Allumer ou éteindre la LED verte">
+            <span class="led-control-light" aria-hidden="true"></span>
+            <span class="led-control-label">Vert</span>
+          </button>
+        </div>
+
+        <!-- RGB & Brightness Controls -->
+        <div class="controls-panel">
+
+          <!-- Brightness Slider -->
+          <div class="control-box">
+            <div class="control-header">
+              <label for="brightnessRange"><svg class="ui-icon" aria-hidden="true"><use href="#icon-sun"></use></svg> Luminosité</label>
+              <span id="brightnessValue" class="value-badge">80%</span>
+            </div>
+            <input type="range" id="brightnessRange" min="0" max="100" value="80" class="slider">
+            <label class="brightness-all-toggle">
+              <input type="checkbox" id="applyBrightnessToAll">
+              <span>Appliquer à toutes les LEDs</span>
+            </label>
+          </div>
+
+          <div class="control-box">
+            <div class="control-header">
+              <label><svg class="ui-icon" aria-hidden="true"><use href="#icon-sliders"></use></svg> Effets simultanés par LED</label>
+            </div>
+            <div id="ledAssignments" class="led-assignments" aria-label="Configuration indépendante des LEDs"></div>
+          </div>
+
+        </div>
+
+      </section>
+
+      <!-- Right Column: Voice Control -->
+      <section class="card voice-card">
+        <div class="card-header">
+          <h2><svg class="ui-icon" aria-hidden="true"><use href="#icon-mic"></use></svg> Commande Vocale (Speech)</h2>
+          <div class="voice-header-actions">
+            <label class="toggle-speech-feedback" title="Activer les réponses vocales">
+              <input type="checkbox" id="toggleSpeechFeedback" checked />
+              <span><svg class="ui-icon" aria-hidden="true"><use href="#icon-volume"></use></svg> Synthèse</span>
+            </label>
+            <label class="toggle-speech-feedback" title="Activer le mot d'activation">
+              <input type="checkbox" id="toggleVoiceWakeWord" />
+              <span><svg class="ui-icon" aria-hidden="true"><use href="#icon-mic"></use></svg> « Home Assistant »</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="voice-box">
+          <button id="btnVoiceMic" class="btn-mic">
+            <div class="mic-pulse-ring"></div>
+            <span class="mic-icon"><svg class="ui-icon" aria-hidden="true"><use href="#icon-mic"></use></svg></span>
+            <span id="micBtnText">Activer le micro</span>
+          </button>
+
+          <div class="voice-transcript-wrapper">
+            <span class="transcript-label">Dernière instruction vocale :</span>
+            <div id="voiceTranscript" class="voice-transcript">"Cliquez sur le micro et parlez..."</div>
+          </div>
+        </div>
+        <p class="field-hint">Après autorisation du microphone, dites « Home Assistant » pour commencer une commande.</p>
+
+        <div class="divider"></div>
+
+        <div class="voice-guide">
+          <h4><svg class="ui-icon" aria-hidden="true"><use href="#icon-lightbulb"></use></svg> Commandes supportées :</h4>
+          <div class="command-tags">
+            <span>Action : "Allume" / "Éteins"</span>
+            <span>Cible : "toutes les LEDs"</span>
+            <span>"LED rouge" / "LED jaune" / "LED verte" / "LED bleue"</span>
+            <span>"LED violette" / "LED orange" / "LED blanche"</span>
+            <span>"Luminosité de 0 à 100%"</span>
+            <span>"Mode fixe" / "Mode respiration"</span>
+            <span>"Mode clignotement" / "Mode stroboscope"</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Full-width Network Logs & LED Detailed Status -->
+      <div class="right-column-stack">
+
+        <details class="card log-card collapsible-card">
+          <summary class="card-header">
+            <h2><svg class="ui-icon" aria-hidden="true"><use href="#icon-clipboard"></use></svg> Console réseau & Envois HTTP</h2>
+            <span class="collapsible-card-actions">
+              <button id="btnClearLog" class="btn-text" type="button">Effacer</button>
+              <svg class="collapse-chevron ui-icon" aria-hidden="true"><use href="#icon-chevron"></use></svg>
+            </span>
+          </summary>
+
+          <div id="logConsole" class="log-console font-mono">
+            <div class="log-entry log-system">
+              <span class="log-time">[Init]</span> Système initialisé. Prêt à communiquer avec le circuit.
+            </div>
+          </div>
+
+        </details>
+
+        <!-- Detailed LED Status Monitor & Activation History Card -->
+        <details class="card status-monitor-card collapsible-card">
+          <summary class="card-header">
+            <h2><svg class="ui-icon" aria-hidden="true"><use href="#icon-history"></use></svg> Historique des LEDs allumées au fil du temps</h2>
+            <span class="collapsible-card-actions">
+              <button id="btnClearLedHistory" class="btn-text" type="button">Effacer</button>
+              <svg class="collapse-chevron ui-icon" aria-hidden="true"><use href="#icon-chevron"></use></svg>
+            </span>
+          </summary>
+
+          <div class="status-monitor-box">
+            <ol id="ledActivationHistory" class="led-activation-list">
+              <li class="history-item item-off font-mono">
+                <span class="history-time">[Init]</span>
+                <span class="history-badge badge-off">ÉTEINT</span>
+                <span class="history-text">Toutes les LEDs éteintes (Initialisation)</span>
+              </li>
+            </ol>
+          </div>
+        </details>
+
+      </div>
+
+    </main>
+
+    <!-- Modal Help for ESP32 / Arduino Code -->
+    <div id="codeModal" class="modal-overlay hidden">
+      <div class="modal-card">
+        <div class="modal-header">
+          <h3><svg class="ui-icon" aria-hidden="true"><use href="#icon-code"></use></svg> Code C++ prêt pour ESP8266WebServer</h3>
+          <button id="btnCloseModal" class="btn-close">&times;</button>
+        </div>
+        <div class="modal-body">
+          <p>Configurez le nombre de LEDs et la carte utilisée pour générer automatiquement le firmware correspondant.</p>
+          <div class="firmware-options">
+            <label for="firmwareBoard">Carte
+              <select id="firmwareBoard" class="form-select">
+                <option value="nodemcu">NodeMCU ESP8266</option>
+                <option value="d1mini">Wemos D1 mini ESP8266</option>
+              </select>
+            </label>
+            <label for="firmwareLedCount">Nombre de LEDs
+              <input id="firmwareLedCount" type="number" min="1" max="5" value="5" />
+            </label>
+          </div>
+          <p class="field-hint">Pour des LEDs simples, utilisez une résistance de 220 à 330 ohms par LED. Les broches proposées sont D1, D2, D5, D6 et D7.</p>
+
+          <div class="code-block-wrapper">
+            <pre><code id="espCodeSnippet" class="font-mono">Générez le firmware avec les options ci-dessus.</code></pre>
+          </div>
+          <button id="btnGenerateFirmware" class="btn btn-secondary">Générer le firmware</button>
+          <button id="btnCopyCode" class="btn btn-primary"><svg class="ui-icon" aria-hidden="true"><use href="#icon-clipboard"></use></svg> Copier le code dans le presse-papier</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="app.js"></script>
+</body>
+
+</html>

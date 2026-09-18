@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="2.5" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <linearGradient id="cyan" x1="0" y1="0" x2="1" y2="0">
+      <stop stop-color="#1769b0"/><stop offset="1" stop-color="#37a9e8"/>
+    </linearGradient>
+    <linearGradient id="blue" x1="0" y1="0" x2="1" y2="0">
+      <stop stop-color="#2d8ed1"/><stop offset=".55" stop-color="#49d9f5"/><stop offset="1" stop-color="#86bfff"/>
+    </linearGradient>
+    <linearGradient id="deep-blue" x1="0" y1="0" x2="1" y2="0">
+      <stop stop-color="#17528f"/><stop offset=".55" stop-color="#2a9dd8"/><stop offset="1" stop-color="#61dff7"/>
+    </linearGradient>
+  </defs>
+  <g fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" filter="url(#glow)" opacity=".95">
+    <g stroke="url(#cyan)">
+      <path d="M0 108h250v38h145v42h110v46h105v80h80v80h65"/>
+      <path d="M0 170h205v35h185v45h95v45h105v70h80v70h85"/>
+      <path d="M0 337h180v38h190v45h105v35h100v35h110v0h50"/>
+      <path d="M0 535h185v-35h175v-42h125v0h115v-26h120"/>
+      <path d="M0 745h210v-42h165v-48h110v-45h110v-65h75"/>
+      <path d="M310 0v90h120v55h105v80h80v70h75v100h45"/>
+      <path d="M650 0v160h70v75h55v110h45"/>
+    </g>
+    <g fill="none" stroke="#45bde9" stroke-width="2" stroke-linecap="round" opacity=".75">
+      <path d="M0 690h210v-35h120v-45h110v-55h115v-60h105v-55h70"/>
+      <path d="M1600 690h-210v-35h-120v-45h-110v-55h-115v-60h-105v-55h-70"/>
+      <path d="M1330 0v105h-95v65h-90v80h-85v75h-70v75h-55"/>
+      <path d="M520 900v-110h80v-70h90v-75h70v-80h55"/>
+    </g>
+    <g stroke="url(#blue)">
+      <path d="M1600 90h-230v42h-135v45h-100v70h-95v80h-70"/>
+      <path d="M1600 165h-180v35h-180v48h-105v48h-105v65h-70"/>
+      <path d="M1600 345h-190v42h-185v38h-100v35h-105v35h-70"/>
+      <path d="M1600 535h-190v-35h-165v-42h-120v-28h-110"/>
+      <path d="M1600 745h-220v-42h-165v-48h-110v-55h-100"/>
+      <path d="M1290 0v90h-120v55h-105v80h-80v70h-75v100h-45"/>
+      <path d="M950 0v160h-70v75h-55v110h-45"/>
+    </g>
+    <g stroke="url(#deep-blue)">
+      <path d="M1600 810h-340v-55h-125v-45h-110v-55h-95v-50h-70"/>
+      <path d="M390 0v130h100v75h90v80h75v80h55"/>
+      <path d="M1210 0v130h-100v75h-90v80h-75v80h-55"/>
+    </g>
+  </g>
+  <g fill="#8fdcff" stroke="#173c62" stroke-width="3">
+    <circle cx="250" cy="108" r="6"/><circle cx="405" cy="288" r="6"/>
+    <circle cx="180" cy="375" r="6"/><circle cx="260" cy="590" r="6"/>
+    <circle cx="1350" cy="132" r="6"/><circle cx="1418" cy="200" r="6"/>
+    <circle cx="1420" cy="387" r="6"/><circle cx="1340" cy="590" r="6"/>
+    <circle cx="310" cy="90" r="6"/><circle cx="1290" cy="90" r="6"/>
+    <circle cx="340" cy="755" r="6"/><circle cx="1260" cy="755" r="6"/>
+  </g>
+</svg>

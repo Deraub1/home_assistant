@@ -650,7 +650,12 @@ document.addEventListener('DOMContentLoaded', () => {
   let isListening = false;
   let recognitionMode = 'command';
   let wakeWordEnabled = false;
-  let commandAfterWakeWord = false;
+  let voiceSessionActive = false;
+
+  function isVoiceSessionStopCommand(text) {
+    const normalized = normalizeVoiceText(text).replace(/[-']/g, ' ');
+    return /(?:stop|arrete(?: toi)?|au revoir|bye bye)\s+home assistant/.test(normalized);
+  }
 
   function speakResponse(text) {
     if (!toggleSpeechFeedback.checked || !('speechSynthesis' in window)) return;
@@ -677,9 +682,7 @@ document.addEventListener('DOMContentLoaded', () => {
     recognition.onend = () => {
       isListening = false;
       btnVoiceMic.classList.remove('listening');
-      if (commandAfterWakeWord) {
-        commandAfterWakeWord = false;
-        recognitionMode = 'command';
+      if (wakeWordEnabled && voiceSessionActive) {
         window.setTimeout(() => startRecognition('command'), 250);
       } else if (wakeWordEnabled) {
         window.setTimeout(() => startRecognition('wake'), 250);
@@ -691,16 +694,26 @@ document.addEventListener('DOMContentLoaded', () => {
     recognition.onerror = (event) => {
       isListening = false;
       btnVoiceMic.classList.remove('listening');
-      micBtnText.textContent = wakeWordEnabled ? 'En attente de « Home Assistant »...' : 'Activer le micro';
+      micBtnText.textContent = wakeWordEnabled && voiceSessionActive
+        ? 'Écoute continue...'
+        : (wakeWordEnabled ? 'En attente de « Home Assistant »...' : 'Activer le micro');
       voiceTranscript.textContent = `Erreur micro: ${event.error}`;
       addLog(`🎙️ Erreur reconnaissance vocale: ${event.error}`, 'error');
     };
 
     recognition.onresult = (event) => {
       const transcript = event.results[0][0].transcript.toLowerCase().trim();
+      if (isVoiceSessionStopCommand(transcript)) {
+        voiceSessionActive = false;
+        voiceTranscript.textContent = `"${transcript}"`;
+        addLog('🎙️ Session vocale continue arrêtée', 'info');
+        speakResponse('D’accord, je me mets en attente.');
+        recognition.stop();
+        return;
+      }
       if (recognitionMode === 'wake') {
         if (normalizeVoiceText(transcript).includes('home assistant')) {
-          commandAfterWakeWord = true;
+          voiceSessionActive = true;
           voiceTranscript.textContent = 'Oui, je vous écoute. Parlez maintenant...';
           addLog('🎙️ Mot d’activation « Home Assistant » détecté', 'info');
           speakResponse('Oui, je vous écoute.');
@@ -732,6 +745,7 @@ document.addEventListener('DOMContentLoaded', () => {
   btnVoiceMic.addEventListener('click', () => {
     if (!recognition) return;
     wakeWordEnabled = false;
+    voiceSessionActive = false;
     if (toggleVoiceWakeWord) toggleVoiceWakeWord.checked = false;
     if (isListening) {
       recognition.stop();
@@ -744,9 +758,13 @@ document.addEventListener('DOMContentLoaded', () => {
     wakeWordEnabled = event.target.checked;
     if (!recognition) return;
     if (wakeWordEnabled) {
+      voiceSessionActive = false;
       startRecognition('wake');
-    } else if (isListening && recognitionMode === 'wake') {
+    } else {
+      voiceSessionActive = false;
+      if (isListening) {
       recognition.stop();
+      }
       micBtnText.textContent = 'Activer le micro';
     }
   });

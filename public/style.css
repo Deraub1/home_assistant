@@ -1,6 +1,6 @@
 @media (max-width: 700px) {
   body .led-assignments .led-assignment-row {
-    grid-template-columns: 40px minmax(0, 1.25fr) minmax(68px, 0.75fr) 38px !important;
+    grid-template-columns: 40px minmax(0, 0.75fr) minmax(100px, 1.25fr) 38px !important;
     gap: 5px !important;
     min-width: 0;
   }
@@ -29,16 +29,6 @@
     font-weight: 800;
   }
 
-  body .led-assignments .led-power-icon {
-    width: 20px;
-    height: 20px;
-    display: block;
-    fill: none;
-    stroke: currentColor;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-    stroke-width: 2;
-  }
 }
 
 /* ==========================================================================
@@ -1434,10 +1424,39 @@ input[type="number"]:focus,
   transition: var(--transition-fast);
 }
 
+.led-power-button .led-power-symbol {
+  display: block;
+}
+
 .led-power-button:hover {
   border-color: var(--primary);
   color: var(--primary);
   background: rgba(255, 255, 255, 0.12);
+}
+
+.led-power-button.is-on {
+  border-color: var(--primary);
+  background: var(--primary);
+  color: #ffffff;
+  box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.18);
+}
+
+.led-power-button.is-on:hover {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: #ffffff;
+  filter: brightness(0.9);
+}
+
+.led-power-label {
+  display: none;
+}
+
+.led-power-symbol {
+  display: block;
+  font-family: Arial, "Segoe UI Symbol", sans-serif;
+  font-size: 24px;
+  line-height: 1;
 }
 
 .value-badge {
@@ -2083,6 +2102,13 @@ pre code {
 }
 
 /* Mobile overrides stay last so they take precedence over component defaults. */
+@media (min-width: 701px) {
+  .led-assignments .led-power-button.is-on {
+    border-radius: 50%;
+    box-shadow: 0 0 0 3px var(--primary-glow);
+  }
+}
+
 @media (max-width: 700px) {
   body {
     padding: 12px;
@@ -2226,6 +2252,20 @@ pre code {
   .led-power-button {
     width: 44px;
     height: 44px;
+  }
+
+  body .led-assignments .led-power-button .led-power-symbol {
+    display: none;
+  }
+
+  body .led-assignments .led-power-button.is-on {
+    border-radius: var(--radius-sm);
+  }
+
+  body .led-assignments .led-power-button .led-power-label {
+    display: inline;
+    font-size: 12px;
+    font-weight: 700;
   }
 
   .log-console {

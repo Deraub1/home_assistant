@@ -12,6 +12,60 @@ document.addEventListener('DOMContentLoaded', () => {
     appSplash.classList.add('app-splash-hidden');
     appSplash.addEventListener('transitionend', () => appSplash.remove(), { once: true });
   }, 1600);
+
+  const faviconLink = document.querySelector('link[rel~="icon"]');
+  const faviconInactiveDelay = 5 * 60 * 1000;
+  const colorFaviconHref = faviconLink?.href;
+  let faviconInactiveTimer;
+  let grayscaleFavicon;
+  let faviconIsInactive = false;
+
+  function createGrayscaleFavicon() {
+    if (!faviconLink || grayscaleFavicon) return;
+
+    const image = new Image();
+    image.addEventListener('load', () => {
+      const canvas = document.createElement('canvas');
+      canvas.width = image.naturalWidth;
+      canvas.height = image.naturalHeight;
+      const context = canvas.getContext('2d');
+      if (!context) return;
+
+      context.filter = 'grayscale(1)';
+      context.drawImage(image, 0, 0);
+      grayscaleFavicon = canvas.toDataURL('image/png');
+      if (faviconIsInactive) faviconLink.href = grayscaleFavicon;
+    }, { once: true });
+    image.src = faviconLink.href;
+  }
+
+  function setFaviconInactive(isInactive) {
+    if (!faviconLink) return;
+    faviconIsInactive = isInactive;
+    if (isInactive) {
+      createGrayscaleFavicon();
+      if (grayscaleFavicon) faviconLink.href = grayscaleFavicon;
+    } else {
+      faviconLink.href = colorFaviconHref;
+    }
+  }
+
+  function scheduleInactiveFavicon() {
+    window.clearTimeout(faviconInactiveTimer);
+    faviconInactiveTimer = window.setTimeout(() => setFaviconInactive(true), faviconInactiveDelay);
+  }
+
+  function markAppActive() {
+    setFaviconInactive(false);
+    scheduleInactiveFavicon();
+  }
+
+  ['pointerdown', 'keydown', 'focus'].forEach((eventName) => {
+    window.addEventListener(eventName, markAppActive, { passive: true });
+  });
+  document.addEventListener('visibilitychange', markAppActive);
+  createGrayscaleFavicon();
+  scheduleInactiveFavicon();
   
   // --- Éléments du DOM ---
   const btnThemeToggle = document.getElementById('btnThemeToggle');
@@ -248,10 +302,11 @@ document.addEventListener('DOMContentLoaded', () => {
         </select>
         <button
           type="button"
-          class="btn-text led-power-button"
+          class="btn-text led-power-button${led.isOn ? ' is-on' : ''}"
           data-led="${led.id}"
           aria-label="${led.isOn ? `Éteindre ${led.name}` : `Allumer ${led.name}`}"
-        ><svg class="led-power-icon" aria-hidden="true"><use href="#icon-power"></use></svg></button>
+          aria-pressed="${led.isOn}"
+        ><span class="led-power-symbol" aria-hidden="true">&#x23FB;&#xFE0E;</span><span class="led-power-label">${led.isOn ? 'On' : 'Off'}</span></button>
       `;
       row.querySelector('.led-name-select').value = ledColorOptions.includes(led.name) ? led.name : '';
       row.querySelector('.led-effect-select').value = led.mode;
@@ -646,8 +701,9 @@ document.addEventListener('DOMContentLoaded', () => {
       if (recognitionMode === 'wake') {
         if (normalizeVoiceText(transcript).includes('home assistant')) {
           commandAfterWakeWord = true;
-          voiceTranscript.textContent = 'Mot d’activation détecté. Parlez maintenant...';
+          voiceTranscript.textContent = 'Oui, je vous écoute. Parlez maintenant...';
           addLog('🎙️ Mot d’activation « Home Assistant » détecté', 'info');
+          speakResponse('Oui, je vous écoute.');
           recognition.stop();
         }
         return;
@@ -697,72 +753,76 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function parseVoiceCommand(cmd) {
     let spokenFeedback = '';
-    const turnOnRequested = /\b(?:allume|allumer|on|active)\b/.test(cmd);
-    const turnOffRequested = /\b(?:éteins|éteindre|off|désactive|stop)\b/.test(cmd);
-    const allLedsRequested = cmd.includes('toutes les led')
-      || cmd.includes('tous les led')
-      || cmd.includes('toute la led')
-      || cmd.includes('tout le ruban')
-      || cmd.includes('ensemble des led');
+    const normalizedCommand = normalizeVoiceText(cmd);
+    const turnOnRequested = /\b(?:allume|allumer|on|active)\b/.test(normalizedCommand);
+    const turnOffRequested = /\b(?:eteins|eteindre|off|desactive|stop)\b/.test(normalizedCommand);
+    const allLedsRequested = normalizedCommand.includes('toutes les led')
+      || normalizedCommand.includes('tous les led')
+      || normalizedCommand.includes('toute la led')
+      || normalizedCommand.includes('tout le ruban')
+      || normalizedCommand.includes('ensemble des led');
 
-    // 1. Interrupteur ON / OFF
-    if (turnOnRequested) {
-      state.isOn = true;
-      spokenFeedback = 'LED allumée';
-    } else if (turnOffRequested) {
-      state.isOn = false;
-      spokenFeedback = 'LED éteinte';
-    }
-
-    // 2. Sélection de la cible (LED par couleur ou toutes les LEDs)
+    // 1. Sélection de la cible (LED par couleur, numéro ou toutes les LEDs)
     const namedLedId = findVoiceLedId(cmd);
-    const numericLedMatch = cmd.match(/led\s*([0-9]+)/) || cmd.match(/numéro\s*([0-9]+)/);
+    const numericLedMatch = normalizedCommand.match(/led\s*([0-9]+)/) || normalizedCommand.match(/numero\s*([0-9]+)/);
+    let spokenTarget = '';
     if (allLedsRequested) {
       state.selectedLed = 'ALL';
       if (ledSelect) ledSelect.value = 'ALL';
-      spokenFeedback += ' sur toutes les LEDs';
+      spokenTarget = 'toutes les LEDs';
     } else if (namedLedId) {
       state.selectedLed = namedLedId;
       if (ledSelect) ledSelect.value = state.selectedLed;
-      spokenFeedback += ` ${getLedName(namedLedId)}`;
+      spokenTarget = `la LED ${getLedName(namedLedId)}`;
     } else if (numericLedMatch) {
       state.selectedLed = numericLedMatch[1];
       if (ledSelect) ledSelect.value = state.selectedLed;
-      spokenFeedback += spokenFeedback ? ` numéro ${state.selectedLed}` : `Sélection de la LED ${state.selectedLed}`;
+      spokenTarget = `la LED ${state.selectedLed}`;
+    } else if (state.selectedLed !== 'ALL') {
+      spokenTarget = `la LED ${state.selectedLed}`;
+    }
+
+    // 2. Interrupteur ON / OFF
+    if (turnOnRequested || turnOffRequested) {
+      state.isOn = turnOnRequested;
+      const stateLabel = state.isOn ? 'allumée' : 'éteinte';
+      spokenFeedback = state.selectedLed === 'ALL'
+        ? `Toutes les LEDs sont ${state.isOn ? 'allumées' : 'éteintes'}`
+        : `${spokenTarget.charAt(0).toUpperCase()}${spokenTarget.slice(1)} est ${stateLabel}`;
     }
 
     // 3. Luminosité
-    const brightMatch = cmd.match(/(?:luminosité|intensité|niveau)\s*(?:à|a|de)?\s*([0-9]{1,3})\s*(?:%|pour\s*cent)?/) || cmd.match(/([0-9]{1,3})\s*(?:%|pour\s*cent)/);
+    const brightMatch = normalizedCommand.match(/(?:luminosite|intensite|niveau)\s*(?:à|a|de)?\s*([0-9]{1,3})\s*(?:%|pour\s*cent)?/) || normalizedCommand.match(/([0-9]{1,3})\s*(?:%|pour\s*cent)/);
     if (brightMatch) {
       const val = parseInt(brightMatch[1], 10);
       if (val >= 0 && val <= 100) {
         state.brightness = val;
         brightnessRange.value = val;
-        spokenFeedback += ` à ${val} pour cent`;
+        spokenFeedback += `${spokenFeedback ? '. ' : ''}Luminosité réglée à ${val} pour cent`;
       }
-    } else if (cmd.includes('maximum') || cmd.includes('max')) {
+    } else if (normalizedCommand.includes('maximum') || normalizedCommand.includes('max')) {
       state.brightness = 100;
       brightnessRange.value = 100;
-      spokenFeedback += ' à 100%';
-    } else if (cmd.includes('minimum') || cmd.includes('min')) {
+      spokenFeedback += `${spokenFeedback ? '. ' : ''}Luminosité réglée à 100 pour cent`;
+    } else if (normalizedCommand.includes('minimum') || normalizedCommand.includes('min')) {
       state.brightness = 10;
       brightnessRange.value = 10;
-      spokenFeedback += ' à 10%';
+      spokenFeedback += `${spokenFeedback ? '. ' : ''}Luminosité réglée à 10 pour cent`;
     }
 
     // 4. Mode / Effets
-    if (cmd.includes('clignotant') || cmd.includes('clignotement') || cmd.includes('clignote') || cmd.includes('flash')) {
+    if (normalizedCommand.includes('clignotant') || normalizedCommand.includes('clignotement') || normalizedCommand.includes('clignote') || normalizedCommand.includes('flash')) {
       state.mode = 'blink';
-      spokenFeedback += ' mode clignotant';
-    } else if (cmd.includes('respiration') || cmd.includes('respire') || cmd.includes('pulse')) {
+      spokenFeedback += `${spokenFeedback ? '. ' : ''}Mode clignotant activé`;
+    } else if (normalizedCommand.includes('respiration') || normalizedCommand.includes('respire') || normalizedCommand.includes('pulse')) {
       state.mode = 'pulse';
-      spokenFeedback += ' mode respiration';
-    } else if (cmd.includes('fixe') || cmd.includes('solide') || cmd.includes('normal')) {
+      spokenFeedback += `${spokenFeedback ? '. ' : ''}Mode respiration activé`;
+    } else if (normalizedCommand.includes('fixe') || normalizedCommand.includes('solide') || normalizedCommand.includes('normal')) {
       state.mode = 'solid';
-      spokenFeedback += ' mode fixe';
-    } else if (cmd.includes('stroboscope') || cmd.includes('stroboscopique') || cmd.includes('strobe')) {
+      spokenFeedback += `${spokenFeedback ? '. ' : ''}Mode fixe activé`;
+    } else if (normalizedCommand.includes('stroboscope') || normalizedCommand.includes('stroboscopique') || normalizedCommand.includes('strobe')) {
       state.mode = 'strobe';
-      spokenFeedback += ' mode stroboscope';
+      spokenFeedback += `${spokenFeedback ? '. ' : ''}Mode stroboscope activé`;
     }
 
     getTargetLedIds().forEach(id => {

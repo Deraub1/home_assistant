@@ -805,9 +805,10 @@ document.addEventListener('DOMContentLoaded', () => {
     if (turnOnRequested || turnOffRequested) {
       state.isOn = turnOnRequested;
       const stateLabel = state.isOn ? 'allumée' : 'éteinte';
+      const targetLabel = spokenTarget.replace(/^la\s+/i, '');
       spokenFeedback = state.selectedLed === 'ALL'
         ? `Toutes les LEDs sont ${state.isOn ? 'allumées' : 'éteintes'}`
-        : `${spokenTarget.charAt(0).toUpperCase()}${spokenTarget.slice(1)} est ${stateLabel}`;
+        : `${targetLabel.charAt(0).toUpperCase()}${targetLabel.slice(1)} ${stateLabel}`;
     }
 
     // 3. Luminosité

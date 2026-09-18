@@ -28,6 +28,17 @@
     font-size: 18px;
     font-weight: 800;
   }
+
+  body .led-assignments .led-power-icon {
+    width: 20px;
+    height: 20px;
+    display: block;
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 2;
+  }
 }
 
 /* ==========================================================================

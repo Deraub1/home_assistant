@@ -251,7 +251,7 @@ document.addEventListener('DOMContentLoaded', () => {
           class="btn-text led-power-button"
           data-led="${led.id}"
           aria-label="${led.isOn ? `Éteindre ${led.name}` : `Allumer ${led.name}`}"
-        ><span aria-hidden="true">${led.isOn ? '⏼' : '⏻'}</span></button>
+        ><svg class="led-power-icon" aria-hidden="true"><use href="#icon-power"></use></svg></button>
       `;
       row.querySelector('.led-name-select').value = ledColorOptions.includes(led.name) ? led.name : '';
       row.querySelector('.led-effect-select').value = led.mode;

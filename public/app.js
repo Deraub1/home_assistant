@@ -654,7 +654,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function isVoiceSessionStopCommand(text) {
     const normalized = normalizeVoiceText(text).replace(/[-']/g, ' ');
-    return /(?:stop|arrete(?: toi)?|au revoir|bye bye)\s+home assistant/.test(normalized);
+    return /^(?:stop|arrete(?: toi)?|au revoir|bye bye)(?:\s+home assistant)?[.!?\s]*$/.test(normalized);
   }
 
   function speakResponse(text) {

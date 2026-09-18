@@ -2255,7 +2255,7 @@ pre code {
   }
 
   body .led-assignments .led-power-button .led-power-symbol {
-    display: none;
+    display: none !important;
   }
 
   body .led-assignments .led-power-button.is-on {
@@ -2263,7 +2263,7 @@ pre code {
   }
 
   body .led-assignments .led-power-button .led-power-label {
-    display: inline;
+    display: inline !important;
     font-size: 12px;
     font-weight: 700;
   }

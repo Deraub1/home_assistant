@@ -1,3 +1,35 @@
+@media (max-width: 700px) {
+  body .led-assignments .led-assignment-row {
+    grid-template-columns: 40px minmax(0, 1.25fr) minmax(68px, 0.75fr) 38px !important;
+    gap: 5px !important;
+    min-width: 0;
+  }
+
+  body .led-assignments .led-assignment-row .form-select {
+    width: 100%;
+    min-width: 0;
+    height: 42px;
+    padding: 6px 22px 6px 8px;
+    font-size: 11px;
+    text-overflow: ellipsis;
+  }
+
+  body .led-assignments .led-assignment-name {
+    font-size: 11px;
+    white-space: nowrap;
+  }
+
+  body .led-assignments .led-power-button {
+    width: 38px;
+    min-width: 38px;
+    height: 42px;
+    min-height: 42px;
+    padding: 0 2px;
+    font-size: 10px;
+    font-weight: 800;
+  }
+}
+
 /* ==========================================================================
    Design System & Modern Glassmorphism Styling
    ========================================================================== */
@@ -760,6 +792,43 @@ body {
     gap: 10px;
   }
 
+  @media (max-width: 700px) {
+    .led-assignments {
+      overflow-x: hidden;
+      padding-right: 0;
+    }
+
+    .led-assignment-row {
+      grid-template-columns: 40px minmax(0, 1.25fr) minmax(68px, 0.75fr) 38px;
+      gap: 5px;
+      min-width: 0;
+    }
+
+    .led-assignment-name {
+      font-size: 11px;
+      white-space: nowrap;
+    }
+
+    .led-assignment-row .form-select {
+      width: 100%;
+      min-width: 0;
+      height: 42px;
+      padding: 6px 22px 6px 8px;
+      font-size: 11px;
+      text-overflow: ellipsis;
+    }
+
+    .led-power-button {
+      width: 38px;
+      min-width: 38px;
+      height: 42px;
+      min-height: 42px;
+      padding: 0 2px;
+      font-size: 10px;
+      font-weight: 800;
+    }
+  }
+
   .collapsible-card > summary h2 {
     font-size: 14px;
     line-height: 1.25;
@@ -767,6 +836,43 @@ body {
 
   .collapsible-card-actions {
     justify-self: end;
+  }
+}
+
+@media (max-width: 700px) {
+  .led-assignments {
+    overflow-x: hidden;
+    padding-right: 0;
+  }
+
+  .led-assignment-row {
+    grid-template-columns: 40px minmax(0, 1.25fr) minmax(68px, 0.75fr) 38px;
+    gap: 5px;
+    min-width: 0;
+  }
+
+  .led-assignment-name {
+    font-size: 11px;
+    white-space: nowrap;
+  }
+
+  .led-assignment-row .form-select {
+    width: 100%;
+    min-width: 0;
+    height: 42px;
+    padding: 6px 22px 6px 8px;
+    font-size: 11px;
+    text-overflow: ellipsis;
+  }
+
+  .led-power-button {
+    width: 38px;
+    min-width: 38px;
+    height: 42px;
+    min-height: 42px;
+    padding: 0 2px;
+    font-size: 10px;
+    font-weight: 800;
   }
 }
 

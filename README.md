@@ -14,6 +14,11 @@ ne nécessite ni framework JavaScript ni serveur applicatif pour son interface.
 - Contrôle de la luminosité de 0 à 100 %.
 - Modes d'éclairage fixe, respiration, clignotement et stroboscope.
 - Commandes vocales en français.
+- Mode IA optionnel avec Ollama pour piloter les LEDs et les fonctions de
+  l'application (configuration, thème, méthode HTTP et panneaux), avec repli
+  automatique vers l'interpréteur standard.
+- Détection locale optionnelle des tapements de mains et claquements de doigts
+  pour activer ou désactiver le mode IA.
 - Mot d'activation « Home Assistant » pour lancer une commande vocale.
 - Configuration de l'URL et du transport réseau HTTP/HTTPS.
 - Génération automatique d'un firmware Arduino adapté au nombre de LEDs choisi.
@@ -68,6 +73,72 @@ Puis ouvrez :
 ```text
 http://localhost:8080
 ```
+
+### Accès local au navigateur
+
+Au premier lancement, l'application demande la création d'un nom d'utilisateur
+et d'un mot de passe. Le compte est conservé uniquement dans le stockage local
+du navigateur : le mot de passe n'est jamais enregistré en clair, mais cette
+protection ne remplace pas une authentification serveur. Une session locale
+persistante permet ensuite d'ouvrir l'application sans se reconnecter à chaque
+visite. Effacer les données du site du navigateur supprimera le compte local.
+
+### Mode IA local avec Ollama
+
+Le mode IA est désactivé par défaut. Pour l'activer, installez [Ollama](https://ollama.com/),
+puis téléchargez un modèle :
+
+```powershell
+ollama pull llama3.2
+ollama serve
+```
+
+Ouvrez ensuite l'application via le serveur local et cochez **Mode IA** dans
+la section de commande vocale. L'application utilise
+`http://localhost:11434/api/chat`. Si Ollama est arrêté ou inaccessible, la
+commande est automatiquement traitée par l'interpréteur vocal standard.
+
+Quand le mode IA est actif, Irina reçoit le nom d'utilisateur du compte local
+pour personnaliser naturellement ses salutations, confirmations et questions.
+Elle peut répondre sans action, demander une précision (par exemple la LED
+concernée) ou proposer une action. En cas d'indisponibilité d'Ollama, les
+salutations et demandes d'aide courantes disposent d'un secours conversationnel
+local.
+
+Les salutations vocales suivent également l'heure locale du navigateur :
+**Bonjour** en journée, **Bonsoir** en soirée et durant la nuit, **Good morning**
+le matin et **Good evening** le reste du temps. Une formule familière comme
+**Salut / Hi** est conservée lorsque l'utilisateur l'emploie.
+
+L'utilisateur peut aussi changer son nom d'appel à tout moment avec une phrase
+comme **« Appelle-moi Alex »**, **« Je préfère que tu m'appelles Alex »**,
+**« Call me Alex »** ou **« My name is Alex »**. Ce nom d'appel est conservé
+localement séparément du nom d'utilisateur de connexion et est utilisé par
+Irina dans les échanges suivants.
+
+Lorsqu'Irina utilise pour la première fois le nom de connexion, elle demande
+également si elle peut appeler l'utilisateur ainsi. Une réponse affirmative
+confirme ce nom ; une réponse négative lui permet de demander puis d'enregistrer
+un autre nom d'appel. Cette confirmation n'est demandée qu'une seule fois dans
+ce navigateur.
+
+Le nom « Irina » s'anime lettre par lettre en suivant une trajectoire en huit :
+chaque lettre suit la précédente, puis rejoint progressivement sa position
+sous le symbole. La pause automatique d'une minute commence après l'arrêt de
+la dernière lettre. Lorsque le mode IA est actif, un toucher sur le nom peut
+également lancer immédiatement cette animation si elle n'est pas déjà en cours.
+
+Pour utiliser les gestes sonores, cochez **Gestes sonores** dans la commande
+vocale et autorisez l'accès au microphone. Un tapement de mains ou un
+claquement de doigts bascule le mode IA. Lors de son activation, Irina annonce :
+« Salut, je suis Irina, le mode IA de Home Assistant ». Le mot **Irina** peut
+également être utilisé comme mot d'appel vocal.
+
+Le mode IA accepte les formulations naturelles en français, y compris les
+phrases polies ou indirectes. Par exemple, « Irina, est-ce que tu pourrais
+mettre la verte à moitié et faire clignoter la jaune ? » est interprété comme
+une demande de luminosité et d'effet. Une phrase peut appeler Irina et contenir
+la commande immédiatement ; il n'est pas nécessaire de parler en deux fois.
 
 ## Déploiement avec GitHub Pages
 

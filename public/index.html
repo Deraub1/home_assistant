@@ -5,8 +5,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Home Assistant</title>
-  <link rel="icon" type="image/png" sizes="586x586" href="favicon.png">
-  <link rel="apple-touch-icon" sizes="586x586" href="favicon.png">
+  <link rel="icon" type="image/png" sizes="528x473" href="favicon-tab.png">
+  <link rel="apple-touch-icon" sizes="528x473" href="favicon-tab.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
@@ -38,6 +38,25 @@
     <img class="app-splash-logo" src="home-assistant-logo.png" alt="Logo Home Assistant">
   </div>
 
+  <section id="authGate" class="auth-gate" aria-labelledby="authTitle">
+    <div class="auth-card">
+      <img class="auth-logo" src="home-assistant-logo.png" alt="Logo Home Assistant">
+      <p id="authEyebrow" class="auth-eyebrow">HOME ASSISTANT</p>
+      <h1 id="authTitle">Créer votre accès</h1>
+      <p id="authDescription" class="auth-description">Créez un compte local pour accéder à votre tableau de bord.</p>
+      <form id="authForm" class="auth-form">
+        <label id="authUsernameLabel" for="authUsername">Nom d'utilisateur</label>
+        <input id="authUsername" name="username" type="text" autocomplete="username" minlength="2" maxlength="40" required>
+        <label id="authPasswordLabel" for="authPassword">Mot de passe</label>
+        <input id="authPassword" name="password" type="password" autocomplete="new-password" minlength="8" required>
+        <label id="authConfirmLabel" for="authPasswordConfirm">Confirmer le mot de passe</label>
+        <input id="authPasswordConfirm" name="passwordConfirm" type="password" autocomplete="new-password" minlength="8" required>
+        <button id="authSubmit" class="btn btn-primary" type="submit">Créer mon accès</button>
+        <p id="authMessage" class="auth-message" role="alert" aria-live="polite"></p>
+      </form>
+    </div>
+  </section>
+
   <div class="app-container">
 
     <!-- Top Bar Header -->
@@ -53,6 +72,9 @@
       </div>
 
       <div class="header-status">
+        <button id="btnLanguageToggle" class="btn-icon" title="Changer de langue (Français / English)" aria-label="Changer de langue">
+          <span id="languageToggleText">EN</span>
+        </button>
         <button id="btnThemeToggle" class="btn-icon" title="Changer le thème (Clair / Sombre)">
           <svg class="ui-icon" aria-hidden="true"><use href="#icon-moon"></use></svg><span id="themeToggleText">Sombre</span>
         </button>
@@ -202,6 +224,14 @@
               <input type="checkbox" id="toggleVoiceWakeWord" />
               <span><svg class="ui-icon" aria-hidden="true"><use href="#icon-mic"></use></svg> « Home Assistant »</span>
             </label>
+            <label class="toggle-speech-feedback" title="Interpréter les commandes avec Ollama">
+              <input type="checkbox" id="toggleVoiceAi" />
+              <span><svg class="ui-icon" aria-hidden="true"><use href="#icon-sliders"></use></svg> Mode IA</span>
+            </label>
+            <label class="toggle-speech-feedback" title="Détecter un tapement de mains ou un claquement de doigts">
+              <input type="checkbox" id="toggleSoundGestures" />
+              <span><svg class="ui-icon" aria-hidden="true"><use href="#icon-volume"></use></svg> Gestes sonores</span>
+            </label>
           </div>
         </div>
 
@@ -212,6 +242,8 @@
             <span id="micBtnText">Activer le micro</span>
           </button>
 
+          <voice-ai-indicator id="voiceAiIndicator" aria-label="Indicateur du mode IA"></voice-ai-indicator>
+
           <div class="voice-transcript-wrapper">
             <span class="transcript-label">Dernière instruction vocale :</span>
             <div id="voiceTranscript" class="voice-transcript">"Cliquez sur le micro et parlez..."</div>
@@ -219,21 +251,6 @@
         </div>
         <p class="field-hint">Après autorisation du microphone, dites « Home Assistant » pour commencer une commande.</p>
 
-        <div class="divider"></div>
-
-        <div class="voice-guide">
-          <h4><svg class="ui-icon" aria-hidden="true"><use href="#icon-lightbulb"></use></svg> Commandes supportées :</h4>
-          <div class="command-tags">
-            <span>Action : "Allume" / "Éteins"</span>
-            <span>Cible : "toutes les LEDs"</span>
-            <span>"LED rouge" / "LED jaune" / "LED verte" / "LED bleue"</span>
-            <span>"LED violette" / "LED orange" / "LED blanche"</span>
-            <span>"Luminosité de 0 à 100%"</span>
-            <span>"Mode fixe" / "Mode respiration"</span>
-            <span>"Mode clignotement" / "Mode stroboscope"</span>
-            <span>Arrêt vocal : "Stop", "Bye bye", "Au-revoir" ou "Arrête-toi"</span>
-          </div>
-        </div>
       </section>
 
       <!-- Full-width Network Logs & LED Detailed Status -->

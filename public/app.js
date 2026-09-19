@@ -232,7 +232,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       connected: 'En ligne', disconnected: 'Non connecté', pingTitle: 'Tester le signal / Ping',
       config: 'Configuration du Circuit Physique', save: 'Enregistrer', apply: 'Appliquer',
       quick: 'Raccourcis Rapides', allOn: 'Allumer tout', allOff: 'Éteindre tout',
-      voice: 'Commande Vocale (Speech)', synthesis: 'Synthèse', wake: '« Home Assistant »',
+      voice: 'Commande Vocale (Speech)', synthesis: 'Synthèse', wake: 'Écoute active « Irina »',
       ai: 'Mode IA', gestures: 'Gestes sonores', enableMic: 'Activer le micro',
       latest: 'Dernière instruction vocale :', supported: 'Commandes supportées :',
       clear: 'Effacer', brightness: 'Luminosité', brightnessAll: 'Appliquer à toutes les LEDs',
@@ -246,7 +246,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       connected: 'Online', disconnected: 'Not connected', pingTitle: 'Test signal / Ping',
       config: 'Physical Circuit Configuration', save: 'Save', apply: 'Apply',
       quick: 'Quick shortcuts', allOn: 'Turn all on', allOff: 'Turn all off',
-      voice: 'Voice Control (Speech)', synthesis: 'Speech', wake: '“Home Assistant”',
+      voice: 'Voice Control (Speech)', synthesis: 'Speech', wake: 'Active listening “Irina”',
       ai: 'AI mode', gestures: 'Sound gestures', enableMic: 'Enable microphone',
       latest: 'Latest voice instruction:', supported: 'Supported commands:',
       clear: 'Clear', brightness: 'Brightness', brightnessAll: 'Apply to all LEDs',
@@ -304,16 +304,18 @@ document.addEventListener('DOMContentLoaded', async () => {
     'Activer le mot d’activation': 'Enable wake word',
     'Interpréter les commandes avec Ollama': 'Interpret commands with Ollama',
     'Détecter un tapement de mains ou un claquement de doigts': 'Detect claps or finger snaps',
+    'Écoute active « Irina »': 'Active listening “Irina”',
     'Dernière instruction vocale :': 'Latest voice instruction:',
     '"Cliquez sur le micro et parlez..."': '"Click the microphone and speak..."',
-    'Après autorisation du microphone, dites « Home Assistant » pour commencer une commande.': 'After allowing microphone access, say “Home Assistant” to start a command.',
+    'Après autorisation du microphone, dites « Home Assistant » pour commencer une commande.': 'Enable active listening, then say “Irina” to start a command in real time.',
+    'Activez l’écoute active, puis dites « Irina » pour commencer une commande en temps réel.': 'Enable active listening, then say “Irina” to start a command in real time.',
     'Commandes supportées :': 'Supported commands:',
     'Action : "Allume" / "Éteins"': 'Action: “Turn on” / “Turn off”',
     'Cible : "toutes les LEDs"': 'Target: “all LEDs”',
     '"LED rouge" / "LED jaune" / "LED verte" / "LED bleue"': '“Red LED” / “Yellow LED” / “Green LED” / “Blue LED”',
     'Commandes multiples : "Allume la LED rouge et la LED jaune"': 'Multiple commands: “Turn on the red LED and the yellow LED”',
     'Mode IA : configurez les LEDs, le thème, le réseau et les panneaux par la voix': 'AI mode: configure LEDs, theme, network, and panels by voice',
-    'Gestes : tapez des mains ou claquez des doigts pour basculer le mode IA': 'Gestures: clap or snap your fingers to toggle AI mode',
+    'Gestes : un geste allume toutes les LEDs, deux gestes les éteignent': 'Gestures: one clap or snap turns all LEDs on, two turn them off',
     '"LED violette" / "LED orange" / "LED blanche"': '“Purple LED” / “Orange LED” / “White LED”',
     '"Luminosité de 0 à 100%"': '“Brightness from 0 to 100%”',
     '"Mode fixe" / "Mode respiration"': '“Solid mode” / “Pulse mode”',
@@ -1283,8 +1285,8 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   function getIrinaIntroduction() {
     return currentLanguage === 'en'
-      ? `${getTimeGreeting()}, I am Irina, Home Assistant AI mode.`
-      : `${getTimeGreeting()}, je suis Irina, le mode IA de Home Assistant.`;
+      ? `${getTimeGreeting()}, I am Irina.`
+      : `${getTimeGreeting()}, je suis Irina.`;
   }
 
   function updateVoiceLanguage() {
@@ -1293,7 +1295,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   function isVoiceSessionStopCommand(text) {
     const normalized = normalizeVoiceText(text).replace(/[-']/g, ' ');
-    return /^(?:stop|arrete(?: toi)?|au revoir|bye bye|goodbye|good bye)(?:\s+home assistant)?[.!?\s]*$/.test(normalized);
+    return /^(?:stop|arrete(?: toi)?|au revoir|bye bye|goodbye|good bye)(?:\s+irina)?[.!?\s]*$/.test(normalized);
   }
 
   function speakResponse(text) {
@@ -1390,14 +1392,31 @@ document.addEventListener('DOMContentLoaded', async () => {
   let gestureStream = null;
   let gestureFrame = null;
   let lastGestureAt = 0;
+  const gestureCounts = new Map();
+  const gestureCountTimers = new Map();
 
-  function toggleAiModeFromGesture(gestureName) {
-    const wasEnabled = Boolean(toggleVoiceAi?.checked);
-    if (!toggleVoiceAi) return;
-    toggleVoiceAi.checked = !wasEnabled;
-    updateAiVisualState();
-    addLog(`[VOICE] ${gestureName} détecté : mode IA ${toggleVoiceAi.checked ? 'activé' : 'désactivé'}`, 'info');
-    if (toggleVoiceAi.checked) speakResponse(getIrinaIntroduction());
+  function applyGestureLedAction(gestureName, count) {
+    const shouldTurnOn = count === 1;
+    state.selectedLed = 'ALL';
+    state.leds.forEach(led => { led.isOn = shouldTurnOn; });
+    if (ledSelect) ledSelect.value = 'ALL';
+    syncControlsFromSelection();
+    rebuildLedAssignments();
+    updateVisualLEDState();
+    addLog(`[VOICE] ${gestureName} (${count}) : toutes les LEDs ${shouldTurnOn ? 'allumées' : 'éteintes'}`, 'info');
+    sendHardwareRequest();
+  }
+
+  function registerSoundGesture(gestureName) {
+    const count = (gestureCounts.get(gestureName) || 0) + 1;
+    gestureCounts.set(gestureName, count);
+    window.clearTimeout(gestureCountTimers.get(gestureName));
+    gestureCountTimers.set(gestureName, window.setTimeout(() => {
+      const finalCount = gestureCounts.get(gestureName) || 0;
+      gestureCounts.delete(gestureName);
+      gestureCountTimers.delete(gestureName);
+      if (finalCount === 1 || finalCount === 2) applyGestureLedAction(gestureName, finalCount);
+    }, 1400));
   }
 
   function stopSoundGestureDetection() {
@@ -1439,12 +1458,12 @@ document.addEventListener('DOMContentLoaded', async () => {
       const highFrequencyRatio = highFrequencyEnergy / totalFrequencyEnergy;
       const now = performance.now();
 
-      if (now - lastGestureAt > 900 && peak > 0.16 && rms > 0.035) {
+      if (now - lastGestureAt > 350 && peak > 0.16 && rms > 0.035) {
         const gestureName = highFrequencyRatio > 0.42 && rms < 0.12
           ? 'Claquement de doigts'
           : 'Tapement de mains';
         lastGestureAt = now;
-        toggleAiModeFromGesture(gestureName);
+        registerSoundGesture(gestureName);
       }
       gestureFrame = requestAnimationFrame(detectGesture);
     };
@@ -1463,10 +1482,10 @@ document.addEventListener('DOMContentLoaded', async () => {
       btnVoiceMic.classList.add('listening');
       voiceCard?.classList.add('is-listening');
       micBtnText.textContent = recognitionMode === 'wake'
-        ? (currentLanguage === 'en' ? 'Waiting for “Home Assistant”...' : 'En attente de « Home Assistant »...')
+        ? (currentLanguage === 'en' ? 'Waiting for “Irina”...' : 'En attente de « Irina »...')
         : (currentLanguage === 'en' ? 'Listening...' : 'Écoute en cours...');
       voiceTranscript.textContent = recognitionMode === 'wake'
-        ? (currentLanguage === 'en' ? 'Say “Home Assistant” or “Irina”...' : 'Dites « Home Assistant » ou « Irina »...')
+        ? (currentLanguage === 'en' ? 'Say “Irina” to start...' : 'Dites « Irina » pour commencer...')
         : (currentLanguage === 'en' ? 'Speak now...' : 'Parlez maintenant...');
     };
 
@@ -1491,7 +1510,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       voiceCard?.classList.remove('is-listening');
       micBtnText.textContent = wakeWordEnabled && voiceSessionActive
         ? 'Écoute continue...'
-        : (wakeWordEnabled ? 'En attente de « Home Assistant »...' : 'Activer le micro');
+        : (wakeWordEnabled ? 'En attente de « Irina »...' : 'Activer le micro');
       voiceTranscript.textContent = `Erreur micro: ${event.error}`;
       addLog(`[VOICE] Erreur reconnaissance vocale: ${event.error}`, 'error');
     };
@@ -1508,31 +1527,22 @@ document.addEventListener('DOMContentLoaded', async () => {
       }
       if (recognitionMode === 'wake') {
         const normalizedTranscript = normalizeVoiceText(transcript);
-        if (normalizedTranscript.includes('home assistant') || normalizedTranscript.includes('irina')) {
-          const calledIrina = normalizedTranscript.includes('irina');
+        if (normalizedTranscript.includes('irina')) {
           const inlineCommand = transcript
-            .replace(/.*?(?:home assistant|irina)\b/i, '')
+            .replace(/.*?irina\b/i, '')
             .replace(/^[\s,;:.-]+/, '')
             .trim();
-          const aiActivatedByName = calledIrina && toggleVoiceAi && !toggleVoiceAi.checked;
-          if (calledIrina && toggleVoiceAi && !toggleVoiceAi.checked) {
-            toggleVoiceAi.checked = true;
-            updateAiVisualState();
-            speakResponse(getIrinaIntroduction());
-          }
           voiceSessionActive = true;
           voiceTranscript.textContent = currentLanguage === 'en'
             ? 'Yes, I am listening. Speak now...' : 'Oui, je vous écoute. Parlez maintenant...';
-          addLog(`[VOICE] Mot d’activation « ${calledIrina ? 'Irina' : 'Home Assistant'} » détecté`, 'info');
+          addLog('[VOICE] Mot d’activation « Irina » détecté', 'info');
           recognition.stop();
           if (inlineCommand) {
-            window.setTimeout(() => handleRecognizedCommand(inlineCommand), aiActivatedByName ? 1300 : 100);
+            window.setTimeout(() => handleRecognizedCommand(inlineCommand), 100);
             return;
           }
-          if (!aiActivatedByName) {
-            window.setTimeout(() => speakResponse(currentLanguage === 'en'
-              ? 'Yes, I am listening.' : 'Oui, je vous écoute.'), 100);
-          }
+          window.setTimeout(() => speakResponse(currentLanguage === 'en'
+            ? 'Yes, I am listening.' : 'Oui, je vous écoute.'), 100);
         }
         return;
       }
@@ -1580,12 +1590,6 @@ document.addEventListener('DOMContentLoaded', async () => {
       }
       return;
     }
-    if (normalizedTranscript.includes('irina') && toggleVoiceAi && !toggleVoiceAi.checked) {
-      toggleVoiceAi.checked = true;
-      updateAiVisualState();
-      speakResponse(getIrinaIntroduction());
-    }
-
     if (toggleVoiceAi?.checked) {
       setVoiceVisualState('processing');
       voiceTranscript.textContent = `"${transcript}" — analyse IA...`;
@@ -1649,8 +1653,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
     try {
       await startSoundGestureDetection();
-      voiceTranscript.textContent = 'Gestes sonores actifs : tapez des mains ou claquez des doigts.';
-      addLog('[VOICE] Détection des gestes sonores activée', 'info');
+      voiceTranscript.textContent = 'Gestes sonores actifs : un geste allume toutes les LEDs, deux gestes les éteignent.';
+      addLog('[VOICE] Gestes sonores : un geste allume toutes les LEDs, deux gestes les éteignent', 'info');
     } catch (error) {
       event.target.checked = false;
       stopSoundGestureDetection();
@@ -1684,7 +1688,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       currentLanguage === 'en'
         ? 'Tu peux tenir un dialogue naturel : saluer, demander une précision si la LED ou l’action manque, proposer une action et poser une question. Pour une question sans action, renvoie actions:[] et réponds directement.'
         : 'Tu peux tenir un dialogue naturel : saluer, demander une précision si la LED ou l’action manque, proposer une action et poser une question. Pour une question sans action, renvoie actions:[] et réponds directement.',
-      'Ignore le nom Irina ou Home Assistant quand ils servent uniquement à t’appeler.',
+      'Ignore le nom Irina quand il sert uniquement à t’appeler.',
       'Déduis l’intention sans exiger les exemples exacts de l’interface, mais ne devine jamais une valeur absente.',
       'Chaque action a un type et des paramètres :',
       'set_power {targets:["1","2"] ou ["ALL"], on:true|false},',

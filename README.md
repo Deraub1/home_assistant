@@ -17,9 +17,10 @@ ne nécessite ni framework JavaScript ni serveur applicatif pour son interface.
 - Mode IA optionnel avec Ollama pour piloter les LEDs et les fonctions de
   l'application (configuration, thème, méthode HTTP et panneaux), avec repli
   automatique vers l'interpréteur standard.
-- Détection locale optionnelle des tapements de mains et claquements de doigts
-  pour activer ou désactiver le mode IA.
-- Mot d'activation « Home Assistant » pour lancer une commande vocale.
+- Écoute active optionnelle avec le mot d'activation « Irina », qui lance les
+  commandes vocales en temps réel.
+- Gestes sonores dédiés : un tapement de mains ou un claquement de doigts
+  allume toutes les LEDs ; deux gestes du même type les éteignent.
 - Configuration de l'URL et du transport réseau HTTP/HTTPS.
 - Génération automatique d'un firmware Arduino adapté au nombre de LEDs choisi.
 - Console réseau et historique des commandes.
@@ -129,10 +130,16 @@ la dernière lettre. Lorsque le mode IA est actif, un toucher sur le nom peut
 également lancer immédiatement cette animation si elle n'est pas déjà en cours.
 
 Pour utiliser les gestes sonores, cochez **Gestes sonores** dans la commande
-vocale et autorisez l'accès au microphone. Un tapement de mains ou un
-claquement de doigts bascule le mode IA. Lors de son activation, Irina annonce :
-« Salut, je suis Irina, le mode IA de Home Assistant ». Le mot **Irina** peut
-également être utilisé comme mot d'appel vocal.
+vocale et autorisez l'accès au microphone. Un geste unique (tapement de mains
+ou claquement de doigts) allume toutes les LEDs ; deux gestes rapprochés du
+même type les éteignent. Ces gestes ne modifient pas le mode IA.
+
+Pour utiliser l'écoute active, cochez **Écoute active « Irina »**. La
+reconnaissance reste alors en attente du mot **Irina**, puis passe en écoute
+temps réel. Le **Mode IA** reste indépendant : vous pouvez le cocher avant
+d'activer l'écoute active si vous souhaitez qu'Irina utilise Ollama. Pour
+terminer la session, dites **Stop**, **Arrête-toi**, **Au-revoir** ou
+**Bye bye**, éventuellement suivi de **Irina**.
 
 Le mode IA accepte les formulations naturelles en français, y compris les
 phrases polies ou indirectes. Par exemple, « Irina, est-ce que tu pourrais

@@ -142,22 +142,21 @@ la commande immédiatement ; il n'est pas nécessaire de parler en deux fois.
 
 ## Déploiement avec GitHub Pages
 
-1. Publiez le projet dans un dépôt GitHub.
-2. Ouvrez **Settings > Pages** dans le dépôt.
-3. Dans **Build and deployment**, sélectionnez **Deploy from a branch**.
-4. Sélectionnez la branche `main`.
-5. Sélectionnez le dossier `/public`.
-6. Enregistrez la configuration.
+Le déploiement est automatisé par
+[`.github/workflows/pages.yml`](./.github/workflows/pages.yml). Chaque push sur
+`main` publie automatiquement le contenu de `public/` avec GitHub Actions. Le
+workflow peut aussi être relancé manuellement depuis l'onglet **Actions**.
 
 L'application sera ensuite disponible à l'adresse suivante :
 
 ```text
-https://<votre-utilisateur>.github.io/<votre-depot>/
+https://deraub1.github.io/home_assistant/
 ```
 
-Si GitHub Pages est configuré pour publier la racine du dépôt, copiez le
-contenu de `public/` à la racine ou utilisez un workflow de déploiement
-adapté.
+Le workflow configure les permissions Pages, construit l'artefact statique et
+le publie dans l'environnement `github-pages`. La page d'accueil racine du
+dépôt redirige également vers `public/` pour les consultations directes du
+repository.
 
 ## Configuration de l'ESP8266
 

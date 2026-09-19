@@ -660,11 +660,15 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   // --- État Local de la LED & Matériel ---
   const defaultDeviceUrl = 'http://192.168.1.45/api/led';
+  const savedLedCount = Number.parseInt(localStorage.getItem('led_total_count'), 10);
+  const initialLedCount = Number.isInteger(savedLedCount) && savedLedCount >= 1 && savedLedCount <= 100
+    ? savedLedCount
+    : 1;
 
   let state = {
     isOn: false,
     selectedLed: '1', // '1', '2', '3', ... 'ALL'
-    totalLeds: parseInt(localStorage.getItem('led_total_count'), 10) || 1,
+    totalLeds: initialLedCount,
     brightness: parseInt(brightnessRange.value, 10) || 80,
     mode: 'solid',
     deviceUrl: localStorage.getItem('led_device_url') || defaultDeviceUrl,
@@ -968,7 +972,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   btnThemeToggle.addEventListener('click', () => {
     const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
     applyTheme(newTheme);
-    addLog(`🎨 Thème basculé en mode ${newTheme === 'light' ? 'Clair' : 'Sombre'}`, 'info');
+    addLog(`[UI] Thème basculé en mode ${newTheme === 'light' ? 'Clair' : 'Sombre'}`, 'info');
   });
 
   applyTheme(currentTheme);
@@ -1224,22 +1228,22 @@ document.addEventListener('DOMContentLoaded', async () => {
     setConnectionStatus('connecting', connectionLabel('connecting'));
 
     try {
-      addLog(`⚡ ${uiText('Envoi', 'Sending')} ${fetchOptions.method} to <code>${targetFetchUrl}</code> (${uiText('Cible', 'Target')}: LED ${state.selectedLed})...`, 'info');
+      addLog(`[NET] ${uiText('Envoi', 'Sending')} ${fetchOptions.method} to <code>${targetFetchUrl}</code> (${uiText('Cible', 'Target')}: LED ${state.selectedLed})...`, 'info');
 
       const response = await fetch(targetFetchUrl, fetchOptions);
       const latency = Math.round(performance.now() - startTime);
 
       if (response.ok) {
         setConnectionStatus('online', connectionLabel('online'), latency);
-        addLog(`✅ HTTP ${uiText('Réponse', 'response')} ${response.status} (${latency} ms) - LED #${state.selectedLed} ${uiText('mise à jour sur le circuit', 'updated on the circuit')} !`, 'success');
+        addLog(`[OK] HTTP ${uiText('Réponse', 'response')} ${response.status} (${latency} ms) - LED #${state.selectedLed} ${uiText('mise à jour sur le circuit', 'updated on the circuit')} !`, 'success');
       } else {
         const errText = await response.text();
         setConnectionStatus('offline', currentLanguage === 'en' ? `Error ${response.status}` : `Erreur ${response.status}`);
-        addLog(`⚠️ ${uiText('Serveur physique a répondu HTTP', 'Physical server returned HTTP')} ${response.status}: ${errText}`, 'error');
+        addLog(`[WARN] ${uiText('Serveur physique a répondu HTTP', 'Physical server returned HTTP')} ${response.status}: ${errText}`, 'error');
       }
     } catch (err) {
       setConnectionStatus('offline', connectionLabel('offline'));
-      addLog(`❌ Échec de la connexion vers ${targetFetchUrl}. Détail : ${err.message}`, 'error');
+      addLog(`[ERR] Échec de la connexion vers ${targetFetchUrl}. Détail : ${err.message}`, 'error');
     }
   }
 
@@ -1392,7 +1396,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (!toggleVoiceAi) return;
     toggleVoiceAi.checked = !wasEnabled;
     updateAiVisualState();
-    addLog(`🎙️ ${gestureName} détecté : mode IA ${toggleVoiceAi.checked ? 'activé' : 'désactivé'}`, 'info');
+    addLog(`[VOICE] ${gestureName} détecté : mode IA ${toggleVoiceAi.checked ? 'activé' : 'désactivé'}`, 'info');
     if (toggleVoiceAi.checked) speakResponse(getIrinaIntroduction());
   }
 
@@ -1489,7 +1493,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         ? 'Écoute continue...'
         : (wakeWordEnabled ? 'En attente de « Home Assistant »...' : 'Activer le micro');
       voiceTranscript.textContent = `Erreur micro: ${event.error}`;
-      addLog(`🎙️ Erreur reconnaissance vocale: ${event.error}`, 'error');
+      addLog(`[VOICE] Erreur reconnaissance vocale: ${event.error}`, 'error');
     };
 
     recognition.onresult = async (event) => {
@@ -1497,7 +1501,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       if (isVoiceSessionStopCommand(transcript)) {
         voiceSessionActive = false;
         voiceTranscript.textContent = `"${transcript}"`;
-        addLog('🎙️ Session vocale continue arrêtée', 'info');
+        addLog('[VOICE] Session vocale continue arrêtée', 'info');
         recognition.stop();
         window.setTimeout(() => speakResponse('Bye bye.'), 100);
         return;
@@ -1519,7 +1523,7 @@ document.addEventListener('DOMContentLoaded', async () => {
           voiceSessionActive = true;
           voiceTranscript.textContent = currentLanguage === 'en'
             ? 'Yes, I am listening. Speak now...' : 'Oui, je vous écoute. Parlez maintenant...';
-          addLog(`🎙️ Mot d’activation « ${calledIrina ? 'Irina' : 'Home Assistant'} » détecté`, 'info');
+          addLog(`[VOICE] Mot d’activation « ${calledIrina ? 'Irina' : 'Home Assistant'} » détecté`, 'info');
           recognition.stop();
           if (inlineCommand) {
             window.setTimeout(() => handleRecognizedCommand(inlineCommand), aiActivatedByName ? 1300 : 100);
@@ -1547,13 +1551,13 @@ document.addEventListener('DOMContentLoaded', async () => {
     try {
       recognition.start();
     } catch (error) {
-      addLog(`🎙️ Impossible d’activer le microphone: ${error.message}`, 'error');
+      addLog(`[VOICE] Impossible d’activer le microphone: ${error.message}`, 'error');
     }
   }
 
   async function handleRecognizedCommand(transcript) {
     voiceTranscript.textContent = `"${transcript}"`;
-    addLog(`🎙️ Commande vocale captée: "${transcript}"`, 'info');
+    addLog(`[VOICE] Commande vocale captée: "${transcript}"`, 'info');
     const normalizedTranscript = normalizeVoiceText(transcript);
     if (handleNamePreferenceReply(transcript)) return;
     const requestedName = extractPreferredUserName(transcript);
@@ -1646,11 +1650,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     try {
       await startSoundGestureDetection();
       voiceTranscript.textContent = 'Gestes sonores actifs : tapez des mains ou claquez des doigts.';
-      addLog('🎙️ Détection des gestes sonores activée', 'info');
+      addLog('[VOICE] Détection des gestes sonores activée', 'info');
     } catch (error) {
       event.target.checked = false;
       stopSoundGestureDetection();
-      addLog(`🎙️ Détection des gestes sonores impossible: ${error.message}`, 'error');
+      addLog(`[VOICE] Détection des gestes sonores impossible: ${error.message}`, 'error');
       voiceTranscript.textContent = `Erreur micro: ${error.message}`;
     }
   });
@@ -1732,10 +1736,10 @@ document.addEventListener('DOMContentLoaded', async () => {
         throw new Error('Réponse Ollama sans texte conversationnel');
       }
 
-      addLog(`🤖 ${parsed.actions.length} action(s) interprétée(s) par l’IA`, 'info');
+      addLog(`[AI] ${parsed.actions.length} action(s) interprétée(s) par l’IA`, 'info');
       return { actions: parsed.actions, response: parsed.response.trim() };
     } catch (error) {
-      addLog(`🤖 Mode IA indisponible, interpréteur standard utilisé: ${error.message}`, 'warning');
+      addLog(`[AI] Mode IA indisponible, interpréteur standard utilisé: ${error.message}`, 'warning');
       return null;
     }
   }
@@ -2163,7 +2167,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         rebuildLedAssignments();
         syncControlsFromSelection();
         updateVisualLEDState();
-        addLog(`💡 ${uiText('Nombre total de LEDs du circuit configuré à', 'Total circuit LEDs set to')} ${val}`, 'info');
+        addLog(`[CFG] ${uiText('Nombre total de LEDs du circuit configuré à', 'Total circuit LEDs set to')} ${val}`, 'info');
         sendHardwareRequest();
       }
     });
@@ -2198,12 +2202,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     localStorage.setItem('led_http_method', state.httpMethod);
     localStorage.setItem('led_secure_transport', String(state.secureTransport));
 
-    addLog(`⚙️ Configuration enregistrée: URL=${state.deviceUrl} (${state.httpMethod})`, 'info');
+    addLog(`[CFG] Configuration enregistrée: URL=${state.deviceUrl} (${state.httpMethod})`, 'info');
     sendHardwareRequest();
   });
 
   btnCheckPing.addEventListener('click', () => {
-    addLog(`🔍 Test de joignabilité de ${state.deviceUrl}...`, 'info');
+    addLog(`[PING] Test de joignabilité de ${state.deviceUrl}...`, 'info');
     sendHardwareRequest();
   });
 
@@ -2368,7 +2372,7 @@ void loop() {
   updateVisualLEDState();
   updateAiVisualState();
   applyLanguage();
-  addLog(`🌐 Application prête. IP Cible : <code>${state.deviceUrl}</code>`, 'info');
+  addLog(`[READY] Application prête. IP Cible : <code>${state.deviceUrl}</code>`, 'info');
 
   sendHardwareRequest();
 });

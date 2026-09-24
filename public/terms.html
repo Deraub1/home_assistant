@@ -1,0 +1,349 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Conditions d'utilisation - Home Assistant</title>
+  <meta name="description" content="Conditions d'utilisation de Home Assistant LED Controller.">
+  <link rel="icon" type="image/png" href="favicon-tab.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #0b0f19;
+      --panel: rgba(21, 28, 44, 0.78);
+      --panel-soft: rgba(255, 255, 255, 0.045);
+      --border: rgba(255, 255, 255, 0.12);
+      --text: #f0f4f8;
+      --muted: #9aa9bd;
+      --accent: #00f0ff;
+      --warning: #ffb703;
+      --pink: #f72585;
+      --shadow: 0 24px 70px rgba(0, 0, 0, 0.38);
+      --theme-color-shadow: rgba(0, 240, 255, 0.2);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      min-height: 100vh;
+      margin: 0;
+      padding: 32px 20px;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 10% 10%, var(--accent-soft), transparent 34%),
+        radial-gradient(circle at 90% 90%, rgba(247, 37, 133, 0.08), transparent 38%),
+        var(--bg);
+      font: 16px/1.65 "Outfit", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    .page-shell { width: min(100%, 920px); margin: 0 auto; }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      margin-bottom: 18px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      color: var(--text);
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .brand img {
+      width: 42px;
+      height: 42px;
+      object-fit: contain;
+      filter: drop-shadow(0 0 10px var(--theme-color-shadow));
+    }
+
+    .back-link {
+      color: var(--accent);
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    .back-link:hover,
+    .back-link:focus-visible { text-decoration: underline; }
+
+    main {
+      padding: clamp(24px, 5vw, 52px);
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      box-shadow: var(--shadow), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(18px);
+    }
+
+    .hero {
+      padding-bottom: 28px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .eyebrow {
+      margin: 0 0 10px;
+      color: var(--warning);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+
+    h1, h2 { line-height: 1.2; }
+    h1 { margin: 0; font-size: clamp(30px, 5vw, 48px); letter-spacing: -0.03em; }
+    h2 { margin: 0; font-size: 21px; }
+    .updated { margin: 14px 0 0; color: var(--muted); font-size: 14px; }
+
+    .summary {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin: 24px 0 30px;
+    }
+
+    .summary-item {
+      padding: 16px;
+      background: var(--panel-soft);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+    }
+
+    .summary-item strong { display: block; color: var(--warning); font-size: 14px; }
+    .summary-item span { display: block; margin-top: 4px; color: var(--muted); font-size: 13px; line-height: 1.4; }
+
+    .terms-sections { display: grid; gap: 14px; }
+
+    .terms-section {
+      padding: 22px 24px;
+      background: rgba(0, 0, 0, 0.14);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+    }
+
+    .section-heading {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+
+    .section-number {
+      display: grid;
+      flex: 0 0 30px;
+      place-items: center;
+      width: 30px;
+      height: 30px;
+      color: var(--bg);
+      background: linear-gradient(135deg, var(--warning), #ff7b00);
+      border-radius: 50%;
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .terms-section p { margin: 0; color: #d6deea; }
+
+    .page-footer {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      margin-top: 18px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .page-footer a { color: var(--accent); text-decoration: none; }
+    .page-footer a:hover,
+    .page-footer a:focus-visible { text-decoration: underline; }
+
+    @media (max-width: 620px) {
+      body { padding: 18px 12px; }
+      .topbar { align-items: flex-start; flex-direction: column; gap: 10px; }
+      .summary { grid-template-columns: 1fr; }
+      .terms-section { padding: 18px; }
+      .page-footer { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-shell">
+    <header class="topbar">
+      <a class="brand" href="./">
+        <img src="home-assistant-logo.png" alt="Home Assistant">
+        <span>Home Assistant</span>
+      </a>
+      <a class="back-link" href="index.html?skipSplash=1">← Retour à l'application</a>
+    </header>
+
+    <main>
+      <section class="hero">
+        <p class="eyebrow">Utilisation responsable</p>
+        <h1>Conditions d'utilisation</h1>
+        <p class="updated">Dernière mise à jour : 21 septembre 2026</p>
+      </section>
+
+      <div class="summary" aria-label="Résumé des conditions">
+        <div class="summary-item">
+          <strong>Votre matériel</strong>
+          <span>Vous restez responsable du circuit et de ses branchements.</span>
+        </div>
+        <div class="summary-item">
+          <strong>Compte local</strong>
+          <span>Le compte du navigateur ne remplace pas une sécurité serveur.</span>
+        </div>
+        <div class="summary-item">
+          <strong>Services tiers</strong>
+          <span>Ollama, GitHub Pages et les messageries ont leurs propres règles.</span>
+        </div>
+      </div>
+
+      <div class="terms-sections">
+        <section class="terms-section">
+          <div class="section-heading"><span class="section-number">1</span><h2>Objet</h2></div>
+          <p>Home Assistant LED Controller est une interface fournie pour piloter un circuit de LEDs compatible, notamment avec un ESP8266. Vous êtes responsable de votre matériel, de votre réseau et des services que vous connectez.</p>
+        </section>
+        <section class="terms-section">
+          <div class="section-heading"><span class="section-number">2</span><h2>Compte local</h2></div>
+          <p>Le compte créé dans l'application est local au navigateur et ne constitue pas une authentification serveur. Ne l'utilisez pas comme protection d'un accès exposé sur Internet.</p>
+        </section>
+        <section class="terms-section">
+          <div class="section-heading"><span class="section-number">3</span><h2>Utilisation sûre</h2></div>
+          <p>Vérifiez les branchements, les tensions, les limites des broches et l'adresse réseau avant d'envoyer des commandes. N'exposez pas directement un contrôleur non sécurisé sur Internet.</p>
+        </section>
+        <section class="terms-section">
+          <div class="section-heading"><span class="section-number">4</span><h2>Services tiers</h2></div>
+          <p>Ollama, le navigateur, l'hébergement GitHub Pages et tout futur adaptateur de messagerie sont soumis à leurs propres conditions. Aucun accès WhatsApp n'est fourni directement par cette page statique.</p>
+        </section>
+        <section class="terms-section">
+          <div class="section-heading"><span class="section-number">5</span><h2>Disponibilité et responsabilité</h2></div>
+          <p>Le logiciel est fourni tel quel, sans garantie de disponibilité, de compatibilité matérielle ou d'absence d'erreur. Utilisez-le sous votre responsabilité.</p>
+        </section>
+      </div>
+    </main>
+
+    <footer class="page-footer">
+      <span>Home Assistant LED Controller</span>
+      <a href="privacy.html">← Voir la politique de confidentialité</a>
+    </footer>
+  </div>
+  <script src="theme.js?v=20260922-1320"></script>
+  <script>
+    (() => {
+      const translations = {
+        fr: {
+          title: "Conditions d'utilisation - Home Assistant",
+          description: "Conditions d'utilisation de Home Assistant LED Controller.",
+          back: "← Retour à l'application",
+          eyebrow: 'Utilisation responsable',
+          heading: "Conditions d'utilisation",
+          updated: 'Dernière mise à jour : 21 septembre 2026',
+          summaryLabel: 'Résumé des conditions',
+          summary: [
+            ['Votre matériel', 'Vous restez responsable du circuit et de ses branchements.'],
+            ['Compte local', 'Le compte du navigateur ne remplace pas une sécurité serveur.'],
+            ['Services tiers', 'Ollama, GitHub Pages et les messageries ont leurs propres règles.']
+          ],
+          sections: [
+            ['Objet', 'Home Assistant LED Controller est une interface fournie pour piloter un circuit de LEDs compatible, notamment avec un ESP8266. Vous êtes responsable de votre matériel, de votre réseau et des services que vous connectez.'],
+            ['Compte local', "Le compte créé dans l'application est local au navigateur et ne constitue pas une authentification serveur. Ne l'utilisez pas comme protection d'un accès exposé sur Internet."],
+            ['Utilisation sûre', "Vérifiez les branchements, les tensions, les limites des broches et l'adresse réseau avant d'envoyer des commandes. N'exposez pas directement un contrôleur non sécurisé sur Internet."],
+            ['Services tiers', "Ollama, le navigateur, l'hébergement GitHub Pages et tout futur adaptateur de messagerie sont soumis à leurs propres conditions. Aucun accès WhatsApp n'est fourni directement par cette page statique."],
+            ['Disponibilité et responsabilité', 'Le logiciel est fourni tel quel, sans garantie de disponibilité, de compatibilité matérielle ou d’absence d’erreur. Utilisez-le sous votre responsabilité.']
+          ],
+          footerLink: '← Voir la politique de confidentialité'
+        },
+        en: {
+          title: 'Terms of Use - Home Assistant',
+          description: 'Terms of use for Home Assistant LED Controller.',
+          back: '← Back to the application',
+          eyebrow: 'Responsible use',
+          heading: 'Terms of Use',
+          updated: 'Last updated: September 21, 2026',
+          summaryLabel: 'Terms summary',
+          summary: [
+            ['Your hardware', 'You remain responsible for the circuit and its wiring.'],
+            ['Local account', 'The browser account does not replace server-side security.'],
+            ['Third-party services', 'Ollama, GitHub Pages and messaging services have their own rules.']
+          ],
+          sections: [
+            ['Purpose', 'Home Assistant LED Controller is an interface provided to control a compatible LED circuit, including circuits based on an ESP8266. You are responsible for your hardware, network and connected services.'],
+            ['Local account', 'The account created in the application is local to the browser and is not server authentication. Do not use it as protection for an Internet-exposed access point.'],
+            ['Safe use', 'Check wiring, voltages, pin limits and the network address before sending commands. Do not expose an unsecured controller directly to the Internet.'],
+            ['Third-party services', 'Ollama, your browser, GitHub Pages hosting and any future messaging adapter are subject to their own terms. This static page does not directly provide WhatsApp access.'],
+            ['Availability and liability', 'The software is provided as-is, without guarantees of availability, hardware compatibility or error-free operation. Use it at your own risk.']
+          ],
+          footerLink: '← View the privacy policy'
+        }
+      };
+      const additionalTranslations = {
+        es: {
+          title: 'Condiciones de uso - Home Assistant', description: 'Condiciones de uso de Home Assistant LED Controller.', back: '← Volver a la aplicación', eyebrow: 'Uso responsable', heading: 'Condiciones de uso', updated: 'Última actualización: 21 de septiembre de 2026', summaryLabel: 'Resumen de las condiciones',
+          summary: [['Tu hardware', 'Eres responsable del circuito y sus conexiones.'], ['Cuenta local', 'La cuenta del navegador no sustituye la seguridad del servidor.'], ['Servicios externos', 'Ollama, GitHub Pages y los servicios de mensajería tienen sus propias reglas.']],
+          sections: [['Objeto', 'Home Assistant LED Controller es una interfaz para controlar un circuito LED compatible, incluido ESP8266. Eres responsable de tu hardware, red y servicios conectados.'], ['Cuenta local', 'La cuenta creada es local del navegador y no es autenticación de servidor. No la uses para proteger un acceso expuesto a Internet.'], ['Uso seguro', 'Comprueba conexiones, tensiones, límites de pines y dirección de red antes de enviar órdenes. No expongas directamente un controlador sin seguridad.'], ['Servicios externos', 'Ollama, el navegador, GitHub Pages y cualquier adaptador de mensajería tienen sus propias condiciones. Esta página estática no proporciona acceso directo a WhatsApp.'], ['Disponibilidad y responsabilidad', 'El software se proporciona tal cual, sin garantías de disponibilidad, compatibilidad o ausencia de errores. Úsalo bajo tu responsabilidad.']], footerLink: '← Ver la política de privacidad'
+        },
+        de: {
+          title: 'Nutzungsbedingungen - Home Assistant', description: 'Nutzungsbedingungen für Home Assistant LED Controller.', back: '← Zur Anwendung', eyebrow: 'Verantwortungsvolle Nutzung', heading: 'Nutzungsbedingungen', updated: 'Zuletzt aktualisiert: 21. September 2026', summaryLabel: 'Zusammenfassung',
+          summary: [['Deine Hardware', 'Du bist für Schaltung und Verkabelung verantwortlich.'], ['Lokales Konto', 'Das Browserkonto ersetzt keine Serversicherheit.'], ['Drittanbieter', 'Ollama, GitHub Pages und Nachrichtendienste haben eigene Regeln.']],
+          sections: [['Zweck', 'Home Assistant LED Controller steuert kompatible LED-Schaltungen, einschließlich ESP8266. Du bist für Hardware, Netzwerk und verbundene Dienste verantwortlich.'], ['Lokales Konto', 'Das Konto ist nur im Browser vorhanden und keine Serveranmeldung. Nutze es nicht als Schutz für einen Internetzugang.'], ['Sichere Nutzung', 'Prüfe Verkabelung, Spannungen, Pin-Grenzen und Netzwerkadresse vor Befehlen. Exponiere keinen ungesicherten Controller direkt im Internet.'], ['Drittanbieter', 'Ollama, Browser, GitHub Pages und künftige Nachrichtenadapter unterliegen eigenen Bedingungen. Diese statische Seite bietet keinen direkten WhatsApp-Zugang.'], ['Verfügbarkeit und Haftung', 'Die Software wird ohne Garantie für Verfügbarkeit, Kompatibilität oder Fehlerfreiheit bereitgestellt. Nutzung auf eigenes Risiko.']], footerLink: '← Datenschutzerklärung anzeigen'
+        },
+        it: {
+          title: 'Termini di utilizzo - Home Assistant', description: 'Termini di utilizzo di Home Assistant LED Controller.', back: '← Torna all’applicazione', eyebrow: 'Uso responsabile', heading: 'Termini di utilizzo', updated: 'Ultimo aggiornamento: 21 settembre 2026', summaryLabel: 'Riepilogo dei termini',
+          summary: [['Il tuo hardware', 'Sei responsabile del circuito e dei collegamenti.'], ['Account locale', 'L’account del browser non sostituisce la sicurezza del server.'], ['Servizi di terze parti', 'Ollama, GitHub Pages e i servizi di messaggistica hanno regole proprie.']],
+          sections: [['Oggetto', 'Home Assistant LED Controller controlla circuiti LED compatibili, incluso ESP8266. Sei responsabile di hardware, rete e servizi collegati.'], ['Account locale', 'L’account è locale al browser e non è autenticazione server. Non usarlo per proteggere un accesso esposto su Internet.'], ['Uso sicuro', 'Verifica collegamenti, tensioni, limiti dei pin e indirizzo di rete prima dei comandi. Non esporre direttamente un controller non protetto.'], ['Servizi di terze parti', 'Ollama, browser, GitHub Pages e futuri adattatori di messaggistica hanno condizioni proprie. Questa pagina statica non fornisce accesso diretto a WhatsApp.'], ['Disponibilità e responsabilità', 'Il software è fornito così com’è, senza garanzie di disponibilità, compatibilità o assenza di errori. Usalo a tuo rischio.']], footerLink: '← Visualizza la privacy'
+        }
+      };
+      Object.assign(translations, additionalTranslations, {
+        pt: {
+          title: 'Termos de utilização - Home Assistant', description: 'Termos de utilização do Home Assistant LED Controller.', back: '← Voltar à aplicação', eyebrow: 'Utilização responsável', heading: 'Termos de utilização', updated: 'Última atualização: 21 de setembro de 2026', summaryLabel: 'Resumo dos termos',
+          summary: [['O seu hardware', 'É responsável pelo circuito e ligações.'], ['Conta local', 'A conta do navegador não substitui a segurança do servidor.'], ['Serviços externos', 'Ollama, GitHub Pages e mensagens têm regras próprias.']],
+          sections: [['Objetivo', 'O Home Assistant LED Controller controla circuitos LED compatíveis, incluindo ESP8266. É responsável pelo hardware, rede e serviços ligados.'], ['Conta local', 'A conta é local ao navegador e não é autenticação de servidor.'], ['Utilização segura', 'Verifique ligações, tensões, limites dos pinos e endereço de rede. Não exponha um controlador sem segurança.'], ['Serviços externos', 'Ollama, navegador, GitHub Pages e adaptadores futuros têm termos próprios. Esta página não fornece acesso direto ao WhatsApp.'], ['Disponibilidade e responsabilidade', 'O software é fornecido tal como está, sem garantias. Utilize-o por sua conta e risco.']], footerLink: '← Ver a política de privacidade'
+        },
+        nl: {
+          title: 'Gebruiksvoorwaarden - Home Assistant', description: 'Gebruiksvoorwaarden voor Home Assistant LED Controller.', back: '← Terug naar de applicatie', eyebrow: 'Verantwoord gebruik', heading: 'Gebruiksvoorwaarden', updated: 'Laatst bijgewerkt: 21 september 2026', summaryLabel: 'Samenvatting',
+          summary: [['Jouw hardware', 'Jij bent verantwoordelijk voor circuit en bedrading.'], ['Lokaal account', 'Het browseraccount vervangt geen serverbeveiliging.'], ['Diensten van derden', 'Ollama, GitHub Pages en berichtenservices hebben eigen regels.']],
+          sections: [['Doel', 'Home Assistant LED Controller bestuurt compatibele LED-circuits, waaronder ESP8266. Jij bent verantwoordelijk voor hardware, netwerk en diensten.'], ['Lokaal account', 'Het account is lokaal in de browser en geen serverauthenticatie.'], ['Veilig gebruik', 'Controleer bedrading, spanning, pinlimieten en netwerkadres. Stel een onbeveiligde controller niet rechtstreeks bloot.'], ['Diensten van derden', 'Ollama, browser, GitHub Pages en toekomstige adapters hebben eigen voorwaarden. Deze statische pagina geeft geen directe WhatsApp-toegang.'], ['Beschikbaarheid en aansprakelijkheid', 'De software wordt zonder garanties geleverd. Gebruik op eigen risico.']], footerLink: '← Privacybeleid bekijken'
+        },
+        ja: {
+          title: '利用規約 - Home Assistant', description: 'Home Assistant LED Controller の利用規約。', back: '← アプリケーションに戻る', eyebrow: '責任ある利用', heading: '利用規約', updated: '最終更新日：2026年9月21日', summaryLabel: '規約の概要',
+          summary: [['ハードウェア', '回路と配線は利用者が管理します。'], ['ローカルアカウント', 'ブラウザーアカウントはサーバーの安全性を代替しません。'], ['外部サービス', 'Ollama、GitHub Pages、メッセージサービスには独自の規則があります。']],
+          sections: [['目的', 'Home Assistant LED Controller は ESP8266 などの対応LED回路を操作するインターフェースです。'], ['ローカルアカウント', 'アカウントはブラウザー内だけに存在し、サーバー認証ではありません。'], ['安全な利用', '配線、電圧、ピンの制限、ネットワークアドレスを確認してください。'], ['外部サービス', 'Ollama、ブラウザー、GitHub Pages、将来のアダプターには独自の規約があります。'], ['可用性と責任', 'ソフトウェアは現状のまま提供され、保証はありません。自己責任で使用してください。']], footerLink: '← プライバシーポリシーを見る'
+        },
+        'zh-CN': {
+          title: '使用条款 - Home Assistant', description: 'Home Assistant LED Controller 使用条款。', back: '← 返回应用', eyebrow: '负责任地使用', heading: '使用条款', updated: '最后更新：2026年9月21日', summaryLabel: '条款摘要',
+          summary: [['您的硬件', '您负责电路和接线。'], ['本地账户', '浏览器账户不能替代服务器安全。'], ['第三方服务', 'Ollama、GitHub Pages 和消息服务有自己的规则。']],
+          sections: [['目的', 'Home Assistant LED Controller 用于控制兼容的 LED 电路，包括 ESP8266。硬件、网络和连接服务由您负责。'], ['本地账户', '账户仅存在于浏览器中，不是服务器身份验证。'], ['安全使用', '发送指令前请检查接线、电压、引脚限制和网络地址。'], ['第三方服务', 'Ollama、浏览器、GitHub Pages 和未来的消息适配器受各自条款约束。'], ['可用性和责任', '软件按现状提供，不保证可用性、兼容性或无错误。请自行承担风险。']], footerLink: '← 查看隐私政策'
+        }
+      });
+      const setLanguage = (language) => {
+        const copy = translations[language] || translations.en;
+        document.documentElement.lang = language;
+        document.title = copy.title;
+        document.querySelector('meta[name="description"]').content = copy.description;
+        document.querySelector('.back-link').textContent = copy.back;
+        document.querySelector('.eyebrow').textContent = copy.eyebrow;
+        document.querySelector('h1').textContent = copy.heading;
+        document.querySelector('.updated').textContent = copy.updated;
+        document.querySelector('.summary').setAttribute('aria-label', copy.summaryLabel);
+        document.querySelectorAll('.summary-item').forEach((item, index) => {
+          item.querySelector('strong').textContent = copy.summary[index][0];
+          item.querySelector('span').textContent = copy.summary[index][1];
+        });
+        document.querySelectorAll('.terms-section').forEach((section, index) => {
+          section.querySelector('h2').textContent = copy.sections[index][0];
+          section.querySelector('p').textContent = copy.sections[index][1];
+        });
+        document.querySelector('.page-footer a').textContent = copy.footerLink;
+      };
+      setLanguage(localStorage.getItem('language_preference') || 'fr');
+    })();
+  </script>
+</body>
+</html>

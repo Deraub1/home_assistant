@@ -24,6 +24,11 @@ ne nécessite ni framework JavaScript ni serveur applicatif pour son interface.
 - Configuration de l'URL et du transport réseau HTTP/HTTPS.
 - Génération automatique d'un firmware Arduino adapté au nombre de LEDs choisi.
 - Console réseau et historique des commandes.
+- Chatbot Irina intégré à l'interface, capable d'exécuter les mêmes actions
+  que la commande vocale et exposant une API JavaScript pour un adaptateur de
+  messagerie externe.
+- Sélecteur multilingue : français, anglais, espagnol, allemand, italien,
+  portugais, néerlandais, japonais et chinois simplifié.
 - Préférences conservées dans le stockage local du navigateur.
 
 ## Structure du projet
@@ -141,11 +146,36 @@ d'activer l'écoute active si vous souhaitez qu'Irina utilise Ollama. Pour
 terminer la session, dites **Stop**, **Arrête-toi**, **Au-revoir** ou
 **Bye bye**, éventuellement suivi de **Irina**.
 
+Pendant qu'Irina répond vocalement, la reconnaissance est suspendue afin
+qu'elle n'entende pas sa propre voix. L'écoute reprend automatiquement à la
+fin de la réponse.
+
 Le mode IA accepte les formulations naturelles en français, y compris les
 phrases polies ou indirectes. Par exemple, « Irina, est-ce que tu pourrais
 mettre la verte à moitié et faire clignoter la jaune ? » est interprété comme
 une demande de luminosité et d'effet. Une phrase peut appeler Irina et contenir
 la commande immédiatement ; il n'est pas nécessaire de parler en deux fois.
+
+### Chatbot et intégration de messagerie
+
+Le panneau **Chatbot Irina** permet d'écrire des commandes directement dans
+l'application. Il utilise Ollama lorsqu'il est disponible et conserve le
+repli local pour les commandes standards. Il peut donc piloter les LEDs, la
+luminosité, les effets, le thème, le réseau, les panneaux et le générateur de
+firmware.
+
+Pour connecter un adaptateur externe, par exemple un webhook WhatsApp hébergé
+sur un serveur, l'application expose l'API suivante dans la page :
+
+```javascript
+const response = await window.irinaChatbot.sendMessage('Allume la LED rouge');
+```
+
+Un adaptateur WhatsApp doit recevoir le message via son webhook, l'acheminer
+vers une session de l'application autorisée, puis renvoyer la réponse au
+contact. Une page statique GitHub Pages ne peut pas recevoir directement les
+webhooks WhatsApp ; un petit backend sécurisé reste nécessaire. Ne publiez
+jamais les identifiants WhatsApp ou les accès Ollama dans le code client.
 
 ## Déploiement avec GitHub Pages
 

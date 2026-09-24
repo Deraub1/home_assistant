@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://deraub1.github.io/home_assistant/sitemap.xml

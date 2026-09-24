@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Page introuvable - Home Assistant</title>
+  <meta name="description" content="La page demandée est introuvable dans Home Assistant LED Controller.">
+  <link rel="icon" type="image/png" href="favicon-tab.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #080c16;
+      --panel: rgba(18, 26, 43, 0.82);
+      --border: rgba(255, 255, 255, 0.14);
+      --text: #f0f4f8;
+      --muted: #9aa9bd;
+      --cyan: #00f0ff;
+      --blue: #4facfe;
+      --pink: #f72585;
+      --yellow: #ffb703;
+      --accent-soft: rgba(0, 240, 255, 0.12);
+      --theme-color-shadow: rgba(0, 240, 255, 0.2);
+    }
+
+    [data-theme="light"] {
+      color-scheme: light;
+      --bg: #eef4fb;
+      --panel: rgba(255, 255, 255, 0.86);
+      --border: rgba(100, 116, 139, 0.24);
+      --text: #172033;
+      --muted: #526176;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      min-height: 100vh;
+      margin: 0;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      padding: 24px;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 15% 15%, var(--accent-soft), transparent 34%),
+        radial-gradient(circle at 85% 85%, rgba(247, 37, 133, 0.13), transparent 38%),
+        var(--bg);
+      font: 16px/1.6 "Outfit", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    body::before,
+    body::after {
+      content: "";
+      position: fixed;
+      z-index: -1;
+      width: 360px;
+      height: 360px;
+      border: 1px solid rgba(0, 240, 255, 0.14);
+      border-radius: 50%;
+      box-shadow: 0 0 70px rgba(0, 240, 255, 0.08);
+      animation: orbit 12s linear infinite;
+    }
+
+    body::before { transform: translate(-42vw, -28vh); }
+    body::after {
+      border-color: rgba(247, 37, 133, 0.14);
+      transform: translate(42vw, 28vh) scale(0.72);
+      animation-direction: reverse;
+      animation-duration: 16s;
+    }
+
+    .page-shell { width: min(100%, 620px); }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 18px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      color: var(--text);
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .brand img {
+      width: 44px;
+      height: 44px;
+      object-fit: contain;
+      filter: drop-shadow(0 0 12px var(--theme-color-shadow));
+    }
+
+    main {
+      position: relative;
+      padding: clamp(30px, 7vw, 58px);
+      overflow: hidden;
+      text-align: center;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 30px;
+      box-shadow:
+        0 28px 80px rgba(0, 0, 0, 0.42),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(20px);
+    }
+
+    [data-theme="light"] body {
+      background:
+        radial-gradient(circle at 15% 15%, rgba(0, 180, 220, 0.16), transparent 34%),
+        radial-gradient(circle at 85% 85%, rgba(247, 37, 133, 0.11), transparent 38%),
+        var(--bg);
+    }
+
+    [data-theme="light"] body::before,
+    [data-theme="light"] body::after {
+      border-color: rgba(14, 165, 233, 0.2);
+      box-shadow: 0 0 70px rgba(14, 165, 233, 0.1);
+    }
+
+    [data-theme="light"] body::after {
+      border-color: rgba(236, 72, 153, 0.18);
+    }
+
+    [data-theme="light"] main {
+      box-shadow:
+        0 24px 60px rgba(71, 85, 105, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.9);
+    }
+
+    [data-theme="light"] main::before {
+      background: linear-gradient(120deg, rgba(0, 180, 220, 0.08), transparent 42%, rgba(247, 37, 133, 0.06));
+    }
+
+    main::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background: linear-gradient(120deg, rgba(0, 240, 255, 0.1), transparent 42%, rgba(247, 37, 133, 0.08));
+    }
+
+    .content { position: relative; }
+
+    .status {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin: 0 0 18px;
+      color: var(--cyan);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+    }
+
+    .status::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      background: var(--pink);
+      border-radius: 50%;
+      box-shadow: 0 0 14px var(--pink);
+      animation: blink 1.8s ease-in-out infinite;
+    }
+
+    .error-code {
+      margin: 0;
+      color: transparent;
+      background: linear-gradient(135deg, var(--cyan), var(--blue) 38%, var(--pink) 72%, var(--yellow));
+      -webkit-background-clip: text;
+      background-clip: text;
+      font-size: clamp(92px, 20vw, 150px);
+      font-weight: 800;
+      letter-spacing: -0.09em;
+      line-height: 0.9;
+      text-shadow: 0 0 34px rgba(0, 240, 255, 0.16);
+    }
+
+    h1 { margin: 24px 0 10px; font-size: clamp(25px, 5vw, 36px); line-height: 1.15; }
+    .message { max-width: 430px; margin: 0 auto; color: var(--muted); }
+
+    .actions {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 46px;
+      padding: 0 22px;
+      color: #061018;
+      background: linear-gradient(135deg, var(--cyan), var(--blue));
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      border-radius: 14px;
+      box-shadow: 0 10px 28px rgba(0, 240, 255, 0.2);
+      font-weight: 800;
+      text-decoration: none;
+      transition: transform 180ms ease, box-shadow 180ms ease;
+    }
+
+    .button:hover,
+    .button:focus-visible {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 34px rgba(0, 240, 255, 0.32);
+    }
+
+    .hint { margin: 24px 0 0; color: #68788f; font-size: 12px; }
+
+    [data-theme="light"] .hint { color: #64748b; }
+
+    @keyframes blink {
+      0%, 100% { opacity: 0.45; transform: scale(0.85); }
+      50% { opacity: 1; transform: scale(1.15); }
+    }
+
+    @keyframes orbit {
+      to { rotate: 360deg; }
+    }
+
+    @media (max-width: 520px) {
+      body { padding: 14px; }
+      main { padding: 32px 22px; border-radius: 24px; }
+      .actions { flex-direction: column; }
+      .button { width: 100%; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; }
+    }
+  </style>
+  <script>
+    document.documentElement.setAttribute(
+      'data-theme',
+      localStorage.getItem('theme_preference') === 'dark' ? 'dark' : 'light'
+    );
+  </script>
+</head>
+<body>
+  <div class="page-shell">
+    <header class="topbar">
+      <a class="brand" href="index.html?skipSplash=1">
+        <img src="home-assistant-logo.png" alt="Home Assistant">
+        <span>Home Assistant</span>
+      </a>
+    </header>
+
+    <main>
+      <div class="content">
+        <p class="status" id="status">Système local</p>
+        <p class="error-code" aria-hidden="true">404</p>
+        <h1 id="heading">Page introuvable</h1>
+        <p class="message" id="message">Cette adresse ne correspond à aucune page de Home Assistant.</p>
+        <div class="actions">
+          <a class="button" id="backLink" href="index.html?skipSplash=1">Retour à l'application</a>
+        </div>
+        <p class="hint" id="hint">Le circuit vous attend sur le tableau de bord.</p>
+      </div>
+    </main>
+  </div>
+
+  <script src="theme.js?v=20260922-1320"></script>
+
+  <script>
+    (() => {
+      const theme = localStorage.getItem('theme_preference') === 'dark' ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', theme);
+      const language = localStorage.getItem('language_preference') || 'fr';
+      const copy = {
+        fr: ['Page introuvable', 'Cette adresse ne correspond à aucune page de Home Assistant.', "Retour à l'application", 'Système local', 'Le circuit vous attend sur le tableau de bord.'],
+        en: ['Page not found', 'This address does not match any Home Assistant page.', 'Back to the application', 'Local system', 'Your circuit is waiting on the dashboard.'],
+        es: ['Página no encontrada', 'Esta dirección no corresponde a ninguna página de Home Assistant.', 'Volver a la aplicación', 'Sistema local', 'Tu circuito te espera en el panel.'],
+        de: ['Seite nicht gefunden', 'Diese Adresse gehört zu keiner Home-Assistant-Seite.', 'Zur Anwendung', 'Lokales System', 'Deine Schaltung wartet im Dashboard.'],
+        it: ['Pagina non trovata', 'Questo indirizzo non corrisponde a nessuna pagina di Home Assistant.', "Torna all'applicazione", 'Sistema locale', 'Il tuo circuito ti aspetta nella dashboard.'],
+        pt: ['Página não encontrada', 'Este endereço não corresponde a nenhuma página do Home Assistant.', 'Voltar à aplicação', 'Sistema local', 'O seu circuito aguarda no painel.'],
+        nl: ['Pagina niet gevonden', 'Dit adres komt niet overeen met een Home Assistant-pagina.', 'Terug naar de applicatie', 'Lokaal systeem', 'Je circuit wacht op het dashboard.'],
+        ja: ['ページが見つかりません', 'このアドレスに該当する Home Assistant ページはありません。', 'アプリケーションに戻る', 'ローカルシステム', '回路はダッシュボードで待機しています。'],
+        'zh-CN': ['页面未找到', '此地址与任何 Home Assistant 页面都不匹配。', '返回应用', '本地系统', '您的电路正在控制面板中等待。']
+      }[language] || null;
+      if (!copy) return;
+      document.documentElement.lang = language;
+      document.title = `${copy[0]} - Home Assistant`;
+      document.getElementById('status').textContent = copy[3];
+      document.getElementById('heading').textContent = copy[0];
+      document.getElementById('message').textContent = copy[1];
+      document.getElementById('backLink').textContent = copy[2];
+      document.getElementById('hint').textContent = copy[4];
+    })();
+  </script>
+</body>
+</html>

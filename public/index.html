@@ -5,6 +5,16 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Home Assistant</title>
+  <meta name="description" content="Interface web locale pour piloter un circuit de LEDs avec Irina, la commande vocale et le chatbot.">
+  <meta name="theme-color" content="#0b0f19">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Home Assistant LED Controller">
+  <meta property="og:description" content="Pilotez votre circuit de LEDs avec Irina depuis votre navigateur.">
+  <meta property="og:url" content="https://deraub1.github.io/home_assistant/">
+  <meta property="og:image" content="https://deraub1.github.io/home_assistant/home-assistant-logo.png">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Home Assistant LED Controller">
+  <meta name="twitter:description" content="Pilotez votre circuit de LEDs avec Irina depuis votre navigateur.">
   <link rel="icon" type="image/png" sizes="528x473" href="favicon-tab.png">
   <link rel="apple-touch-icon" sizes="528x473" href="favicon-tab.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -12,7 +22,7 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap"
     rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css?v=20260922-1425">
 </head>
 
 <body>
@@ -52,6 +62,8 @@
         <label id="authConfirmLabel" for="authPasswordConfirm">Confirmer le mot de passe</label>
         <input id="authPasswordConfirm" name="passwordConfirm" type="password" autocomplete="new-password" minlength="8" required>
         <button id="authSubmit" class="btn btn-primary" type="submit">Créer mon accès</button>
+        <button id="authCreateAccount" class="auth-secondary-action" type="button" hidden>Créer un nouveau compte</button>
+        <button id="authBackToLogin" class="auth-secondary-action" type="button" hidden>Retour à la connexion</button>
         <p id="authMessage" class="auth-message" role="alert" aria-live="polite"></p>
       </form>
     </div>
@@ -67,17 +79,32 @@
         </div>
         <div>
           <h1>Home Assistant</h1>
-          <p class="subtitle">Pilotez votre circuit physique en temps réel</p>
+          <p class="subtitle" data-i18n="subtitle">Pilotez votre circuit physique en temps réel</p>
         </div>
       </div>
 
       <div class="header-status">
-        <button id="btnLanguageToggle" class="btn-icon" title="Changer de langue (Français / English)" aria-label="Changer de langue">
-          <span id="languageToggleText">EN</span>
-        </button>
+        <label class="language-selector">
+          <span class="sr-only">Langue</span>
+          <select id="languageSelector" title="Changer de langue" aria-label="Changer de langue">
+            <option value="fr">Français</option>
+            <option value="en">English</option>
+            <option value="es">Español</option>
+            <option value="de">Deutsch</option>
+            <option value="it">Italiano</option>
+            <option value="pt">Português</option>
+            <option value="nl">Nederlands</option>
+            <option value="ja">日本語</option>
+            <option value="zh-CN">简体中文</option>
+          </select>
+        </label>
         <button id="btnThemeToggle" class="btn-icon" title="Changer le thème (Clair / Sombre)">
           <svg class="ui-icon" aria-hidden="true"><use href="#icon-moon"></use></svg><span id="themeToggleText">Sombre</span>
         </button>
+        <label class="theme-color-control" title="Personnaliser la couleur du thème">
+          <span class="sr-only">Couleur du thème</span>
+          <input id="themeColorPicker" type="color" value="#00f0ff" aria-label="Couleur du thème">
+        </label>
         <div class="status-badge status-offline" id="connectionBadge">
           <span class="status-dot"></span>
           <span id="statusText">Non connecté</span>
@@ -106,7 +133,7 @@
                 value="http://192.168.1.45/api/led" required />
               <button id="btnSaveConfig" class="btn btn-primary">Enregistrer</button>
             </div>
-            <span class="field-hint">Ex: <code>/api/led</code> si l'application est hébergée par l'ESP8266, ou
+            <span id="deviceUrlHint" class="field-hint">Ex: <code>/api/led</code> si l'application est hébergée par l'ESP8266, ou
               <code>http://192.168.1.45/api/led</code> depuis un autre serveur.</span>
           </div>
 
@@ -249,8 +276,28 @@
             <div id="voiceTranscript" class="voice-transcript">"Cliquez sur le micro et parlez..."</div>
           </div>
         </div>
-        <p class="field-hint">Activez l'écoute active, puis dites « Irina » pour commencer une commande en temps réel.</p>
+        <p id="voiceWakeHint" class="field-hint" data-i18n="voiceWakeHint">Activez l'écoute active, puis dites « Irina » pour commencer une commande en temps réel.</p>
 
+      </section>
+
+      <section class="card chatbot-card">
+        <div class="card-header">
+          <h2><svg class="ui-icon" aria-hidden="true"><use href="#icon-clipboard"></use></svg> <span data-i18n="chatTitle">Chatbot Irina</span></h2>
+          <span class="chatbot-status" data-i18n="chatStatus">En ligne</span>
+        </div>
+        <div id="chatMessages" class="chat-messages" aria-live="polite" aria-label="Conversation avec Irina">
+          <div class="chat-message chat-message-irina">
+            <span class="chat-message-author">Irina</span>
+            <p data-i18n="chatWelcome">Bonjour ! Écrivez-moi une commande ou une question sur votre circuit.</p>
+          </div>
+        </div>
+        <form id="chatForm" class="chat-form">
+          <label class="sr-only" for="chatInput" data-i18n="chatPlaceholder">Écrivez un message à Irina</label>
+          <textarea id="chatInput" rows="3" maxlength="1000" data-i18n-placeholder="chatPlaceholder"
+            placeholder="Écrivez un message à Irina..." required></textarea>
+          <button id="chatSubmit" class="btn btn-primary" type="submit" data-i18n="chatSend">Envoyer</button>
+        </form>
+        <p class="field-hint" data-i18n="chatHint">Le chatbot peut piloter les LEDs, le réseau, le thème et les panneaux.</p>
       </section>
 
       <!-- Full-width Network Logs & LED Detailed Status -->
@@ -302,23 +349,23 @@
     <div id="codeModal" class="modal-overlay hidden">
       <div class="modal-card">
         <div class="modal-header">
-          <h3><svg class="ui-icon" aria-hidden="true"><use href="#icon-code"></use></svg> Code C++ prêt pour ESP8266WebServer</h3>
+          <h3><svg class="ui-icon" aria-hidden="true"><use href="#icon-code"></use></svg> <span id="firmwareModalTitle">Code C++ prêt pour ESP8266WebServer</span></h3>
           <button id="btnCloseModal" class="btn-close">&times;</button>
         </div>
         <div class="modal-body">
-          <p>Configurez le nombre de LEDs et la carte utilisée pour générer automatiquement le firmware correspondant.</p>
+          <p id="firmwareModalDescription">Configurez le nombre de LEDs et la carte utilisée pour générer automatiquement le firmware correspondant.</p>
           <div class="firmware-options">
-            <label for="firmwareBoard">Carte
+            <label for="firmwareBoard"><span id="firmwareBoardLabel">Carte</span>
               <select id="firmwareBoard" class="form-select">
                 <option value="nodemcu">NodeMCU ESP8266</option>
                 <option value="d1mini">Wemos D1 mini ESP8266</option>
               </select>
             </label>
-            <label for="firmwareLedCount">Nombre de LEDs
-              <input id="firmwareLedCount" type="number" min="1" max="5" value="5" />
+            <label for="firmwareLedCount"><span id="firmwareLedCountLabel">Nombre de LEDs</span>
+              <input id="firmwareLedCount" type="number" min="1" max="100" value="5" />
             </label>
           </div>
-          <p class="field-hint">Pour des LEDs simples, utilisez une résistance de 220 à 330 ohms par LED. Les broches proposées sont D1, D2, D5, D6 et D7.</p>
+          <p id="firmwareModalHint" class="field-hint">Pour des LEDs simples, utilisez une résistance de 220 à 330 ohms par LED. Les broches proposées sont D1, D2, D5, D6 et D7.</p>
 
           <div class="code-block-wrapper">
             <pre><code id="espCodeSnippet" class="font-mono">Générez le firmware avec les options ci-dessus.</code></pre>
@@ -329,9 +376,44 @@
       </div>
     </div>
 
+    <footer class="site-footer">
+      <div class="site-footer-actions">
+        <button id="btnSwitchAccount" class="site-footer-action" type="button" data-i18n="switchAccount">Changer de compte</button>
+        <a class="site-footer-action" href="privacy.html" data-i18n="privacyLink">Confidentialité</a>
+        <a class="site-footer-action" href="terms.html" data-i18n="termsLink">Conditions d'utilisation</a>
+      </div>
+      <details class="site-footer-help">
+        <summary class="site-footer-help-summary"><span class="help-summary-icon" aria-hidden="true">?</span><span id="helpTitle">Besoin d’aide ?</span></summary>
+        <div class="site-footer-help-content">
+          <p id="helpIntro" class="help-center-title">Comment pouvons-nous vous aider ?</p>
+          <label class="help-search"><span aria-hidden="true">⌕</span><input id="helpSearch" type="search" placeholder="Rechercher dans l’aide" aria-label="Rechercher dans l’aide"></label>
+          <div class="help-topics" id="helpTopics">
+            <details class="help-topic" data-help-topic="irina voix microphone parler chatbot">
+              <summary><span class="help-topic-icon" aria-hidden="true">◌</span><span id="helpVoice">Parler avec Irina</span></summary>
+              <p>Écrivez « Irina » dans le chatbot ou activez le micro. Irina vous écoute ensuite pour recevoir votre commande.</p>
+            </details>
+            <details class="help-topic" data-help-topic="led commande couleur luminosité effet allumer éteindre">
+              <summary><span class="help-topic-icon" aria-hidden="true">✦</span><span id="helpCommands">Contrôler les LEDs</span></summary>
+              <p>Demandez d’allumer, d’éteindre, de colorer une LED, de modifier la luminosité ou de changer son effet.</p>
+            </details>
+            <details class="help-topic" data-help-topic="console réseau historique panneau ouvrir dérouler">
+              <summary><span class="help-topic-icon" aria-hidden="true">▤</span><span id="helpPanels">Ouvrir les panneaux</span></summary>
+              <p>Demandez « ouvre la console réseau » ou « affiche l’historique des LEDs allumées ».</p>
+            </details>
+            <details class="help-topic" data-help-topic="thème couleur langue réglages application">
+              <summary><span class="help-topic-icon" aria-hidden="true">⚙</span><span id="helpSettings">Personnaliser l’application</span></summary>
+              <p>Changez le thème, sa couleur, la langue ou la configuration réseau depuis les commandes et les réglages.</p>
+            </details>
+          </div>
+          <p id="helpNoResults" class="help-no-results" hidden>Aucune rubrique ne correspond à votre recherche.</p>
+        </div>
+      </details>
+    </footer>
+
   </div>
 
-  <script src="app.js"></script>
+  <script src="theme.js?v=20260922-1320"></script>
+  <script src="app.js?v=20260922-1530"></script>
 </body>
 
 </html>

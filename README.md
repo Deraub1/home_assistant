@@ -29,6 +29,15 @@ ne nécessite ni framework JavaScript ni serveur applicatif pour son interface.
   messagerie externe.
 - Sélecteur multilingue : français, anglais, espagnol, allemand, italien,
   portugais, néerlandais, japonais et chinois simplifié.
+- Thèmes clair et sombre conservant leurs palettes natives, avec choix d'une
+  couleur d'accent indépendante pour les boutons, textes, contrôles et cases à
+  cocher.
+- Mode **Couleur personnalisée** appliquant la couleur choisie à l'ensemble
+  de l'interface, y compris les conteneurs, panneaux et contrôles internes.
+- Préférence de thème et de couleur conservée localement, avec cohérence sur
+  les pages de confidentialité, de conditions d'utilisation et d'erreur.
+- Favicon rendu gris après 60 minutes d'inactivité, puis restauré après une
+  interaction avec la page.
 - Préférences conservées dans le stockage local du navigateur.
 
 ## Structure du projet
@@ -39,17 +48,23 @@ home-assistant/
 │   ├── index.html
 │   ├── app.js
 │   ├── style.css
+│   ├── theme.js
+│   ├── privacy.html
+│   ├── terms.html
+│   ├── 404.html
 │   ├── home-assistant-logo.png
 │   ├── favicon.png
 │   └── splash-circuits.svg
-├── esp8266/
-│   ├── README.md
-│   └── led_controller.ino
+├── .github/
+│   ├── agents/
+│   └── workflows/
+├── index.html
 └── README.md
 ```
 
-Le dossier `public/` contient l'application Web. Le dossier `esp8266/`
-contient un firmware Arduino de référence pour le contrôleur.
+Le dossier `public/` contient l'application Web et ses pages statiques
+associées. Le firmware Arduino est généré à la demande depuis l'application ;
+aucun dossier de firmware séparé n'est requis dans ce dépôt.
 
 ## Utilisation locale
 

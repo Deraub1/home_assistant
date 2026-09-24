@@ -12,12 +12,13 @@
   <style>
     :root {
       color-scheme: dark;
+      --theme-color: #00f0ff;
       --bg: #080c16;
       --panel: rgba(18, 26, 43, 0.82);
       --border: rgba(255, 255, 255, 0.14);
       --text: #f0f4f8;
       --muted: #9aa9bd;
-      --cyan: #00f0ff;
+      --cyan: var(--theme-color, #00f0ff);
       --blue: #4facfe;
       --pink: #f72585;
       --yellow: #ffb703;
@@ -25,13 +26,15 @@
       --theme-color-shadow: rgba(0, 240, 255, 0.2);
     }
 
-    [data-theme="light"] {
+    html[data-theme="light"] {
       color-scheme: light;
       --bg: #eef4fb;
       --panel: rgba(255, 255, 255, 0.86);
       --border: rgba(100, 116, 139, 0.24);
       --text: #172033;
       --muted: #526176;
+      --accent-soft: rgba(0, 160, 255, 0.12);
+      --theme-color-shadow: rgba(0, 160, 255, 0.14);
     }
 
     * { box-sizing: border-box; }

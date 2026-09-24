@@ -281,7 +281,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   // --- Éléments du DOM ---
   const languageSelector = document.getElementById('languageSelector');
-  const btnThemeToggle = document.getElementById('btnThemeToggle');
+  const themeModeSelector = document.getElementById('themeModeSelector');
   const themeColorPicker = document.getElementById('themeColorPicker');
   let currentLanguage = getPreferredLanguage();
   const languageText = {
@@ -922,8 +922,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     ].includes(defaultTranscript.textContent.trim())) {
       defaultTranscript.textContent = localizedStaticText['"Cliquez sur le micro et parlez..."'][currentLanguage];
     }
-    const themeToggleText = document.getElementById('themeToggleText');
-    if (themeToggleText) themeToggleText.textContent = currentTheme === 'light' ? t('themeLight') : t('themeDark');
     if (statusText) {
       const statusKey = statusText.dataset.status;
       if (statusKey) statusText.textContent = connectionLabel(statusKey);
@@ -1579,8 +1577,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
   }
 
-  // --- 🌗 Gestion du Thème Clair / Sombre ---
+  // --- 🌗 Gestion du Thème Clair / Sombre / Couleur ---
+  const THEME_BASE_KEY = 'theme_base_preference';
   let currentTheme = localStorage.getItem('theme_preference') || 'light';
+  let currentBaseTheme = localStorage.getItem(THEME_BASE_KEY) || currentTheme;
 
   function updateAiVisualState() {
     const active = Boolean(toggleVoiceAi?.checked);
@@ -1596,18 +1596,36 @@ document.addEventListener('DOMContentLoaded', async () => {
     else voiceAiIndicator?.setState('idle');
   }
 
-  function applyTheme(theme) {
-    document.documentElement.setAttribute('data-theme', theme);
-    currentTheme = theme;
-    localStorage.setItem('theme_preference', theme);
-    window.applyThemeColor?.();
+  function applyTheme(themeSelection) {
+    const normalizedTheme = themeSelection === 'dark' ? 'dark' : themeSelection === 'custom' ? 'custom' : 'light';
+    const baseTheme = normalizedTheme === 'custom'
+      ? (localStorage.getItem(THEME_BASE_KEY) || currentBaseTheme || 'dark')
+      : normalizedTheme;
 
-    if (theme === 'light') {
-      btnThemeToggle.innerHTML = `<svg class="ui-icon" aria-hidden="true"><use href="#icon-sun"></use></svg><span id="themeToggleText">${t('themeLight')}</span>`;
+    localStorage.setItem(THEME_BASE_KEY, baseTheme);
+    localStorage.setItem('theme_preference', normalizedTheme);
+
+    const effectiveTheme = normalizedTheme === 'custom' ? baseTheme : normalizedTheme;
+    document.documentElement.setAttribute('data-theme', effectiveTheme);
+    currentTheme = normalizedTheme;
+    currentBaseTheme = baseTheme;
+
+    const savedColor = window.getThemeColor?.() || '#5b6ef6';
+    if (normalizedTheme === 'custom') {
+      window.applyThemeColor?.(savedColor);
     } else {
-      btnThemeToggle.innerHTML = `<svg class="ui-icon" aria-hidden="true"><use href="#icon-moon"></use></svg><span id="themeToggleText">${t('themeDark')}</span>`;
+      window.applyThemeColor?.(savedColor);
     }
-    btnThemeToggle.title = t('themeTitle');
+
+    if (themeModeSelector) {
+      themeModeSelector.value = normalizedTheme;
+    }
+
+    if (themeColorPicker) {
+      themeColorPicker.disabled = false;
+      themeColorPicker.setAttribute('aria-disabled', 'false');
+    }
+
   }
 
   if (themeColorPicker) {
@@ -1617,11 +1635,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
   }
 
-  btnThemeToggle.addEventListener('click', () => {
-    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-    applyTheme(newTheme);
-    addLog(`[UI] Thème basculé en mode ${newTheme === 'light' ? 'Clair' : 'Sombre'}`, 'info');
-  });
+  if (themeModeSelector) {
+    themeModeSelector.addEventListener('change', (event) => {
+      applyTheme(event.target.value);
+      addLog(`[UI] Thème sélectionné : ${event.target.value === 'light' ? 'Clair' : event.target.value === 'dark' ? 'Sombre' : 'Couleur'}`, 'info');
+    });
+  }
 
   applyTheme(currentTheme);
 

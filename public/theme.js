@@ -9,6 +9,23 @@
     return /^#[0-9a-f]{6}$/i.test(value || '') ? value : defaultColor;
   }
 
+  function parseRgb(value) {
+    const match = String(value).match(/rgba?\(\s*([\d.]+)[, ]+\s*([\d.]+)[, ]+\s*([\d.]+)/i);
+    if (match) return match.slice(1, 4).map(Number);
+    const normalized = normalizeColor(value).slice(1);
+    return [0, 2, 4].map(index => parseInt(normalized.slice(index, index + 2), 16));
+  }
+
+  function getContrastColor(value) {
+    const channels = parseRgb(value).map(channel => channel / 255);
+    const linearChannels = channels.map(channel => {
+      const linear = channel <= 0.03928 ? channel / 12.92 : ((channel + 0.055) / 1.055) ** 2.4;
+      return linear;
+    });
+    const luminance = 0.2126 * linearChannels[0] + 0.7152 * linearChannels[1] + 0.0722 * linearChannels[2];
+    return luminance > 0.48 ? '#0f172a' : '#f8fafc';
+  }
+
   function mixHexColors(colorA, colorB, weight) {
     const clamp = value => Math.min(255, Math.max(0, value));
     const parse = hex => {
@@ -63,30 +80,25 @@
     const { savedTheme, effectiveTheme } = resolveThemeState();
     const isCustomTheme = savedTheme === 'custom';
     const isDarkTheme = effectiveTheme === 'dark';
-    const textColor = isDarkTheme ? '#f0f4f8' : '#0f172a';
-    const arrowColor = textColor;
-    const accentProperties = [
-      '--theme-color', '--primary', '--primary-glow', '--accent', '--accent-soft', '--theme-color-shadow', '--theme-select-arrow'
-    ];
+    const baseTextColor = isDarkTheme ? '#f0f4f8' : '#0f172a';
+    const arrowColor = baseTextColor;
     const customProperties = [
-      '--glass-glow', '--warning', '--success', '--cyan', '--blue', '--pink', '--yellow', '--theme-color-contrast',
+      '--theme-color', '--primary', '--primary-glow', '--glass-glow', '--accent', '--accent-soft',
+      '--warning', '--success', '--cyan', '--blue', '--pink', '--yellow', '--theme-color-shadow', '--theme-color-contrast',
       '--bg-color', '--panel-bg', '--panel-border', '--text-main', '--text-muted', '--text-dark', '--shadow-card',
-      '--bg', '--panel', '--panel-soft', '--text', '--muted', '--border', '--shadow', '--theme-select-arrow'
+      '--bg', '--panel', '--panel-soft', '--text', '--muted', '--border', '--shadow', '--theme-select-arrow', '--theme-select-icon'
     ];
 
     root.setAttribute('data-theme', effectiveTheme);
     root.toggleAttribute('data-custom-theme', isCustomTheme);
 
-    root.style.setProperty('--theme-color', normalized);
-    root.style.setProperty('--theme-select-arrow', `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23${arrowColor.slice(1)}' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E")`);
-    root.style.setProperty('--theme-select-icon', getThemeIcon(savedTheme, isCustomTheme ? normalized : textColor));
-    root.style.setProperty('--primary', normalized);
-    root.style.setProperty('--primary-glow', hexToRgba(normalized, 0.5));
-    root.style.setProperty('--accent', normalized);
-    root.style.setProperty('--accent-soft', hexToRgba(normalized, 0.12));
-    root.style.setProperty('--theme-color-shadow', hexToRgba(normalized, 0.2));
-
     if (isCustomTheme) {
+      root.style.setProperty('--theme-color', normalized);
+      root.style.setProperty('--primary', normalized);
+      root.style.setProperty('--primary-glow', hexToRgba(normalized, 0.5));
+      root.style.setProperty('--accent', normalized);
+      root.style.setProperty('--accent-soft', hexToRgba(normalized, 0.12));
+      root.style.setProperty('--theme-color-shadow', hexToRgba(normalized, 0.2));
       root.style.setProperty('--primary', normalized);
       root.style.setProperty('--primary-glow', hexToRgba(normalized, 0.5));
       root.style.setProperty('--glass-glow', hexToRgba(normalized, isDarkTheme ? 0.18 : 0.12));
@@ -99,18 +111,19 @@
       root.style.setProperty('--pink', normalized);
       root.style.setProperty('--yellow', normalized);
       root.style.setProperty('--theme-color-shadow', hexToRgba(normalized, 0.2));
-      root.style.setProperty('--theme-color-contrast', isDarkTheme ? '#ffffff' : '#0f172a');
       const backgroundColor = isDarkTheme ? mixHexColors(normalized, '#070b13', 0.72) : mixHexColors(normalized, '#f8fafc', 0.18);
       const panelColor = isDarkTheme ? mixHexColors(normalized, '#101827', 0.66) : mixHexColors(normalized, '#e2e8f0', 0.32);
       const borderColor = hexToRgba(normalized, isDarkTheme ? 0.22 : 0.18);
-      const mutedColor = isDarkTheme ? '#b7c3d8' : '#475569';
-      const darkTextColor = isDarkTheme ? '#0b0f19' : '#ffffff';
+      const textColor = getContrastColor(panelColor);
+      const mutedColor = textColor === '#f8fafc' ? '#d8e1ed' : '#475569';
+      const darkTextColor = getContrastColor(normalized);
       root.style.setProperty('--bg-color', backgroundColor);
       root.style.setProperty('--panel-bg', panelColor);
       root.style.setProperty('--panel-border', borderColor);
       root.style.setProperty('--text-main', textColor);
       root.style.setProperty('--text-muted', mutedColor);
       root.style.setProperty('--text-dark', darkTextColor);
+      root.style.setProperty('--theme-color-contrast', darkTextColor);
       root.style.setProperty('--bg', backgroundColor);
       root.style.setProperty('--panel', panelColor);
       root.style.setProperty('--panel-soft', hexToRgba(normalized, isDarkTheme ? 0.1 : 0.08));
@@ -125,16 +138,16 @@
         : '0 14px 28px rgba(15, 23, 42, 0.12)');
     } else {
       customProperties.forEach(property => root.style.removeProperty(property));
-      accentProperties.forEach(property => {
-        if (property === '--theme-color') root.style.setProperty(property, normalized);
-        if (property === '--primary') root.style.setProperty(property, normalized);
-        if (property === '--primary-glow') root.style.setProperty(property, hexToRgba(normalized, 0.5));
-        if (property === '--accent') root.style.setProperty(property, normalized);
-        if (property === '--accent-soft') root.style.setProperty(property, hexToRgba(normalized, 0.12));
-        if (property === '--theme-color-shadow') root.style.setProperty(property, hexToRgba(normalized, 0.2));
-        if (property === '--theme-select-arrow') root.style.setProperty(property, `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23${arrowColor.slice(1)}' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E")`);
-      });
+      root.style.setProperty('--theme-color', normalized);
+      root.style.setProperty('--primary', normalized);
+      root.style.setProperty('--primary-glow', hexToRgba(normalized, 0.5));
+      root.style.setProperty('--accent', normalized);
+      root.style.setProperty('--accent-soft', hexToRgba(normalized, 0.12));
+      root.style.setProperty('--theme-color-shadow', hexToRgba(normalized, 0.2));
     }
+
+    root.style.setProperty('--theme-select-arrow', `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23${arrowColor.slice(1)}' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E")`);
+    root.style.setProperty('--theme-select-icon', getThemeIcon(savedTheme, isCustomTheme ? normalized : baseTextColor));
 
     updateMetaThemeColor(isCustomTheme ? normalized : isDarkTheme ? '#0b0f19' : '#f8fafc');
     localStorage.setItem(COLOR_KEY, normalized);

@@ -66,6 +66,18 @@ Le dossier `public/` contient l'application Web et ses pages statiques
 associées. Le firmware Arduino est généré à la demande depuis l'application ;
 aucun dossier de firmware séparé n'est requis dans ce dépôt.
 
+### Logique des thèmes
+
+Les modes **Clair** et **Sombre** conservent strictement leurs palettes
+respectives. Le sélecteur de couleur reste disponible dans ces deux modes,
+mais ne modifie que les accents prévus : boutons, certains textes, contrôles
+et cases à cocher. Les fonds, conteneurs et couleurs structurelles restent
+inchangés.
+
+Le mode **Couleur personnalisée** utilise la couleur choisie pour l'ensemble
+de l'interface, avec un calcul automatique du contraste des textes et des
+contrôles pour préserver la lisibilité.
+
 ## Utilisation locale
 
 Aucun outil de compilation n'est nécessaire pour tester l'interface.

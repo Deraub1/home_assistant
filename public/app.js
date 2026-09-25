@@ -1485,7 +1485,7 @@ document.addEventListener('DOMContentLoaded', async () => {
           data-led="${led.id}"
           aria-label="${interfaceLabel(led.isOn ? 'turnOff' : 'turnOn')} ${colorLabel(led.name)}"
           aria-pressed="${led.isOn}"
-        ><svg class="ui-icon led-power-symbol" aria-hidden="true"><use href="#icon-power"></use></svg><span class="led-power-label">${interfaceLabel(led.isOn ? 'on' : 'off')}</span></button>
+        ><svg class="ui-icon led-power-symbol" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v8m-5.66-5A9 9 0 1 0 17.66 6"></path></svg><span class="led-power-label">${interfaceLabel(led.isOn ? 'on' : 'off')}</span></button>
       `;
       row.querySelector('.led-name-select').value = ledColorOptions.includes(led.name) ? led.name : '';
       row.querySelector('.led-effect-select').value = led.mode;

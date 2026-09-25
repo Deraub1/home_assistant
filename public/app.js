@@ -1022,7 +1022,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   const chatInput = document.getElementById('chatInput');
   const chatSubmit = document.getElementById('chatSubmit');
   const conversationHistoryKey = 'home_assistant_irina_conversation';
-  const conversationHistoryLimit = 20;
+  const conversationHistoryLimit = 40;
   const conversationHistory = loadConversationHistory();
   const chatEditWindow = 5 * 60 * 1000;
 
@@ -2496,10 +2496,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     } else {
       const username = getPreferredUserName();
       const nameSuffix = username ? ` ${username}` : '';
-      const localConversation = getLocalConversationResponse(normalizeVoiceText(text), nameSuffix);
-      if (localConversation) {
-      response = localConversation;
-      } else if (isDeterministicControlCommand(text)) {
+      if (isDeterministicControlCommand(text)) {
       response = parseVoiceCommand(text, { speak: false });
       } else {
       const aiResult = await interpretVoiceCommandWithAI(text);
@@ -2509,11 +2506,18 @@ document.addEventListener('DOMContentLoaded', async () => {
           currentLanguage === 'en' ? 'The request was processed.' : 'La demande a été traitée.'
         );
       } else {
-        response = parseVoiceCommand(text, { speak: false }) || (
-          currentLanguage === 'en'
-            ? 'I could not process this request. Check the AI connection or rephrase it.'
-            : 'Je ne peux pas traiter cette demande. Vérifiez la connexion IA ou reformulez-la.'
-        );
+        const localResponse = getLocalConversationResponse(normalizeVoiceText(text), nameSuffix);
+        response = parseVoiceCommand(text, { speak: false }) || localResponse || ({
+          fr: 'Je ne peux pas répondre de façon complète pour le moment : le service de conversation IA est indisponible.',
+          en: 'I cannot give a complete answer right now because the conversation AI service is unavailable.',
+          es: 'No puedo responder de forma completa en este momento porque el servicio de conversación IA no está disponible.',
+          de: 'Ich kann gerade keine vollständige Antwort geben, weil der KI-Konversationsdienst nicht verfügbar ist.',
+          it: 'Al momento non posso dare una risposta completa perché il servizio di conversazione IA non è disponibile.',
+          pt: 'Não consigo responder de forma completa neste momento porque o serviço de conversação IA não está disponível.',
+          nl: 'Ik kan nu geen volledig antwoord geven omdat de AI-gespreksdienst niet beschikbaar is.',
+          ja: '会話AIサービスが利用できないため、今は完全な回答ができません。',
+          'zh-CN': '由于对话 AI 服务不可用，我现在无法提供完整回答。'
+        }[currentLanguage] || 'The conversation AI service is unavailable.');
       }
       }
     }
@@ -2621,6 +2625,30 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   toggleVoiceAi?.addEventListener('change', updateAiVisualState);
 
+  function parseAiEnvelope(content) {
+    const rawContent = String(content || '').trim();
+    const candidates = [
+      rawContent.replace(/^```(?:json)?\s*/i, '').replace(/\s*```$/i, '').trim(),
+      rawContent.slice(rawContent.indexOf('{'), rawContent.lastIndexOf('}') + 1)
+    ].filter(Boolean);
+
+    for (const candidate of candidates) {
+      try {
+        const parsed = JSON.parse(candidate);
+        if (parsed && typeof parsed === 'object' && !Array.isArray(parsed)) {
+          return {
+            actions: Array.isArray(parsed.actions) ? parsed.actions : [],
+            response: typeof parsed.response === 'string' ? parsed.response.trim() : ''
+          };
+        }
+      } catch {
+        continue;
+      }
+    }
+
+    return { actions: [], response: rawContent.replace(/^```(?:text|markdown)?\s*/i, '').replace(/\s*```$/i, '').trim() };
+  }
+
   async function interpretVoiceCommandWithAI(transcript) {
     const ollamaUrl = localStorage.getItem('ollama_url') || 'http://localhost:11434/api/chat';
     const ollamaModel = localStorage.getItem('ollama_model') || 'llama3.2';
@@ -2640,14 +2668,13 @@ document.addEventListener('DOMContentLoaded', async () => {
     const localHour = new Date().getHours();
     const systemPrompt = [
       'Tu es Irina, une assistante conversationnelle naturelle et chaleureuse, capable de discuter librement comme un assistant généraliste, tout en contrôlant une application de LEDs.',
-      'Réponds uniquement avec un JSON valide au format {"actions":[...],"response":"..."} et jamais en Markdown.',
-      'Le champ actions est toujours un tableau, éventuellement vide. Le champ response est une phrase naturelle à dire à l’utilisateur.',
+      'Réponds avec un JSON valide au format {"actions":[...],"response":"..."}. Le champ actions est toujours un tableau, éventuellement vide. Le champ response est une réponse naturelle à dire à l’utilisateur.',
       `${promptLanguage} Understand any natural wording, slang, politeness, spelling mistakes, voice transcription errors, code-switching and indirect requests in that language. Never require an exact command phrase.`,
       promptLanguage,
       `L’heure locale du navigateur est ${localHour} h. Pour saluer l’utilisateur, utilise « ${currentLanguage === 'en' ? (localHour >= 5 && localHour < 12 ? 'Good morning' : 'Good evening') : (localHour >= 5 && localHour < 18 ? 'Bonjour' : 'Bonsoir')} » selon cette heure. « Salut » reste possible si l’utilisateur emploie lui-même un registre familier.`,
-      `L’utilisateur s’appelle ${JSON.stringify(username || (currentLanguage === 'en' ? 'user' : 'utilisateur'))}. Dans chaque salutation, commence obligatoirement par le nom de l’utilisateur : « Bonjour ${username || (currentLanguage === 'en' ? 'user' : 'utilisateur')} » ou l’équivalent naturel dans la langue choisie. Appelle-le aussi par son nom dans les propositions et les demandes de clarification.`,
+      `L’utilisateur s’appelle ${JSON.stringify(username || (currentLanguage === 'en' ? 'user' : 'utilisateur'))}. Utilise son nom avec naturel, seulement lorsque cela rend la réponse plus chaleureuse; ne le répète pas à chaque message et ne commence pas toutes les salutations par son nom.`,
       'Si l’utilisateur demande explicitement à être appelé autrement, respecte ce nouveau nom d’appel pour la suite du dialogue.',
-      'Maintain a natural dialogue with memory: answer greetings, small talk, follow-up questions, confirmations, thanks, opinions and general questions naturally. Refer to earlier messages when relevant. Ask one concise clarification when necessary. For questions without an action, return actions:[] and answer directly in the selected language.',
+      'Maintiens une conversation naturelle et souple : réponds aux salutations, au bavardage, aux questions générales, aux opinions, aux remerciements et aux relances. Utilise l’historique quand il est pertinent, évite les réponses mécaniques et pose une seule question courte si une précision est vraiment nécessaire. Pour une question sans action, renvoie actions:[] et réponds directement dans la langue choisie.',
       'Do not claim to have performed an action unless you return the corresponding action. Do not invent device state, capabilities, facts or missing values.',
       'Ignore le nom Irina quand il sert uniquement à t’appeler.',
       'Déduis l’intention sans exiger les exemples exacts de l’interface, mais ne devine jamais une valeur absente.',
@@ -2700,7 +2727,7 @@ document.addEventListener('DOMContentLoaded', async () => {
           model: ollamaModel,
           stream: false,
           format: 'json',
-          options: { temperature: 0 },
+          options: { temperature: 0.65, top_p: 0.9 },
           messages: [
             { role: 'system', content: systemPrompt },
             ...conversationHistory,
@@ -2720,7 +2747,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         throw new Error(aiErrorText[0] || 'Ollama returned no usable content');
       }
 
-      const parsed = JSON.parse(content);
+      const parsed = parseAiEnvelope(content);
       if (!Array.isArray(parsed.actions)) {
         throw new Error(aiErrorText[1] || 'Ollama returned no actions array');
       }

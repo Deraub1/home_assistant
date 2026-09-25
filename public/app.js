@@ -2718,7 +2718,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     let timeoutId;
     try {
       const controller = new AbortController();
-      timeoutId = window.setTimeout(() => controller.abort(), 12000);
+      timeoutId = window.setTimeout(() => controller.abort(), 8000);
       const response = await fetch(ollamaUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -2727,10 +2727,11 @@ document.addEventListener('DOMContentLoaded', async () => {
           model: ollamaModel,
           stream: false,
           format: 'json',
-          options: { temperature: 0.65, top_p: 0.9 },
+          keep_alive: '10m',
+          options: { temperature: 0.65, top_p: 0.9, num_predict: 160, num_ctx: 4096 },
           messages: [
             { role: 'system', content: systemPrompt },
-            ...conversationHistory,
+            ...conversationHistory.slice(-16),
             { role: 'user', content: transcript }
           ]
         })

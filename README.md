@@ -155,10 +155,11 @@ confirme ce nom ; une réponse négative lui permet de demander puis d'enregistr
 un autre nom d'appel. Cette confirmation n'est demandée qu'une seule fois dans
 ce navigateur.
 
-Le nom « Irina » s'anime lettre par lettre en suivant une trajectoire en huit :
-chaque lettre suit la précédente, puis rejoint progressivement sa position
-sous le symbole. La pause automatique d'une minute commence après l'arrêt de
-la dernière lettre. Lorsque le mode IA est actif, un toucher sur le nom peut
+Le nom « Irina » s'anime lettre par lettre en suivant un grand huit horizontal,
+comme une trajectoire de montagnes russes : chaque lettre suit la précédente
+avec un mouvement régulier, puis rejoint progressivement sa position sous le
+symbole. La pause automatique d'une minute commence après l'arrêt de la
+dernière lettre. Lorsque le mode IA est actif, un toucher sur le nom peut
 également lancer immédiatement cette animation si elle n'est pas déjà en cours.
 
 Pour utiliser les gestes sonores, cochez **Gestes sonores** dans la commande

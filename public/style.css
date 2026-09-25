@@ -2128,6 +2128,14 @@ voice-ai-indicator .ai-indicator-name {
   line-height: 1;
   letter-spacing: 0.02em;
   white-space: nowrap;
+  pointer-events: auto;
+  cursor: pointer;
+  touch-action: manipulation;
+  user-select: none;
+}
+voice-ai-indicator .ai-name-letter {
+  display: inline-block;
+  min-width: 0.28em;
   background: linear-gradient(
     90deg,
     #00f2fe 0%,
@@ -2140,26 +2148,18 @@ voice-ai-indicator .ai-indicator-name {
   color: transparent;
   filter: drop-shadow(0 0 6px rgba(0, 242, 254, 0.45));
   text-shadow: 0 0 12px rgba(247, 37, 133, 0.3);
-  pointer-events: auto;
-  cursor: pointer;
-  touch-action: manipulation;
-  user-select: none;
-}
-voice-ai-indicator .ai-name-letter {
-  display: inline-block;
-  min-width: 0.28em;
   transform: translate3d(0, 0, 0);
 }
 voice-ai-indicator.ai-enabled .ai-indicator-name {
   animation: none;
 }
 voice-ai-indicator.name-is-rolling .ai-name-letter {
-  animation: ai-name-figure-eight 4.2s cubic-bezier(0.45, 0, 0.2, 1) both;
+  animation: ai-name-figure-eight 4.2s linear both;
   animation-delay: calc(var(--ai-name-index) * 0.16s);
   will-change: transform, filter;
 }
 voice-ai-indicator.ai-enabled.is-speaking .ai-name-letter {
-  animation: ai-name-figure-eight 2.4s cubic-bezier(0.45, 0, 0.2, 1) infinite;
+  animation: ai-name-figure-eight 2.4s linear infinite;
   animation-delay: calc(var(--ai-name-index) * 0.08s);
   will-change: transform, filter;
 }
@@ -2347,26 +2347,50 @@ voice-ai-indicator.ai-enabled.is-error .ai-indicator-image {
   0% {
     transform: translate3d(0, 0, 0) rotate(0deg) scale(1);
   }
-  12% {
-    transform: translate3d(-52px, -24px, 0) rotate(-10deg) scale(0.96);
+  6.25% {
+    transform: translate3d(-38px, -17px, 0) rotate(-6deg) scale(0.97);
+  }
+  12.5% {
+    transform: translate3d(-70px, -24px, 0) rotate(-12deg) scale(0.93);
+  }
+  18.75% {
+    transform: translate3d(-92px, -17px, 0) rotate(-16deg) scale(0.91);
   }
   25% {
     transform: translate3d(-100px, 0, 0) rotate(-18deg) scale(0.9);
   }
-  38% {
-    transform: translate3d(-52px, 24px, 0) rotate(-10deg) scale(0.96);
+  31.25% {
+    transform: translate3d(-92px, 17px, 0) rotate(-16deg) scale(0.91);
+  }
+  37.5% {
+    transform: translate3d(-70px, 24px, 0) rotate(-12deg) scale(0.93);
+  }
+  43.75% {
+    transform: translate3d(-38px, 17px, 0) rotate(-6deg) scale(0.97);
   }
   50% {
     transform: translate3d(0, 0, 0) rotate(0deg) scale(1);
   }
-  62% {
-    transform: translate3d(52px, -24px, 0) rotate(10deg) scale(0.96);
+  56.25% {
+    transform: translate3d(38px, -17px, 0) rotate(6deg) scale(0.97);
+  }
+  62.5% {
+    transform: translate3d(70px, -24px, 0) rotate(12deg) scale(0.93);
+  }
+  68.75% {
+    transform: translate3d(92px, -17px, 0) rotate(16deg) scale(0.91);
   }
   75% {
     transform: translate3d(100px, 0, 0) rotate(18deg) scale(0.9);
   }
-  88% {
-    transform: translate3d(52px, 24px, 0) rotate(10deg) scale(0.96);
+  81.25% {
+    transform: translate3d(92px, 17px, 0) rotate(16deg) scale(0.91);
+  }
+  87.5% {
+    transform: translate3d(70px, 24px, 0) rotate(12deg) scale(0.93);
+  }
+  93.75% {
+    transform: translate3d(38px, 17px, 0) rotate(6deg) scale(0.97);
   }
   100% {
     transform: translate3d(0, 0, 0) rotate(0deg) scale(1);
@@ -2454,6 +2478,7 @@ voice-ai-indicator.ai-enabled.is-error .ai-indicator-image {
   voice-ai-indicator.ai-enabled.is-speaking .ai-name-letter,
   voice-ai-indicator.name-is-rolling .ai-name-letter {
     animation-name: ai-name-figure-eight-mobile;
+    animation-timing-function: linear;
   }
   voice-ai-indicator.ai-enabled.is-speaking.speech-pulse .ai-name-letter {
     animation-name: ai-name-articulation;
@@ -2477,23 +2502,50 @@ voice-ai-indicator.ai-enabled.is-error .ai-indicator-image {
   0% {
     transform: translate3d(0, 0, 0) rotate(0deg) scale(1);
   }
-  12% {
-    transform: translate3d(-30px, -18px, 0) rotate(-9deg) scale(0.97);
+  6.25% {
+    transform: translate3d(-22px, -13px, 0) rotate(-6deg) scale(0.98);
+  }
+  12.5% {
+    transform: translate3d(-41px, -18px, 0) rotate(-12deg) scale(0.95);
+  }
+  18.75% {
+    transform: translate3d(-53px, -13px, 0) rotate(-16deg) scale(0.93);
   }
   25% {
-    transform: translate3d(-58px, 0, 0) rotate(-16deg) scale(0.92);
+    transform: translate3d(-58px, 0, 0) rotate(-18deg) scale(0.92);
   }
-  38% {
-    transform: translate3d(-46px, 18px, 0) rotate(-11deg) scale(0.95);
+  31.25% {
+    transform: translate3d(-53px, 13px, 0) rotate(-16deg) scale(0.93);
+  }
+  37.5% {
+    transform: translate3d(-41px, 18px, 0) rotate(-12deg) scale(0.95);
+  }
+  43.75% {
+    transform: translate3d(-22px, 13px, 0) rotate(-6deg) scale(0.98);
   }
   50% {
     transform: translate3d(0, 0, 0) rotate(0deg) scale(1);
   }
-  62% {
-    transform: translate3d(46px, -18px, 0) rotate(11deg) scale(0.95);
+  56.25% {
+    transform: translate3d(22px, -13px, 0) rotate(6deg) scale(0.98);
+  }
+  62.5% {
+    transform: translate3d(41px, -18px, 0) rotate(12deg) scale(0.95);
+  }
+  68.75% {
+    transform: translate3d(53px, -13px, 0) rotate(16deg) scale(0.93);
   }
   75% {
-    transform: translate3d(58px, 0, 0) rotate(16deg) scale(0.92);
+    transform: translate3d(58px, 0, 0) rotate(18deg) scale(0.92);
+  }
+  81.25% {
+    transform: translate3d(53px, 13px, 0) rotate(16deg) scale(0.93);
+  }
+  87.5% {
+    transform: translate3d(41px, 18px, 0) rotate(12deg) scale(0.95);
+  }
+  93.75% {
+    transform: translate3d(22px, 13px, 0) rotate(6deg) scale(0.98);
   }
   88% {
     transform: translate3d(30px, 18px, 0) rotate(9deg) scale(0.97);
@@ -3102,15 +3154,13 @@ voice-ai-indicator.ai-enabled.is-error .ai-indicator-image {
     height: 44px;
   }
   body .led-assignments .led-power-button .led-power-symbol {
-    display: none !important;
+    display: block !important;
   }
   body .led-assignments .led-power-button.is-on {
     border-radius: var(--radius-sm);
   }
   body .led-assignments .led-power-button .led-power-label {
-    display: inline !important;
-    font-size: 12px;
-    font-weight: 700;
+    display: none !important;
   }
   .log-console {
     height: 280px;

@@ -70,7 +70,6 @@
       background-color: var(--panel-bg);
       border-color: var(--panel-border);
       color: var(--text-main);
-      box-shadow: 0 4px 12px var(--primary-glow);
     }
 
     [data-custom-theme] .form-select {
@@ -126,7 +125,6 @@
       background-image: var(--theme-select-arrow) !important;
       border-color: var(--panel-border) !important;
       color: var(--text-main) !important;
-      box-shadow: 0 4px 12px var(--primary-glow) !important;
     }
 
     [data-custom-theme] .form-select option {
@@ -140,20 +138,6 @@
       background: var(--panel-bg) !important;
       border-color: var(--panel-border) !important;
       color: var(--text-main) !important;
-      box-shadow: 0 4px 12px var(--primary-glow) !important;
-    }
-
-    [data-custom-theme] .led-control-button {
-      background: linear-gradient(145deg, var(--panel-bg), var(--bg-color)) !important;
-      border-color: var(--primary) !important;
-      color: var(--text-main) !important;
-      box-shadow: 6px 6px 14px var(--primary-glow), -6px -6px 14px var(--panel-bg) !important;
-    }
-
-    [data-custom-theme] .led-control-light {
-      background: var(--accent-soft) !important;
-      border-color: var(--primary) !important;
-      box-shadow: 0 0 18px var(--primary), 0 0 42px var(--primary-glow) !important;
     }
 
     [data-custom-theme] .slider {
@@ -168,7 +152,6 @@
     [data-custom-theme] .card h4,
     [data-custom-theme] .card label,
     [data-custom-theme] .card button,
-    [data-custom-theme] .led-control-label,
     [data-custom-theme] .led-assignment-name {
       color: var(--text-main) !important;
     }
@@ -188,6 +171,15 @@
     [data-custom-theme] .led-chip.active {
       background: var(--primary) !important;
       color: var(--theme-color-contrast) !important;
+    }
+
+    .led-control-button,
+    .led-control-button:hover,
+    .led-control-button:active,
+    [data-theme="light"] .led-control-button,
+    [data-theme="dark"] .led-control-button,
+    [data-custom-theme] .led-control-button {
+      box-shadow: none !important;
     }
 
     input[type="checkbox"],

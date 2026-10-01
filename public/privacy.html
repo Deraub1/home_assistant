@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Confidentialité - Home Assistant</title>
   <meta name="description" content="Informations sur les données utilisées par Home Assistant LED Controller.">
-  <link rel="icon" type="image/png" href="favicon-tab.png">
+  <link rel="icon" type="image/png" href="favicon-tab.png?v=20261001-1700">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -203,7 +203,7 @@
       <section class="hero">
         <p class="eyebrow">Vos données, votre contrôle</p>
         <h1>Politique de confidentialité</h1>
-        <p class="updated">Dernière mise à jour : 21 septembre 2026</p>
+        <p class="updated">Dernière mise à jour : 1er octobre 2026</p>
       </section>
 
       <div class="summary" aria-label="Résumé de la politique">
@@ -240,7 +240,11 @@
         </section>
         <section class="policy-section">
           <div class="section-heading"><span class="section-number">5</span><h2>Contact et suppression</h2></div>
-          <p>Cette version open source ne collecte pas de données personnelles sur un serveur central. Pour supprimer les données locales, effacez les données du site dans les réglages de votre navigateur.</p>
+          <p>Cette application ne collecte pas de données personnelles sur un serveur central. Pour supprimer les données locales, effacez les données du site dans les réglages de votre navigateur.</p>
+        </section>
+        <section class="policy-section external-services-section">
+          <div class="section-heading"><span class="section-number">6</span><h2 id="externalServicesTitle">Hébergement et ressources externes</h2></div>
+          <p id="externalServicesDescription">Le site est hébergé par GitHub Pages. Les polices Outfit et JetBrains Mono sont chargées depuis Google Fonts; votre navigateur contacte ce service pour les récupérer et lui transmet les données techniques nécessaires à la requête. Consultez les politiques de confidentialité de ces fournisseurs pour connaître leurs pratiques de traitement et de conservation.</p>
         </section>
       </div>
     </main>
@@ -260,7 +264,7 @@
           back: "← Retour à l'application",
           eyebrow: 'Vos données, votre contrôle',
           heading: 'Politique de confidentialité',
-          updated: 'Dernière mise à jour : 21 septembre 2026',
+          updated: 'Dernière mise à jour : 1er octobre 2026',
           summaryLabel: 'Résumé de la politique',
           summary: [
             ['Local par défaut', 'Les préférences restent dans votre navigateur.'],
@@ -272,7 +276,7 @@
             ['Microphone et voix', "La commande vocale demande l'autorisation du navigateur. La reconnaissance et la synthèse vocale dépendent des API disponibles dans votre navigateur. Désactivez l'écoute active pour retirer cette autorisation d'utilisation."],
             ['Ollama et matériel', "Si vous activez le mode IA, vos messages sont envoyés à l'URL Ollama configurée, généralement sur votre machine. Les commandes de LEDs sont envoyées à l'adresse du circuit que vous configurez. Vérifiez la confidentialité de ces services et de votre réseau."],
             ['Cookies et statistiques', "L'application n'utilise pas de cookies publicitaires ni d'outil d'analyse. Le stockage local sert uniquement au fonctionnement et aux préférences de l'application."],
-            ['Contact et suppression', "Cette version open source ne collecte pas de données personnelles sur un serveur central. Pour supprimer les données locales, effacez les données du site dans les réglages de votre navigateur."]
+            ['Contact et suppression', "Cette application ne collecte pas de données personnelles sur un serveur central. Pour supprimer les données locales, effacez les données du site dans les réglages de votre navigateur."]
           ],
           footerLink: "Voir les conditions d'utilisation →"
         },
@@ -282,7 +286,7 @@
           back: '← Back to the application',
           eyebrow: 'Your data, your control',
           heading: 'Privacy Policy',
-          updated: 'Last updated: September 21, 2026',
+          updated: 'Last updated: October 1, 2026',
           summaryLabel: 'Policy summary',
           summary: [
             ['Local by default', 'Your preferences remain in your browser.'],
@@ -294,52 +298,64 @@
             ['Microphone and voice', 'Voice control requires browser permission. Speech recognition and synthesis depend on the APIs available in your browser. Disable active listening to stop using this permission.'],
             ['Ollama and hardware', 'When AI mode is enabled, your messages are sent to the configured Ollama URL, usually on your machine. LED commands are sent to the circuit address you configure. Check the privacy practices of these services and your network.'],
             ['Cookies and analytics', 'The application does not use advertising cookies or analytics tools. Local storage is used only for the application and its preferences.'],
-            ['Contact and deletion', 'This open-source version does not collect personal data on a central server. To delete local data, clear this site’s data in your browser settings.']
+            ['Contact and deletion', 'This application does not collect personal data on a central server. To delete local data, clear this site’s data in your browser settings.']
           ],
           footerLink: 'View the terms of use →'
         }
       };
       const additionalTranslations = {
         es: {
-          title: 'Política de privacidad - Home Assistant', description: 'Información sobre los datos utilizados por Home Assistant LED Controller.', back: '← Volver a la aplicación', eyebrow: 'Tus datos, tu control', heading: 'Política de privacidad', updated: 'Última actualización: 21 de septiembre de 2026', summaryLabel: 'Resumen de la política',
+          title: 'Política de privacidad - Home Assistant', description: 'Información sobre los datos utilizados por Home Assistant LED Controller.', back: '← Volver a la aplicación', eyebrow: 'Tus datos, tu control', heading: 'Política de privacidad', updated: 'Última actualización: 1 de octubre de 2026', summaryLabel: 'Resumen de la política',
           summary: [['Local por defecto', 'Tus preferencias permanecen en el navegador.'], ['Sin seguimiento', 'No hay analítica ni cookies publicitarias.'], ['Tú decides', 'Controlas el micrófono y los servicios conectados.']],
-          sections: [['Datos almacenados localmente', 'La aplicación guarda preferencias, configuración del circuito, nombres de los LED y la cuenta local en el navegador. Esta página no envía esos datos a servicios de análisis.'], ['Micrófono y voz', 'El control por voz requiere permiso del navegador. El reconocimiento y la síntesis dependen de sus API. Desactiva la escucha activa para dejar de usar este permiso.'], ['Ollama y hardware', 'Con el modo IA activo, tus mensajes se envían a la URL de Ollama configurada, normalmente en tu equipo. Las órdenes LED se envían al circuito configurado.'], ['Cookies y analítica', 'La aplicación no usa cookies publicitarias ni herramientas de análisis. El almacenamiento local solo sirve para la aplicación y sus preferencias.'], ['Contacto y eliminación', 'Esta versión de código abierto no recopila datos personales en un servidor central. Borra los datos del sitio desde la configuración del navegador.']], footerLink: 'Ver las condiciones de uso →'
+          sections: [['Datos almacenados localmente', 'La aplicación guarda preferencias, configuración del circuito, nombres de los LED y la cuenta local en el navegador. Esta página no envía esos datos a servicios de análisis.'], ['Micrófono y voz', 'El control por voz requiere permiso del navegador. El reconocimiento y la síntesis dependen de sus API. Desactiva la escucha activa para dejar de usar este permiso.'], ['Ollama y hardware', 'Con el modo IA activo, tus mensajes se envían a la URL de Ollama configurada, normalmente en tu equipo. Las órdenes LED se envían al circuito configurado.'], ['Cookies y analítica', 'La aplicación no usa cookies publicitarias ni herramientas de análisis. El almacenamiento local solo sirve para la aplicación y sus preferencias.'], ['Contacto y eliminación', 'Esta aplicación no recopila datos personales en un servidor central. Borra los datos del sitio desde la configuración del navegador.']], footerLink: 'Ver las condiciones de uso →'
         },
         de: {
-          title: 'Datenschutzerklärung - Home Assistant', description: 'Informationen zu den von Home Assistant LED Controller verwendeten Daten.', back: '← Zur Anwendung', eyebrow: 'Deine Daten, deine Kontrolle', heading: 'Datenschutzerklärung', updated: 'Zuletzt aktualisiert: 21. September 2026', summaryLabel: 'Zusammenfassung',
+          title: 'Datenschutzerklärung - Home Assistant', description: 'Informationen zu den von Home Assistant LED Controller verwendeten Daten.', back: '← Zur Anwendung', eyebrow: 'Deine Daten, deine Kontrolle', heading: 'Datenschutzerklärung', updated: 'Zuletzt aktualisiert: 1. Oktober 2026', summaryLabel: 'Zusammenfassung',
           summary: [['Standardmäßig lokal', 'Deine Einstellungen bleiben im Browser.'], ['Kein Tracking', 'Keine Analyse-Tools oder Werbe-Cookies.'], ['Du entscheidest', 'Du kontrollierst Mikrofon und verbundene Dienste.']],
-          sections: [['Lokal gespeicherte Daten', 'Die Anwendung speichert Einstellungen, Schaltungskonfiguration, LED-Namen und lokale Kontodaten im Browser. Diese Seite sendet sie nicht an Analyse-Dienste.'], ['Mikrofon und Sprache', 'Sprachsteuerung benötigt die Browser-Berechtigung. Erkennung und Ausgabe hängen von den Browser-APIs ab. Deaktiviere aktives Zuhören, um diese Nutzung zu beenden.'], ['Ollama und Hardware', 'Bei aktiviertem KI-Modus werden Nachrichten an die konfigurierte Ollama-URL, meist auf deinem Rechner, gesendet. LED-Befehle gehen an die konfigurierte Schaltung.'], ['Cookies und Analysen', 'Die Anwendung verwendet weder Werbe-Cookies noch Analyse-Tools. Der lokale Speicher dient nur der Anwendung und ihren Einstellungen.'], ['Kontakt und Löschung', 'Diese Open-Source-Version sammelt keine personenbezogenen Daten auf einem zentralen Server. Lösche lokale Daten in den Browser-Einstellungen.']], footerLink: 'Nutzungsbedingungen anzeigen →'
+          sections: [['Lokal gespeicherte Daten', 'Die Anwendung speichert Einstellungen, Schaltungskonfiguration, LED-Namen und lokale Kontodaten im Browser. Diese Seite sendet sie nicht an Analyse-Dienste.'], ['Mikrofon und Sprache', 'Sprachsteuerung benötigt die Browser-Berechtigung. Erkennung und Ausgabe hängen von den Browser-APIs ab. Deaktiviere aktives Zuhören, um diese Nutzung zu beenden.'], ['Ollama und Hardware', 'Bei aktiviertem KI-Modus werden Nachrichten an die konfigurierte Ollama-URL, meist auf deinem Rechner, gesendet. LED-Befehle gehen an die konfigurierte Schaltung.'], ['Cookies und Analysen', 'Die Anwendung verwendet weder Werbe-Cookies noch Analyse-Tools. Der lokale Speicher dient nur der Anwendung und ihren Einstellungen.'], ['Kontakt und Löschung', 'Diese Anwendung sammelt keine personenbezogenen Daten auf einem zentralen Server. Lösche lokale Daten in den Browser-Einstellungen.']], footerLink: 'Nutzungsbedingungen anzeigen →'
         },
         it: {
-          title: 'Informativa sulla riservatezza - Home Assistant', description: 'Informazioni sui dati utilizzati da Home Assistant LED Controller.', back: '← Torna all’applicazione', eyebrow: 'I tuoi dati, il tuo controllo', heading: 'Informativa sulla riservatezza', updated: 'Ultimo aggiornamento: 21 settembre 2026', summaryLabel: 'Riepilogo dell’informativa sulla riservatezza',
+          title: 'Informativa sulla riservatezza - Home Assistant', description: 'Informazioni sui dati utilizzati da Home Assistant LED Controller.', back: '← Torna all’applicazione', eyebrow: 'I tuoi dati, il tuo controllo', heading: 'Informativa sulla riservatezza', updated: 'Ultimo aggiornamento: 1 ottobre 2026', summaryLabel: 'Riepilogo dell’informativa sulla riservatezza',
           summary: [['Locale per impostazione predefinita', 'Le preferenze restano nel browser.'], ['Nessun tracciamento', 'Nessun analizzatore o cookie pubblicitario.'], ['Decidi tu', 'Controlli microfono e servizi collegati.']],
-          sections: [['Dati memorizzati localmente', 'L’applicazione salva preferenze, configurazione del circuito, nomi dei LED e account locale nel browser. Questa pagina non invia tali dati a servizi di analisi.'], ['Microfono e voce', 'Il controllo vocale richiede il permesso del browser. Riconoscimento e sintesi dipendono dalle API disponibili. Disattiva l’ascolto attivo per interrompere l’uso.'], ['Ollama e hardware', 'Con la modalità IA attiva, i messaggi vengono inviati all’URL Ollama configurato, di solito sul tuo computer. I comandi LED vanno al circuito configurato.'], ['Cookie e statistiche', 'L’applicazione non usa cookie pubblicitari né strumenti di analisi. Il salvataggio locale serve solo all’applicazione e alle preferenze.'], ['Contatto e cancellazione', 'Questa versione open source non raccoglie dati personali su un server centrale. Cancella i dati del sito dalle impostazioni del browser.']], footerLink: 'Visualizza i termini di utilizzo →'
+          sections: [['Dati memorizzati localmente', 'L’applicazione salva preferenze, configurazione del circuito, nomi dei LED e account locale nel browser. Questa pagina non invia tali dati a servizi di analisi.'], ['Microfono e voce', 'Il controllo vocale richiede il permesso del browser. Riconoscimento e sintesi dipendono dalle API disponibili. Disattiva l’ascolto attivo per interrompere l’uso.'], ['Ollama e hardware', 'Con la modalità IA attiva, i messaggi vengono inviati all’URL Ollama configurato, di solito sul tuo computer. I comandi LED vanno al circuito configurato.'], ['Cookie e statistiche', 'L’applicazione non usa cookie pubblicitari né strumenti di analisi. Il salvataggio locale serve solo all’applicazione e alle preferenze.'], ['Contatto e cancellazione', 'Questa applicazione non raccoglie dati personali su un server centrale. Cancella i dati del sito dalle impostazioni del browser.']], footerLink: 'Visualizza i termini di utilizzo →'
         }
       };
       Object.assign(translations, additionalTranslations, {
         pt: {
-          title: 'Privacidade - Home Assistant', description: 'Informações sobre os dados utilizados pelo Home Assistant LED Controller.', back: '← Voltar à aplicação', eyebrow: 'Os seus dados, o seu controlo', heading: 'Política de privacidade', updated: 'Última atualização: 21 de setembro de 2026', summaryLabel: 'Resumo da política',
+          title: 'Privacidade - Home Assistant', description: 'Informações sobre os dados utilizados pelo Home Assistant LED Controller.', back: '← Voltar à aplicação', eyebrow: 'Os seus dados, o seu controlo', heading: 'Política de privacidade', updated: 'Última atualização: 1 de outubro de 2026', summaryLabel: 'Resumo da política',
           summary: [['Local por defeito', 'As preferências ficam no navegador.'], ['Sem rastreio', 'Sem análise nem cookies publicitários.'], ['Você decide', 'Controla o microfone e os serviços ligados.']],
-          sections: [['Dados guardados localmente', 'A aplicação guarda preferências, configuração do circuito, nomes dos LEDs e a conta local no navegador.'], ['Microfone e voz', 'O controlo por voz requer permissão do navegador e depende das APIs disponíveis.'], ['Ollama e hardware', 'Com a IA ativa, as mensagens são enviadas para o URL Ollama configurado e os comandos para o circuito.'], ['Cookies e estatísticas', 'Não são usados cookies publicitários nem ferramentas de análise.'], ['Contacto e eliminação', 'Esta versão open source não recolhe dados pessoais num servidor central. Apague os dados nas definições do navegador.']], footerLink: 'Ver os termos de utilização →'
+          sections: [['Dados guardados localmente', 'A aplicação guarda preferências, configuração do circuito, nomes dos LEDs e a conta local no navegador.'], ['Microfone e voz', 'O controlo por voz requer permissão do navegador e depende das APIs disponíveis.'], ['Ollama e hardware', 'Com a IA ativa, as mensagens são enviadas para o URL Ollama configurado e os comandos para o circuito.'], ['Cookies e estatísticas', 'Não são usados cookies publicitários nem ferramentas de análise.'], ['Contacto e eliminação', 'Esta aplicação não recolhe dados pessoais num servidor central. Apague os dados nas definições do navegador.']], footerLink: 'Ver os termos de utilização →'
         },
         nl: {
-          title: 'Privacy - Home Assistant', description: 'Informatie over gegevens die Home Assistant LED Controller gebruikt.', back: '← Terug naar de applicatie', eyebrow: 'Jouw gegevens, jouw controle', heading: 'Privacybeleid', updated: 'Laatst bijgewerkt: 21 september 2026', summaryLabel: 'Samenvatting',
+          title: 'Privacy - Home Assistant', description: 'Informatie over gegevens die Home Assistant LED Controller gebruikt.', back: '← Terug naar de applicatie', eyebrow: 'Jouw gegevens, jouw controle', heading: 'Privacybeleid', updated: 'Laatst bijgewerkt: 1 oktober 2026', summaryLabel: 'Samenvatting',
           summary: [['Standaard lokaal', 'Voorkeuren blijven in je browser.'], ['Geen tracking', 'Geen analyse of advertentiecookies.'], ['Jij beslist', 'Jij beheert microfoon en verbonden diensten.']],
-          sections: [['Lokaal opgeslagen gegevens', 'De applicatie bewaart voorkeuren, circuitconfiguratie, lednamen en lokale accountgegevens in de browser.'], ['Microfoon en stem', 'Spraakbediening vereist browsertoestemming en hangt af van beschikbare API’s.'], ['Ollama en hardware', 'Met AI worden berichten naar de ingestelde Ollama-URL en opdrachten naar het circuit gestuurd.'], ['Cookies en analyse', 'De applicatie gebruikt geen advertentiecookies of analysetools.'], ['Contact en verwijderen', 'Deze open-sourceversie verzamelt geen persoonsgegevens op een centrale server. Wis lokale gegevens in je browser.']], footerLink: 'Gebruiksvoorwaarden bekijken →'
+          sections: [['Lokaal opgeslagen gegevens', 'De applicatie bewaart voorkeuren, circuitconfiguratie, lednamen en lokale accountgegevens in de browser.'], ['Microfoon en stem', 'Spraakbediening vereist browsertoestemming en hangt af van beschikbare API’s.'], ['Ollama en hardware', 'Met AI worden berichten naar de ingestelde Ollama-URL en opdrachten naar het circuit gestuurd.'], ['Cookies en analyse', 'De applicatie gebruikt geen advertentiecookies of analysetools.'], ['Contact en verwijderen', 'Deze applicatie verzamelt geen persoonsgegevens op een centrale server. Wis lokale gegevens in je browser.']], footerLink: 'Gebruiksvoorwaarden bekijken →'
         },
         ja: {
-          title: 'プライバシー - Home Assistant', description: 'Home Assistant LED Controller が使用するデータについて。', back: '← アプリケーションに戻る', eyebrow: 'あなたのデータ、あなたの管理', heading: 'プライバシーポリシー', updated: '最終更新日：2026年9月21日', summaryLabel: 'ポリシー概要',
+          title: 'プライバシー - Home Assistant', description: 'Home Assistant LED Controller が使用するデータについて。', back: '← アプリケーションに戻る', eyebrow: 'あなたのデータ、あなたの管理', heading: 'プライバシーポリシー', updated: '最終更新日：2026年10月1日', summaryLabel: 'ポリシー概要',
           summary: [['デフォルトはローカル', '設定はブラウザーに保存されます。'], ['追跡なし', '分析ツールや広告Cookieはありません。'], ['あなたが管理', 'マイクと接続サービスを管理できます。']],
           sections: [['ローカル保存データ', '設定、回路構成、LED名、ローカルアカウント情報をブラウザーに保存します。'], ['マイクと音声', '音声操作にはブラウザーの許可が必要です。'], ['Ollamaとハードウェア', 'AIモードではメッセージを設定したOllama URLへ、LED操作を回路へ送信します。'], ['Cookieと分析', '広告Cookieや分析ツールは使用しません。'], ['連絡先と削除', '中央サーバーで個人データを収集しません。ブラウザー設定からサイトデータを削除できます。']], footerLink: '利用規約を見る →'
         },
         'zh-CN': {
-          title: '隐私政策 - Home Assistant', description: 'Home Assistant LED Controller 使用的数据说明。', back: '← 返回应用', eyebrow: '您的数据，由您控制', heading: '隐私政策', updated: '最后更新：2026年9月21日', summaryLabel: '隐私政策摘要',
+          title: '隐私政策 - Home Assistant', description: 'Home Assistant LED Controller 使用的数据说明。', back: '← 返回应用', eyebrow: '您的数据，由您控制', heading: '隐私政策', updated: '最后更新：2026年10月1日', summaryLabel: '隐私政策摘要',
           summary: [['默认本地保存', '您的偏好保存在浏览器中。'], ['无跟踪', '没有分析工具或广告 Cookie。'], ['由您决定', '您可以控制麦克风和连接的服务。']],
-          sections: [['本地保存的数据', '应用会在浏览器中保存界面偏好、电路配置、LED 名称和本地账户信息。'], ['麦克风和语音', '语音控制需要浏览器权限，并取决于浏览器提供的 API。'], ['Ollama 和硬件', '启用 AI 后，消息会发送到配置的 Ollama 地址，LED 指令会发送到配置的电路。'], ['Cookie 和统计', '应用不使用广告 Cookie 或分析工具，本地存储仅用于应用功能。'], ['联系和删除', '此开源版本不会在中央服务器收集个人数据，可在浏览器设置中删除网站数据。']], footerLink: '查看使用条款 →'
+          sections: [['本地保存的数据', '应用会在浏览器中保存界面偏好、电路配置、LED 名称和本地账户信息。'], ['麦克风和语音', '语音控制需要浏览器权限，并取决于浏览器提供的 API。'], ['Ollama 和硬件', '启用 AI 后，消息会发送到配置的 Ollama 地址，LED 指令会发送到配置的电路。'], ['Cookie 和统计', '应用不使用广告 Cookie 或分析工具，本地存储仅用于应用功能。'], ['联系和删除', '本应用不会在中央服务器收集个人数据，可在浏览器设置中删除网站数据。']], footerLink: '查看使用条款 →'
         }
       });
+      const externalServicesTranslations = {
+        fr: ['Hébergement et ressources externes', 'Le site est hébergé par GitHub Pages. Les polices Outfit et JetBrains Mono sont chargées depuis Google Fonts ; votre navigateur contacte ce service pour les récupérer et lui transmet les données techniques nécessaires à la requête. Consultez les politiques de confidentialité de ces fournisseurs pour connaître leurs pratiques de traitement et de conservation.'],
+        en: ['Hosting and external resources', 'This site is hosted by GitHub Pages. The Outfit and JetBrains Mono fonts are loaded from Google Fonts; your browser contacts that service to retrieve them and sends the technical data required for the request. See these providers’ privacy policies for information about their data handling and retention practices.'],
+        es: ['Alojamiento y recursos externos', 'Este sitio está alojado en GitHub Pages. Las fuentes Outfit y JetBrains Mono se cargan desde Google Fonts; el navegador se conecta a ese servicio para descargarlas y envía los datos técnicos necesarios para la solicitud. Consulta las políticas de privacidad de estos proveedores para conocer sus prácticas de tratamiento y conservación.'],
+        de: ['Hosting und externe Ressourcen', 'Diese Website wird von GitHub Pages gehostet. Die Schriftarten Outfit und JetBrains Mono werden von Google Fonts geladen; dein Browser kontaktiert den Dienst dafür und übermittelt die für die Anfrage erforderlichen technischen Daten. Informationen zur Verarbeitung und Speicherung findest du in den Datenschutzerklärungen der Anbieter.'],
+        it: ['Hosting e risorse esterne', 'Questo sito è ospitato da GitHub Pages. I caratteri Outfit e JetBrains Mono vengono caricati da Google Fonts; il browser contatta il servizio per scaricarli e invia i dati tecnici necessari alla richiesta. Consulta le informative sulla privacy dei fornitori per conoscere le modalità di trattamento e conservazione.'],
+        pt: ['Alojamento e recursos externos', 'Este site está alojado no GitHub Pages. Os tipos de letra Outfit e JetBrains Mono são carregados do Google Fonts; o navegador contacta esse serviço para os obter e envia os dados técnicos necessários ao pedido. Consulte as políticas de privacidade dos fornecedores para conhecer as práticas de tratamento e conservação.'],
+        nl: ['Hosting en externe bronnen', 'Deze site wordt gehost door GitHub Pages. De lettertypen Outfit en JetBrains Mono worden geladen vanaf Google Fonts; je browser neemt contact op met die dienst en verzendt de technische gegevens die nodig zijn voor het verzoek. Raadpleeg het privacybeleid van deze aanbieders voor informatie over verwerking en bewaring.'],
+        ja: ['ホスティングと外部リソース', 'このサイトは GitHub Pages でホストされています。Outfit と JetBrains Mono のフォントは Google Fonts から読み込まれます。取得時にブラウザーは同サービスへ接続し、リクエストに必要な技術情報を送信します。データの取り扱いと保存については各サービスのプライバシーポリシーをご確認ください。'],
+        'zh-CN': ['托管和外部资源', '本网站托管于 GitHub Pages。Outfit 和 JetBrains Mono 字体由 Google Fonts 提供；浏览器会连接该服务以获取字体，并发送请求所需的技术数据。有关数据处理和保留方式，请查看这些服务提供商的隐私政策。']
+      };
       const setLanguage = (language) => {
         const copy = translations[language] || translations.en;
+        const externalServices = externalServicesTranslations[language] || externalServicesTranslations.en;
         document.documentElement.lang = language;
         document.title = copy.title;
         document.querySelector('meta[name="description"]').content = copy.description;
@@ -347,12 +363,14 @@
         document.querySelector('.eyebrow').textContent = copy.eyebrow;
         document.querySelector('h1').textContent = copy.heading;
         document.querySelector('.updated').textContent = copy.updated;
+        document.querySelector('#externalServicesTitle').textContent = externalServices[0];
+        document.querySelector('#externalServicesDescription').textContent = externalServices[1];
         document.querySelector('.summary').setAttribute('aria-label', copy.summaryLabel);
         document.querySelectorAll('.summary-item').forEach((item, index) => {
           item.querySelector('strong').textContent = copy.summary[index][0];
           item.querySelector('span').textContent = copy.summary[index][1];
         });
-        document.querySelectorAll('.policy-section').forEach((section, index) => {
+        document.querySelectorAll('.policy-section:not(.external-services-section)').forEach((section, index) => {
           section.querySelector('h2').textContent = copy.sections[index][0];
           section.querySelector('p').textContent = copy.sections[index][1];
         });

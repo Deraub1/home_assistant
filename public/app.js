@@ -157,6 +157,7 @@ async function hashLocalPassword(password, salt) {
 
 async function initializeLocalAuth() {
  const gate = document.getElementById('authGate');
+ const appContainer = document.querySelector('.app-container');
  const form = document.getElementById('authForm');
  const title = document.getElementById('authTitle');
  const description = document.getElementById('authDescription');
@@ -169,11 +170,12 @@ async function initializeLocalAuth() {
  const createAccount = document.getElementById('authCreateAccount');
  const backToLogin = document.getElementById('authBackToLogin');
  const message = document.getElementById('authMessage');
- if (!gate || !form || !title || !description || !eyebrow || !usernameLabel || !passwordLabel || !confirmLabel || !confirmInput || !submit || !createAccount || !backToLogin || !message) return;
+ if (!gate || !appContainer || !form || !title || !description || !eyebrow || !usernameLabel || !passwordLabel || !confirmLabel || !confirmInput || !submit || !createAccount || !backToLogin || !message) return;
 
  const account = JSON.parse(localStorage.getItem(AUTH_ACCOUNT_KEY) || 'null');
  if (account && localStorage.getItem(AUTH_SESSION_KEY) === 'active') {
    gate.remove();
+   appContainer.removeAttribute('inert');
    return;
  }
 
@@ -236,6 +238,8 @@ async function initializeLocalAuth() {
      }
      localStorage.setItem(AUTH_SESSION_KEY, 'active');
      gate.remove();
+    appContainer.removeAttribute('inert');
+    document.querySelector('.dashboard-grid')?.focus({ preventScroll: true });
      window.dispatchEvent(new Event('local-authenticated'));
    } catch (error) {
      message.textContent = error instanceof Error ? error.message : text.unexpectedError;
@@ -298,7 +302,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       chatWelcome: 'Bonjour ! Écrivez-moi une commande ou une question sur votre circuit.',
       chatPlaceholder: 'Écrivez un message à Irina...', chatSend: 'Envoyer',
       chatHint: 'Le chatbot peut piloter les LEDs, le réseau, le thème et les panneaux.',
-      privacyLink: 'Confidentialité', termsLink: 'Conditions d’utilisation',
+      privacyLink: 'Confidentialité', termsLink: 'Conditions d’utilisation', legalLink: 'Informations de publication',
       latest: 'Dernière instruction vocale :', supported: 'Commandes supportées :',
       clear: 'Effacer', brightness: 'Luminosité', brightnessAll: 'Appliquer à toutes les LEDs',
       effects: 'Effets simultanés par LED', networkLog: 'Console réseau & Envois HTTP',
@@ -318,7 +322,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       chatWelcome: 'Hello! Write a command or ask a question about your circuit.',
       chatPlaceholder: 'Write a message to Irina...', chatSend: 'Send',
       chatHint: 'The chatbot can control LEDs, networking, the theme, and panels.',
-      privacyLink: 'Privacy', termsLink: 'Terms of use',
+      privacyLink: 'Privacy', termsLink: 'Terms of use', legalLink: 'Publication information',
       latest: 'Latest voice instruction:', supported: 'Supported commands:',
       clear: 'Clear', brightness: 'Brightness', brightnessAll: 'Apply to all LEDs',
       effects: 'Per-LED simultaneous effects', networkLog: 'Network console & HTTP requests',
@@ -331,7 +335,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       quick: 'Accesos rápidos', allOn: 'Encender todo', allOff: 'Apagar todo', voice: 'Control por voz', synthesis: 'Síntesis', wake: 'Escucha activa «Irina»',
       ai: 'Modo IA', gestures: 'Gestos sonoros', enableMic: 'Activar micrófono', voiceWakeHint: 'Activa la escucha y di «Irina» para iniciar un comando.',
       chatTitle: 'Chatbot Irina', chatStatus: 'En línea', chatWelcome: '¡Hola! Escríbeme un comando o una pregunta sobre tu circuito.', chatPlaceholder: 'Escribe un mensaje a Irina...', chatSend: 'Enviar',
-      chatHint: 'El chatbot puede controlar los LED, la red, el tema y los paneles.', privacyLink: 'Privacidad', termsLink: 'Condiciones de uso',
+      chatHint: 'El chatbot puede controlar los LED, la red, el tema y los paneles.', privacyLink: 'Privacidad', termsLink: 'Condiciones de uso', legalLink: 'Información de publicación',
       latest: 'Última instrucción de voz:', supported: 'Comandos compatibles:', clear: 'Borrar', brightness: 'Brillo', brightnessAll: 'Aplicar a todos los LED',
       effects: 'Efectos simultáneos por LED', networkLog: 'Consola de red y envíos HTTP', history: 'Historial de LED encendidos', firmware: 'Generar firmware', code: 'Copiar código al portapapeles'
     },
@@ -341,7 +345,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       quick: 'Schnellzugriffe', allOn: 'Alle einschalten', allOff: 'Alle ausschalten', voice: 'Sprachsteuerung', synthesis: 'Sprachausgabe', wake: 'Aktives Zuhören „Irina“',
       ai: 'KI-Modus', gestures: 'Soundgesten', enableMic: 'Mikrofon aktivieren', voiceWakeHint: 'Aktiviere das Zuhören und sage „Irina“, um einen Befehl zu starten.',
       chatTitle: 'Irina-Chatbot', chatStatus: 'Online', chatWelcome: 'Hallo! Schreibe mir einen Befehl oder eine Frage zu deiner Schaltung.', chatPlaceholder: 'Nachricht an Irina schreiben...', chatSend: 'Senden',
-      chatHint: 'Der Chatbot kann LEDs, Netzwerk, Design und Bereiche steuern.', privacyLink: 'Datenschutz', termsLink: 'Nutzungsbedingungen',
+      chatHint: 'Der Chatbot kann LEDs, Netzwerk, Design und Bereiche steuern.', privacyLink: 'Datenschutz', termsLink: 'Nutzungsbedingungen', legalLink: 'Veröffentlichungsangaben',
       latest: 'Letzte Sprachanweisung:', supported: 'Unterstützte Befehle:', clear: 'Löschen', brightness: 'Helligkeit', brightnessAll: 'Auf alle LEDs anwenden',
       effects: 'Gleichzeitige Effekte pro LED', networkLog: 'Netzwerkkonsole und HTTP-Sendungen', history: 'Verlauf eingeschalteter LEDs', firmware: 'Firmware erzeugen', code: 'Code in Zwischenablage kopieren'
     },
@@ -351,7 +355,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       quick: 'Scorciatoie rapide', allOn: 'Accendi tutto', allOff: 'Spegni tutto', voice: 'Controllo vocale', synthesis: 'Sintesi', wake: 'Ascolto attivo «Irina»',
       ai: 'Modalità IA', gestures: 'Gesti sonori', enableMic: 'Attiva microfono', voiceWakeHint: 'Attiva l’ascolto e dì «Irina» per iniziare un comando.',
       chatTitle: 'Chatbot Irina', chatStatus: 'Online', chatWelcome: 'Ciao! Scrivimi un comando o una domanda sul tuo circuito.', chatPlaceholder: 'Scrivi un messaggio a Irina...', chatSend: 'Invia',
-      chatHint: 'Il chatbot può controllare LED, rete, tema e pannelli.', privacyLink: 'Riservatezza', termsLink: 'Termini di utilizzo',
+      chatHint: 'Il chatbot può controllare LED, rete, tema e pannelli.', privacyLink: 'Riservatezza', termsLink: 'Termini di utilizzo', legalLink: 'Informazioni di pubblicazione',
       latest: 'Ultima istruzione vocale:', supported: 'Comandi supportati:', clear: 'Cancella', brightness: 'Luminosità', brightnessAll: 'Applica a tutti i LED',
       effects: 'Effetti simultanei per LED', networkLog: 'Console di rete e invii HTTP', history: 'Cronologia dei LED accesi', firmware: 'Genera firmware', code: 'Copia codice negli appunti'
     },
@@ -361,7 +365,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       quick: 'Atalhos rápidos', allOn: 'Ligar tudo', allOff: 'Desligar tudo', voice: 'Controlo por voz', synthesis: 'Síntese', wake: 'Escuta ativa «Irina»',
       ai: 'Modo IA', gestures: 'Gestos sonoros', enableMic: 'Ativar microfone', voiceWakeHint: 'Ative a escuta e diga «Irina» para iniciar um comando.',
       chatTitle: 'Chatbot Irina', chatStatus: 'Online', chatWelcome: 'Olá! Escreva um comando ou uma pergunta sobre o seu circuito.', chatPlaceholder: 'Escreva uma mensagem para a Irina...', chatSend: 'Enviar',
-      chatHint: 'O chatbot pode controlar LEDs, rede, tema e painéis.', privacyLink: 'Privacidade', termsLink: 'Termos de utilização',
+      chatHint: 'O chatbot pode controlar LEDs, rede, tema e painéis.', privacyLink: 'Privacidade', termsLink: 'Termos de utilização', legalLink: 'Informações de publicação',
       latest: 'Última instrução de voz:', supported: 'Comandos suportados:', clear: 'Limpar', brightness: 'Brilho', brightnessAll: 'Aplicar a todos os LEDs',
       effects: 'Efeitos simultâneos por LED', networkLog: 'Consola de rede e envios HTTP', history: 'Histórico dos LEDs ligados', firmware: 'Gerar firmware', code: 'Copiar código para a área de transferência'
     },
@@ -371,7 +375,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       quick: 'Snelle acties', allOn: 'Alles aan', allOff: 'Alles uit', voice: 'Spraakbediening', synthesis: 'Spraaksynthese', wake: 'Actief luisteren “Irina”',
       ai: 'AI-modus', gestures: 'Geluidsgebaren', enableMic: 'Microfoon inschakelen', voiceWakeHint: 'Schakel luisteren in en zeg “Irina” om een opdracht te starten.',
       chatTitle: 'Irina-chatbot', chatStatus: 'Online', chatWelcome: 'Hallo! Schrijf een opdracht of vraag over je circuit.', chatPlaceholder: 'Schrijf een bericht aan Irina...', chatSend: 'Versturen',
-      chatHint: 'De chatbot kan leds, netwerk, thema en panelen bedienen.', privacyLink: 'Privacy', termsLink: 'Gebruiksvoorwaarden',
+      chatHint: 'De chatbot kan leds, netwerk, thema en panelen bedienen.', privacyLink: 'Privacy', termsLink: 'Gebruiksvoorwaarden', legalLink: 'Publicatiegegevens',
       latest: 'Laatste spraakopdracht:', supported: 'Ondersteunde opdrachten:', clear: 'Wissen', brightness: 'Helderheid', brightnessAll: 'Op alle leds toepassen',
       effects: 'Gelijktijdige effecten per led', networkLog: 'Netwerkconsole en HTTP-verzendingen', history: 'Geschiedenis van ingeschakelde leds', firmware: 'Firmware genereren', code: 'Code naar klembord kopiëren'
     },
@@ -381,7 +385,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       quick: 'クイック操作', allOn: 'すべて点灯', allOff: 'すべて消灯', voice: '音声操作', synthesis: '音声合成', wake: 'アクティブリスニング「Irina」',
       ai: 'AIモード', gestures: 'サウンドジェスチャー', enableMic: 'マイクを有効化', voiceWakeHint: 'リスニングを有効にして「Irina」と言うとコマンドを開始します。',
       chatTitle: 'Irinaチャットボット', chatStatus: 'オンライン', chatWelcome: 'こんにちは！回路へのコマンドや質問を入力してください。', chatPlaceholder: 'Irinaへのメッセージを入力...', chatSend: '送信',
-      chatHint: 'チャットボットでLED、ネットワーク、テーマ、パネルを操作できます。', privacyLink: 'プライバシー', termsLink: '利用規約',
+      chatHint: 'チャットボットでLED、ネットワーク、テーマ、パネルを操作できます。', privacyLink: 'プライバシー', termsLink: '利用規約', legalLink: '公開情報',
       latest: '最新の音声指示:', supported: '対応コマンド:', clear: '消去', brightness: '明るさ', brightnessAll: 'すべてのLEDに適用',
       effects: 'LEDごとの同時エフェクト', networkLog: 'ネットワークコンソールとHTTP送信', history: '点灯したLEDの履歴', firmware: 'ファームウェア生成', code: 'コードをクリップボードにコピー'
     },
@@ -391,7 +395,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       quick: '快捷操作', allOn: '全部打开', allOff: '全部关闭', voice: '语音控制', synthesis: '语音合成', wake: '主动聆听“Irina”',
       ai: 'AI 模式', gestures: '声音手势', enableMic: '启用麦克风', voiceWakeHint: '启用聆听后，说出“Irina”即可开始实时指令。',
       chatTitle: 'Irina 聊天机器人', chatStatus: '在线', chatWelcome: '你好！请输入电路指令或问题。', chatPlaceholder: '给 Irina 输入消息...', chatSend: '发送',
-      chatHint: '聊天机器人可以控制 LED、网络、主题和面板。', privacyLink: '隐私', termsLink: '使用条款',
+      chatHint: '聊天机器人可以控制 LED、网络、主题和面板。', privacyLink: '隐私', termsLink: '使用条款', legalLink: '发布信息',
       latest: '最新语音指令：', supported: '支持的指令：', clear: '清除', brightness: '亮度', brightnessAll: '应用到所有 LED',
       effects: '每个 LED 的同步效果', networkLog: '网络控制台和 HTTP 发送', history: 'LED 点亮历史', firmware: '生成固件', code: '复制代码'
     }
@@ -1050,7 +1054,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       if (this.childElementCount) return;
       this.innerHTML = `
         <div class="ai-indicator-shell">
-          <img class="ai-indicator-image" src="voice-ai-symbol.png" alt="" aria-hidden="true">
+          <img class="ai-indicator-image" src="voice-ai-symbol.png?v=20261001-1700" alt="" aria-hidden="true">
         </div>
         <div class="ai-indicator-name" aria-label="Irina">
           <span class="ai-name-letter">I</span><span class="ai-name-letter">r</span><span class="ai-name-letter">i</span><span class="ai-name-letter">n</span><span class="ai-name-letter">a</span>
@@ -3710,10 +3714,50 @@ document.addEventListener('DOMContentLoaded', async () => {
     btnClearLedHistory.addEventListener('click', (event) => event.stopPropagation());
   }
 
-  btnOpenCodeModal.addEventListener('click', () => codeModal.classList.remove('hidden'));
-  btnCloseModal.addEventListener('click', () => codeModal.classList.add('hidden'));
+  const modalSiblings = [...codeModal.parentElement.children].filter((element) => element !== codeModal);
+  const previousInertStates = new Map();
+  const closeFirmwareModal = () => {
+    codeModal.classList.add('hidden');
+    previousInertStates.forEach((wasInert, element) => {
+      element.inert = wasInert;
+    });
+    previousInertStates.clear();
+    btnOpenCodeModal.focus();
+  };
+  const openFirmwareModal = () => {
+    codeModal.classList.remove('hidden');
+    modalSiblings.forEach((element) => {
+      previousInertStates.set(element, element.inert);
+      element.inert = true;
+    });
+    firmwareBoard.focus();
+  };
+
+  btnOpenCodeModal.addEventListener('click', openFirmwareModal);
+  btnCloseModal.addEventListener('click', closeFirmwareModal);
   codeModal.addEventListener('click', (e) => {
-    if (e.target === codeModal) codeModal.classList.add('hidden');
+    if (e.target === codeModal) closeFirmwareModal();
+  });
+  codeModal.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') {
+      closeFirmwareModal();
+      return;
+    }
+    if (event.key !== 'Tab') return;
+
+    const focusableElements = [...codeModal.querySelectorAll('button, input, select, textarea, a[href], [tabindex]:not([tabindex="-1"])')]
+      .filter((element) => !element.disabled && element.getClientRects().length > 0);
+    const firstElement = focusableElements[0];
+    const lastElement = focusableElements[focusableElements.length - 1];
+    if (!firstElement || !lastElement) {
+      event.preventDefault();
+    } else if (event.shiftKey && document.activeElement === firstElement) {
+      event.preventDefault();
+      lastElement.focus();
+    } else if (!event.shiftKey && document.activeElement === lastElement) {
+      event.preventDefault();
+      firstElement.focus();
+    }
   });
 
   function generateFirmwareCode() {

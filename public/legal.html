@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#111827">
+  <title>Informations de publication - Home Assistant LED Controller</title>
+  <meta name="description" content="Informations publiques sur l’éditeur, l’hébergement et le contact du projet Home Assistant LED Controller.">
+  <link rel="icon" type="image/png" href="favicon-tab.png?v=20261001-1700">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg-color: #111827;
+      --panel-bg: #1f2937;
+      --panel-border: rgba(148, 163, 184, 0.24);
+      --text-main: #f8fafc;
+      --text-muted: #cbd5e1;
+      --primary: #5b6ef6;
+    }
+
+    html[data-theme="light"] {
+      color-scheme: light;
+      --bg-color: #f8fafc;
+      --panel-bg: #e2e8f0;
+      --panel-border: rgba(71, 85, 105, 0.18);
+      --text-main: #0f172a;
+      --text-muted: #475569;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      min-height: 100vh;
+      margin: 0;
+      padding: 32px 20px;
+      color: var(--text-main);
+      background: var(--bg-color);
+      font: 16px/1.6 "Outfit", "Segoe UI", sans-serif;
+    }
+    .page-shell { width: min(100%, 820px); margin: 0 auto; }
+    .topbar, .page-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .topbar { margin-bottom: 42px; }
+    .brand, .back-link, .page-footer a { color: var(--primary); text-decoration: none; }
+    .brand { display: inline-flex; align-items: center; gap: 12px; color: var(--text-main); font-weight: 700; }
+    .brand img { width: 42px; height: 42px; object-fit: contain; }
+    .back-link, .page-footer a { font-size: 14px; font-weight: 600; }
+    a:hover, a:focus-visible { text-decoration: underline; }
+    a:focus-visible { outline: 2px solid var(--primary); outline-offset: 3px; }
+    .eyebrow { margin: 0 0 10px; color: var(--primary); font-size: 13px; font-weight: 700; }
+    h1 { margin: 0; font-size: clamp(30px, 5vw, 44px); line-height: 1.15; }
+    .intro { max-width: 68ch; margin: 16px 0 28px; color: var(--text-muted); }
+    .publication-details { margin: 0; border-top: 1px solid var(--panel-border); }
+    .publication-row {
+      display: grid;
+      grid-template-columns: minmax(150px, 0.34fr) minmax(0, 1fr);
+      gap: 20px;
+      padding: 18px 0;
+      border-bottom: 1px solid var(--panel-border);
+    }
+    dt { font-weight: 700; }
+    dd { min-width: 0; margin: 0; color: var(--text-muted); overflow-wrap: anywhere; }
+    dd a { color: var(--primary); }
+    .page-footer { margin-top: 32px; color: var(--text-muted); font-size: 13px; }
+    @media (max-width: 560px) {
+      body { padding: 20px 16px; }
+      .topbar { margin-bottom: 32px; }
+      .publication-row { grid-template-columns: 1fr; gap: 4px; padding: 14px 0; }
+      .page-footer { align-items: flex-start; flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-shell">
+    <header class="topbar">
+      <a class="brand" href="./">
+        <img src="home-assistant-logo.png" alt="Home Assistant">
+        <span>Home Assistant LED Controller</span>
+      </a>
+      <a class="back-link" href="index.html?skipSplash=1" data-legal-key="back">Retour à l’application</a>
+    </header>
+
+    <main aria-labelledby="pageTitle">
+      <p class="eyebrow" data-legal-key="eyebrow">Informations publiques du projet</p>
+      <h1 id="pageTitle" data-legal-key="heading">Informations de publication</h1>
+      <p class="intro" data-legal-key="intro">Cette page décrit les informations publiques disponibles sur le projet. Elle ne confirme pas l’exhaustivité des obligations applicables au Togo.</p>
+
+      <dl class="publication-details">
+        <div class="publication-row"><dt data-legal-key="projectLabel">Projet</dt><dd data-legal-key="projectValue">Home Assistant LED Controller</dd></div>
+        <div class="publication-row"><dt data-legal-key="publisherLabel">Éditeur public</dt><dd data-legal-key="publisherValue">Deraub1 (pseudonyme du compte GitHub)</dd></div>
+        <div class="publication-row"><dt data-legal-key="countryLabel">Pays déclaré</dt><dd data-legal-key="countryValue">Togo</dd></div>
+        <div class="publication-row"><dt data-legal-key="contactLabel">Contact du projet</dt><dd><a href="https://github.com/Deraub1/home_assistant/issues" target="_blank" rel="noopener noreferrer" data-legal-key="contactValue">Contacter le projet via GitHub Issues</a></dd></div>
+        <div class="publication-row"><dt data-legal-key="hostingLabel">Hébergement</dt><dd><span data-legal-key="hostingValue">GitHub Pages, service d’hébergement statique de GitHub.</span> <a href="https://pages.github.com/" target="_blank" rel="noopener noreferrer">GitHub Pages</a></dd></div>
+        <div class="publication-row"><dt data-legal-key="sourceLabel">Code source</dt><dd><a href="https://github.com/Deraub1/home_assistant" target="_blank" rel="noopener noreferrer" data-legal-key="sourceValue">Dépôt public GitHub</a></dd></div>
+        <div class="publication-row"><dt data-legal-key="licenseLabel">Licence</dt><dd data-legal-key="licenseValue">Le dépôt est public, mais ne contient pas de fichier de licence. Sa visibilité publique n’accorde pas automatiquement de droits de réutilisation.</dd></div>
+      </dl>
+    </main>
+
+    <footer class="page-footer">
+      <a href="privacy.html" data-legal-key="privacyLink">Confidentialité</a>
+      <a href="terms.html" data-legal-key="termsLink">Conditions d’utilisation</a>
+    </footer>
+  </div>
+  <script src="theme.js?v=20260922-1320"></script>
+  <script>
+    (() => {
+      const translations = {
+        fr: {
+          title: 'Informations de publication - Home Assistant LED Controller', description: 'Informations publiques sur l’éditeur, l’hébergement et le contact du projet Home Assistant LED Controller.', back: 'Retour à l’application', eyebrow: 'Informations publiques du projet', heading: 'Informations de publication', intro: 'Cette page décrit les informations publiques disponibles sur le projet. Elle ne confirme pas l’exhaustivité des obligations applicables au Togo.', projectLabel: 'Projet', projectValue: 'Home Assistant LED Controller', publisherLabel: 'Éditeur public', publisherValue: 'Deraub1 (pseudonyme du compte GitHub)', countryLabel: 'Pays déclaré', countryValue: 'Togo', contactLabel: 'Contact du projet', contactValue: 'Contacter le projet via GitHub Issues', hostingLabel: 'Hébergement', hostingValue: 'GitHub Pages, service d’hébergement statique de GitHub.', sourceLabel: 'Code source', sourceValue: 'Dépôt public GitHub', licenseLabel: 'Licence', licenseValue: 'Le dépôt est public, mais ne contient pas de fichier de licence. Sa visibilité publique n’accorde pas automatiquement de droits de réutilisation.', privacyLink: 'Confidentialité', termsLink: 'Conditions d’utilisation'
+        },
+        en: {
+          title: 'Publication information - Home Assistant LED Controller', description: 'Public information about the publisher, hosting, and contact for Home Assistant LED Controller.', back: 'Back to the application', eyebrow: 'Public project information', heading: 'Publication information', intro: 'This page describes the public information available about the project. It does not confirm that all requirements applicable in Togo have been met.', projectLabel: 'Project', projectValue: 'Home Assistant LED Controller', publisherLabel: 'Public publisher', publisherValue: 'Deraub1 (GitHub account pseudonym)', countryLabel: 'Country stated', countryValue: 'Togo', contactLabel: 'Project contact', contactValue: 'Contact the project through GitHub Issues', hostingLabel: 'Hosting', hostingValue: 'GitHub Pages, GitHub’s static hosting service.', sourceLabel: 'Source code', sourceValue: 'Public GitHub repository', licenseLabel: 'License', licenseValue: 'The repository is public but has no license file. Public visibility does not automatically grant reuse rights.', privacyLink: 'Privacy', termsLink: 'Terms of use'
+        },
+        es: {
+          title: 'Información de publicación - Home Assistant LED Controller', description: 'Información pública sobre el editor, el alojamiento y el contacto del proyecto.', back: 'Volver a la aplicación', eyebrow: 'Información pública del proyecto', heading: 'Información de publicación', intro: 'Esta página describe la información pública disponible sobre el proyecto. No confirma que se hayan cumplido todos los requisitos aplicables en Togo.', projectLabel: 'Proyecto', projectValue: 'Home Assistant LED Controller', publisherLabel: 'Editor público', publisherValue: 'Deraub1 (seudónimo de la cuenta de GitHub)', countryLabel: 'País declarado', countryValue: 'Togo', contactLabel: 'Contacto del proyecto', contactValue: 'Contactar mediante GitHub Issues', hostingLabel: 'Alojamiento', hostingValue: 'GitHub Pages, servicio de alojamiento estático de GitHub.', sourceLabel: 'Código fuente', sourceValue: 'Repositorio público de GitHub', licenseLabel: 'Licencia', licenseValue: 'El repositorio es público, pero no contiene un archivo de licencia. Su visibilidad pública no concede automáticamente derechos de reutilización.', privacyLink: 'Privacidad', termsLink: 'Condiciones de uso'
+        },
+        de: {
+          title: 'Veröffentlichungsangaben - Home Assistant LED Controller', description: 'Öffentliche Angaben zu Herausgeber, Hosting und Kontakt des Projekts.', back: 'Zur Anwendung', eyebrow: 'Öffentliche Projektinformationen', heading: 'Veröffentlichungsangaben', intro: 'Diese Seite beschreibt die verfügbaren öffentlichen Projektinformationen. Sie bestätigt nicht, dass alle in Togo geltenden Anforderungen erfüllt sind.', projectLabel: 'Projekt', projectValue: 'Home Assistant LED Controller', publisherLabel: 'Öffentlicher Herausgeber', publisherValue: 'Deraub1 (Pseudonym des GitHub-Kontos)', countryLabel: 'Angegebenes Land', countryValue: 'Togo', contactLabel: 'Projektkontakt', contactValue: 'Kontakt über GitHub Issues', hostingLabel: 'Hosting', hostingValue: 'GitHub Pages, statischer Hosting-Dienst von GitHub.', sourceLabel: 'Quellcode', sourceValue: 'Öffentliches GitHub-Repository', licenseLabel: 'Lizenz', licenseValue: 'Das Repository ist öffentlich, enthält aber keine Lizenzdatei. Die öffentliche Sichtbarkeit gewährt nicht automatisch Wiederverwendungsrechte.', privacyLink: 'Datenschutz', termsLink: 'Nutzungsbedingungen'
+        },
+        it: {
+          title: 'Informazioni di pubblicazione - Home Assistant LED Controller', description: 'Informazioni pubbliche su editore, hosting e contatti del progetto.', back: 'Torna all’applicazione', eyebrow: 'Informazioni pubbliche sul progetto', heading: 'Informazioni di pubblicazione', intro: 'Questa pagina descrive le informazioni pubbliche disponibili sul progetto. Non certifica il rispetto di tutti i requisiti applicabili in Togo.', projectLabel: 'Progetto', projectValue: 'Home Assistant LED Controller', publisherLabel: 'Editore pubblico', publisherValue: 'Deraub1 (pseudonimo dell’account GitHub)', countryLabel: 'Paese dichiarato', countryValue: 'Togo', contactLabel: 'Contatto del progetto', contactValue: 'Contatta il progetto tramite GitHub Issues', hostingLabel: 'Hosting', hostingValue: 'GitHub Pages, servizio di hosting statico di GitHub.', sourceLabel: 'Codice sorgente', sourceValue: 'Repository GitHub pubblico', licenseLabel: 'Licenza', licenseValue: 'Il repository è pubblico ma non contiene un file di licenza. La visibilità pubblica non concede automaticamente diritti di riutilizzo.', privacyLink: 'Privacy', termsLink: 'Termini di utilizzo'
+        },
+        pt: {
+          title: 'Informações de publicação - Home Assistant LED Controller', description: 'Informações públicas sobre o editor, o alojamento e o contacto do projeto.', back: 'Voltar à aplicação', eyebrow: 'Informações públicas do projeto', heading: 'Informações de publicação', intro: 'Esta página descreve as informações públicas disponíveis sobre o projeto. Não confirma o cumprimento de todos os requisitos aplicáveis no Togo.', projectLabel: 'Projeto', projectValue: 'Home Assistant LED Controller', publisherLabel: 'Editor público', publisherValue: 'Deraub1 (pseudónimo da conta GitHub)', countryLabel: 'País indicado', countryValue: 'Togo', contactLabel: 'Contacto do projeto', contactValue: 'Contactar através do GitHub Issues', hostingLabel: 'Alojamento', hostingValue: 'GitHub Pages, serviço de alojamento estático do GitHub.', sourceLabel: 'Código-fonte', sourceValue: 'Repositório público no GitHub', licenseLabel: 'Licença', licenseValue: 'O repositório é público, mas não contém um ficheiro de licença. A visibilidade pública não concede automaticamente direitos de reutilização.', privacyLink: 'Privacidade', termsLink: 'Termos de utilização'
+        },
+        nl: {
+          title: 'Publicatiegegevens - Home Assistant LED Controller', description: 'Openbare informatie over de uitgever, hosting en contact voor het project.', back: 'Terug naar de applicatie', eyebrow: 'Openbare projectinformatie', heading: 'Publicatiegegevens', intro: 'Deze pagina beschrijft de beschikbare openbare projectinformatie. Ze bevestigt niet dat aan alle toepasselijke vereisten in Togo is voldaan.', projectLabel: 'Project', projectValue: 'Home Assistant LED Controller', publisherLabel: 'Openbare uitgever', publisherValue: 'Deraub1 (pseudoniem van het GitHub-account)', countryLabel: 'Opgegeven land', countryValue: 'Togo', contactLabel: 'Projectcontact', contactValue: 'Neem contact op via GitHub Issues', hostingLabel: 'Hosting', hostingValue: 'GitHub Pages, de statische hostingdienst van GitHub.', sourceLabel: 'Broncode', sourceValue: 'Openbare GitHub-repository', licenseLabel: 'Licentie', licenseValue: 'De repository is openbaar, maar bevat geen licentiebestand. Openbare zichtbaarheid verleent niet automatisch hergebruikrechten.', privacyLink: 'Privacy', termsLink: 'Gebruiksvoorwaarden'
+        },
+        ja: {
+          title: '公開情報 - Home Assistant LED Controller', description: 'プロジェクトの公開者、ホスティング、連絡先に関する情報。', back: 'アプリケーションに戻る', eyebrow: 'プロジェクトの公開情報', heading: '公開情報', intro: 'このページではプロジェクトについて公開されている情報を説明します。トーゴで適用されるすべての要件への適合を保証するものではありません。', projectLabel: 'プロジェクト', projectValue: 'Home Assistant LED Controller', publisherLabel: '公開者', publisherValue: 'Deraub1（GitHub アカウントの公開名）', countryLabel: '申告された国', countryValue: 'トーゴ', contactLabel: '連絡先', contactValue: 'GitHub Issues からプロジェクトに連絡', hostingLabel: 'ホスティング', hostingValue: 'GitHub Pages（GitHub の静的ホスティングサービス）。', sourceLabel: 'ソースコード', sourceValue: '公開 GitHub リポジトリ', licenseLabel: 'ライセンス', licenseValue: 'リポジトリは公開されていますが、ライセンスファイルはありません。公開されていることだけで再利用の権利が付与されるわけではありません。', privacyLink: 'プライバシー', termsLink: '利用規約'
+        },
+        'zh-CN': {
+          title: '发布信息 - Home Assistant LED Controller', description: '有关 Home Assistant LED Controller 发布者、托管和联系渠道的公开信息。', back: '返回应用', eyebrow: '项目公开信息', heading: '发布信息', intro: '本页说明项目目前公开的信息，但不代表已满足多哥适用的所有要求。', projectLabel: '项目', projectValue: 'Home Assistant LED Controller', publisherLabel: '公开发布者', publisherValue: 'Deraub1（GitHub 账户公开名称）', countryLabel: '申报国家', countryValue: '多哥', contactLabel: '项目联系渠道', contactValue: '通过 GitHub Issues 联系项目', hostingLabel: '托管', hostingValue: 'GitHub Pages，GitHub 提供的静态托管服务。', sourceLabel: '源代码', sourceValue: '公开的 GitHub 仓库', licenseLabel: '许可证', licenseValue: '仓库是公开的，但未包含许可证文件。公开可见并不自动授予再利用权利。', privacyLink: '隐私', termsLink: '使用条款'
+        }
+      };
+      const languagePreference = localStorage.getItem('language_preference') || navigator.language || 'fr';
+      const language = translations[languagePreference] ? languagePreference : languagePreference.split('-')[0];
+      const copy = translations[language] || translations.en;
+      document.documentElement.lang = language in translations ? language : 'en';
+      document.title = copy.title;
+      document.querySelector('meta[name="description"]').content = copy.description;
+      document.querySelectorAll('[data-legal-key]').forEach((element) => {
+        element.textContent = copy[element.dataset.legalKey];
+      });
+    })();
+  </script>
+</body>
+</html>

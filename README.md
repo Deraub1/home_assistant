@@ -51,6 +51,7 @@ home-assistant/
 │   ├── theme.js
 │   ├── privacy.html
 │   ├── terms.html
+│   ├── legal.html
 │   ├── 404.html
 │   ├── home-assistant-logo.png
 │   ├── favicon.png

@@ -714,6 +714,22 @@ body {
   color: var(--warning);
   border-color: rgba(255, 170, 0, 0.3);
 }
+.status-online,
+.status-offline,
+.status-connecting {
+  background: var(--panel-bg);
+  color: var(--text-main);
+  border-color: var(--panel-border);
+}
+.status-online .status-dot {
+  color: var(--success);
+}
+.status-offline .status-dot {
+  color: var(--accent);
+}
+.status-connecting .status-dot {
+  color: var(--warning);
+}
 .btn-icon {
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid var(--panel-border);
@@ -956,6 +972,7 @@ body {
   input[type="text"],
   input[type="url"],
   input[type="number"],
+  input[type="password"],
   .form-select,
   .btn {
     min-height: 44px;
@@ -1175,6 +1192,16 @@ body {
     justify-self: end;
   }
 }
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}
 @media (max-width: 700px) {
   .right-column-stack {
     width: 100%;
@@ -1342,7 +1369,8 @@ body {
 }
 input[type="text"],
 input[type="url"],
-input[type="number"] {
+input[type="number"],
+input[type="password"] {
   width: 100%;
   background: rgba(0, 0, 0, 0.35);
   border: 1px solid var(--panel-border);
@@ -1385,6 +1413,7 @@ input[type="number"] {
 input[type="text"]:focus,
 input[type="url"]:focus,
 input[type="number"]:focus,
+input[type="password"]:focus,
 .form-select:focus,
 .form-select:hover {
   border-color: var(--primary);
@@ -2658,7 +2687,8 @@ voice-ai-indicator.ai-enabled.is-error .ai-indicator-image {
 }
 [data-theme="light"] input[type="text"],
 [data-theme="light"] input[type="url"],
-[data-theme="light"] input[type="number"] {
+[data-theme="light"] input[type="number"],
+[data-theme="light"] input[type="password"] {
   background: #ffffff;
   border-color: #cbd5e1;
   color: #0f172a;
@@ -3113,6 +3143,7 @@ voice-ai-indicator.ai-enabled.is-error .ai-indicator-image {
   input[type="text"],
   input[type="url"],
   input[type="number"],
+  input[type="password"],
   .form-select,
   .btn {
     min-height: 44px;

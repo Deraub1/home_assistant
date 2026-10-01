@@ -4,25 +4,25 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Home Assistant</title>
+  <title>Contrôleur de LEDs ESP8266 avec Irina | Home Assistant</title>
   <meta name="description" content="Interface web locale pour piloter un circuit de LEDs avec Irina, la commande vocale et le chatbot.">
   <meta name="theme-color" content="#0b0f19">
   <meta property="og:type" content="website">
-  <meta property="og:title" content="Home Assistant LED Controller">
+  <meta property="og:title" content="Contrôleur de LEDs ESP8266 avec Irina | Home Assistant">
   <meta property="og:description" content="Pilotez votre circuit de LEDs avec Irina depuis votre navigateur.">
   <meta property="og:url" content="https://deraub1.github.io/home_assistant/">
   <meta property="og:image" content="https://deraub1.github.io/home_assistant/home-assistant-logo.png">
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="Home Assistant LED Controller">
+  <meta name="twitter:title" content="Contrôleur de LEDs ESP8266 avec Irina | Home Assistant">
   <meta name="twitter:description" content="Pilotez votre circuit de LEDs avec Irina depuis votre navigateur.">
-  <link rel="icon" type="image/png" sizes="528x473" href="favicon-tab.png">
-  <link rel="apple-touch-icon" sizes="528x473" href="favicon-tab.png">
+  <link rel="icon" type="image/png" sizes="180x180" href="favicon-tab.png?v=20261001-1700">
+  <link rel="apple-touch-icon" sizes="180x180" href="favicon-tab.png?v=20261001-1700">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
     href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap"
     rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=20260922-1425">
+  <link rel="stylesheet" href="style.css?v=20261001-1700">
   <style>
     #themeModeSelector option {
       background: #ffffff;
@@ -66,6 +66,7 @@
     [data-custom-theme] input[type="text"],
     [data-custom-theme] input[type="url"],
     [data-custom-theme] input[type="number"],
+    [data-custom-theme] input[type="password"],
     [data-custom-theme] textarea {
       background-color: var(--panel-bg);
       border-color: var(--panel-border);
@@ -311,13 +312,13 @@
     </div>
   </section>
 
-  <div class="app-container">
+  <div class="app-container" inert>
 
     <!-- Top Bar Header -->
     <header class="top-header">
       <div class="brand">
         <div class="brand-icon">
-          <img src="favicon.png" alt="Logo Home Assistant">
+          <img src="favicon.png?v=20261001-1700" alt="Logo Home Assistant">
         </div>
         <div>
           <h1>Home Assistant</h1>
@@ -365,7 +366,7 @@
     </header>
 
     <!-- Main Content Layout -->
-    <main class="dashboard-grid">
+    <main class="dashboard-grid" tabindex="-1">
 
       <!-- Left Column: Hardware Configuration & Presets -->
       <div class="left-column-stack">
@@ -596,10 +597,10 @@
 
     <!-- Modal Help for ESP32 / Arduino Code -->
     <div id="codeModal" class="modal-overlay hidden">
-      <div class="modal-card">
+      <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="firmwareModalTitle" aria-describedby="firmwareModalDescription">
         <div class="modal-header">
           <h3><svg class="ui-icon" aria-hidden="true"><use href="#icon-code"></use></svg> <span id="firmwareModalTitle">Code C++ prêt pour ESP8266WebServer</span></h3>
-          <button id="btnCloseModal" class="btn-close">&times;</button>
+          <button id="btnCloseModal" class="btn-close" type="button" aria-label="Fermer">&times;</button>
         </div>
         <div class="modal-body">
           <p id="firmwareModalDescription">Configurez le nombre de LEDs et la carte utilisée pour générer automatiquement le firmware correspondant.</p>
@@ -630,6 +631,7 @@
         <button id="btnSwitchAccount" class="site-footer-action" type="button" data-i18n="switchAccount">Changer de compte</button>
         <a class="site-footer-action" href="privacy.html" data-i18n="privacyLink">Confidentialité</a>
         <a class="site-footer-action" href="terms.html" data-i18n="termsLink">Conditions d'utilisation</a>
+        <a class="site-footer-action" href="legal.html" data-i18n="legalLink">Informations de publication</a>
       </div>
       <details class="site-footer-help">
         <summary class="site-footer-help-summary"><span class="help-summary-icon" aria-hidden="true">?</span><span id="helpTitle">Besoin d’aide ?</span></summary>
@@ -662,7 +664,7 @@
   </div>
 
   <script src="theme.js?v=20260922-1320"></script>
-  <script src="app.js?v=20260922-1530"></script>
+  <script src="app.js?v=20261001-1800"></script>
 </body>
 
 </html>

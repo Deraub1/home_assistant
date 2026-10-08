@@ -1,8 +1,9 @@
 # Home Assistant LED Controller
 
-Interface Web statique de pilotage de LEDs via un ESP8266 (NodeMCU ou
-Wemos D1 mini). L'application fonctionne directement dans un navigateur et
-ne nécessite ni framework JavaScript ni serveur applicatif pour son interface.
+Application de pilotage de LEDs via un ESP8266 (NodeMCU ou Wemos D1 mini),
+disponible sur le Web, Android et Windows. Les trois versions réutilisent
+l'interface de `public/` ; Capacitor l'intègre dans l'application Android et
+Electron la fournit dans un véritable installateur Windows.
 
 ## Fonctionnalités
 
@@ -56,6 +57,12 @@ home-assistant/
 │   ├── home-assistant-logo.png
 │   ├── favicon.png
 │   └── splash-circuits.svg
+├── android/                  # Projet Android natif généré/maintenu avec Capacitor
+├── desktop/
+│   ├── main.cjs              # Processus principal Electron
+│   └── create-icon.cjs       # Génération de l'icône Windows .ico
+├── capacitor.config.json
+├── package.json
 ├── .github/
 │   ├── agents/
 │   └── workflows/
@@ -64,8 +71,61 @@ home-assistant/
 ```
 
 Le dossier `public/` contient l'application Web et ses pages statiques
-associées. Le firmware Arduino est généré à la demande depuis l'application ;
+associées ; il est également embarqué tel quel dans les paquets Android et
+Windows. Le firmware Arduino est généré à la demande depuis l'application ;
 aucun dossier de firmware séparé n'est requis dans ce dépôt.
+
+## Versions Web, Android et Windows
+
+### Web
+
+La version Web est publiée sur GitHub Pages (voir [Déploiement avec GitHub
+Pages](#déploiement-avec-github-pages)) et peut aussi être lancée localement
+avec le serveur décrit dans [Utilisation locale](#utilisation-locale). Son
+titre de site reste distinct du nom affiché par les applications installées.
+
+### Android
+
+La version Android utilise Capacitor et porte le nom d'application
+**Home Assistant**. Prérequis : Node.js/npm, Android Studio et un SDK Android
+compatible. Depuis la racine du dépôt :
+
+```powershell
+npm install
+npm run android:sync
+npm run android:open
+```
+
+Dans Android Studio, lancez l'application sur un appareil/émulateur ou utilisez
+**Build > Build Bundle(s) / APK(s) > Build APK(s)** pour produire un APK.
+Après chaque modification de `public/`, relancez `npm run android:sync` avant
+de reconstruire. La connexion HTTP vers un ESP sur le réseau local est activée
+pour cette application ; les commandes ne sont pas chiffrées en HTTP.
+
+### Installateur Windows
+
+La version Windows est une application de bureau Electron qui embarque les
+mêmes fichiers Web et crée un véritable installateur NSIS `.exe` (Windows
+x64). Prérequis : Windows x64 et Node.js/npm. Depuis la racine du dépôt :
+
+```powershell
+npm install
+npm run windows:dev
+npm run windows:dist
+```
+
+`windows:dev` lance l'application de bureau. `windows:dist` génère
+`artifacts/windows/Home Assistant Setup 1.0.0.exe`, avec raccourcis du menu Démarrer et
+du bureau et choix du dossier d'installation. L'icône de l'installateur et de
+l'application est générée à partir de l'icône mobile Android. Distribuer un
+installateur non signé peut déclencher un avertissement Microsoft Defender
+SmartScreen ; la signature de code nécessite un certificat de signature
+Windows.
+
+Après chaque modification de `public/`, reconstruisez l'installateur pour
+inclure les nouveaux fichiers. Les données de l'application et le compte local
+restent propres à chaque cible et ne sont pas synchronisés entre navigateur,
+téléphone et Windows.
 
 ### Logique des thèmes
 
@@ -260,7 +320,8 @@ GPIO ne peut fournir.
 
 ## Communication réseau
 
-L'application envoie les commandes à l'endpoint suivant :
+Dans les trois versions, l'application envoie les commandes à l'endpoint
+configuré dans le panneau réseau (par défaut, une adresse d'exemple) :
 
 ```text
 POST http://<adresse-de-l-esp>/api/led
@@ -295,10 +356,13 @@ Pour un fonctionnement local, l'application et l'ESP8266 doivent idéalement
 place HTTPS sur le périphérique ou utiliser un proxy ou un serveur
 intermédiaire compatible HTTPS.
 
-Le firmware fournit les en-têtes CORS nécessaires aux requêtes de
-l'application, mais CORS ne remplace pas une authentification réseau. Ne
-publiez pas directement l'ESP8266 sur Internet sans ajouter une protection
-adaptée.
+Le firmware généré fournit les en-têtes CORS nécessaires aux requêtes de
+l'application. Le transport HTTP local est activé côté Android pour permettre
+les appels à l'ESP ; dans Electron, la communication réseau utilise également
+le firmware et ses en-têtes CORS. CORS ne remplace pas une authentification
+réseau : le firmware généré n'authentifie pas les commandes. Gardez l'ESP sur
+un réseau de confiance et ne le publiez pas directement sur Internet. Pour un
+accès distant, mettez en place HTTPS et une protection adaptée.
 
 ## Reconnaissance vocale
 

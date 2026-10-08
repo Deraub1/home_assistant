@@ -291,7 +291,9 @@ document.addEventListener('DOMContentLoaded', async () => {
   const languageText = {
     fr: {
       language: 'EN', subtitle: 'Pilotez votre circuit physique en temps réel',
-      themeTitle: 'Changer le thème (Clair / Sombre)', themeLight: 'Clair', themeDark: 'Sombre',
+      themeTitle: 'Changer le thème (Clair / Sombre)', themeLight: 'Clair', themeDark: 'Sombre', themeCustom: 'Couleur personnalisée',
+      themeLabel: 'Thème', languageLabel: 'Langue', languageTitle: 'Changer de langue', themeColor: 'Couleur', themeColorTitle: 'Couleur du thème',
+      secureTransportLabel: 'Connexion sécurisée HTTPS', secureTransportTitle: 'Utiliser une connexion chiffrée vers le circuit',
       connected: 'En ligne', disconnected: 'Non connecté', pingTitle: 'Tester le signal / Ping',
       config: 'Configuration du Circuit Physique', save: 'Enregistrer', apply: 'Appliquer',
       quick: 'Raccourcis Rapides', allOn: 'Allumer tout', allOff: 'Éteindre tout',
@@ -311,7 +313,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     },
     en: {
       language: 'FR', subtitle: 'Control your physical circuit in real time',
-      themeTitle: 'Change theme (Light / Dark)', themeLight: 'Light', themeDark: 'Dark',
+      themeTitle: 'Change theme (Light / Dark)', themeLight: 'Light', themeDark: 'Dark', themeCustom: 'Custom color',
+      themeLabel: 'Theme', languageLabel: 'Language', languageTitle: 'Change language', themeColor: 'Color', themeColorTitle: 'Theme color',
+      secureTransportLabel: 'Secure HTTPS connection', secureTransportTitle: 'Use an encrypted connection to the circuit',
       connected: 'Online', disconnected: 'Not connected', pingTitle: 'Test signal / Ping',
       config: 'Physical Circuit Configuration', save: 'Save', apply: 'Apply',
       quick: 'Quick shortcuts', allOn: 'Turn all on', allOff: 'Turn all off',
@@ -330,7 +334,9 @@ document.addEventListener('DOMContentLoaded', async () => {
       code: 'Copy code to clipboard'
     },
     es: {
-      language: 'ES', subtitle: 'Controla tu circuito físico en tiempo real', themeTitle: 'Cambiar tema (Claro / Oscuro)', themeLight: 'Claro', themeDark: 'Oscuro',
+      language: 'ES', subtitle: 'Controla tu circuito físico en tiempo real', themeTitle: 'Cambiar tema (Claro / Oscuro)', themeLight: 'Claro', themeDark: 'Oscuro', themeCustom: 'Color personalizado',
+      themeLabel: 'Tema', languageLabel: 'Idioma', languageTitle: 'Cambiar idioma', themeColor: 'Color', themeColorTitle: 'Color del tema',
+      secureTransportLabel: 'Conexión HTTPS segura', secureTransportTitle: 'Usar una conexión cifrada con el circuito',
       connected: 'En línea', disconnected: 'No conectado', pingTitle: 'Probar señal / Ping', config: 'Configuración del circuito físico', save: 'Guardar', apply: 'Aplicar',
       quick: 'Accesos rápidos', allOn: 'Encender todo', allOff: 'Apagar todo', voice: 'Control por voz', synthesis: 'Síntesis', wake: 'Escucha activa «Irina»',
       ai: 'Modo IA', gestures: 'Gestos sonoros', enableMic: 'Activar micrófono', voiceWakeHint: 'Activa la escucha y di «Irina» para iniciar un comando.',
@@ -340,7 +346,9 @@ document.addEventListener('DOMContentLoaded', async () => {
       effects: 'Efectos simultáneos por LED', networkLog: 'Consola de red y envíos HTTP', history: 'Historial de LED encendidos', firmware: 'Generar firmware', code: 'Copiar código al portapapeles'
     },
     de: {
-      language: 'DE', subtitle: 'Steuere deine physische Schaltung in Echtzeit', themeTitle: 'Design ändern (Hell / Dunkel)', themeLight: 'Hell', themeDark: 'Dunkel',
+      language: 'DE', subtitle: 'Steuere deine physische Schaltung in Echtzeit', themeTitle: 'Design ändern (Hell / Dunkel)', themeLight: 'Hell', themeDark: 'Dunkel', themeCustom: 'Benutzerdefinierte Farbe',
+      themeLabel: 'Design', languageLabel: 'Sprache', languageTitle: 'Sprache ändern', themeColor: 'Farbe', themeColorTitle: 'Themenfarbe',
+      secureTransportLabel: 'Sichere HTTPS-Verbindung', secureTransportTitle: 'Verschlüsselte Verbindung zum Schaltkreis verwenden',
       connected: 'Online', disconnected: 'Nicht verbunden', pingTitle: 'Signal testen / Ping', config: 'Konfiguration der physischen Schaltung', save: 'Speichern', apply: 'Anwenden',
       quick: 'Schnellzugriffe', allOn: 'Alle einschalten', allOff: 'Alle ausschalten', voice: 'Sprachsteuerung', synthesis: 'Sprachausgabe', wake: 'Aktives Zuhören „Irina“',
       ai: 'KI-Modus', gestures: 'Soundgesten', enableMic: 'Mikrofon aktivieren', voiceWakeHint: 'Aktiviere das Zuhören und sage „Irina“, um einen Befehl zu starten.',
@@ -350,7 +358,9 @@ document.addEventListener('DOMContentLoaded', async () => {
       effects: 'Gleichzeitige Effekte pro LED', networkLog: 'Netzwerkkonsole und HTTP-Sendungen', history: 'Verlauf eingeschalteter LEDs', firmware: 'Firmware erzeugen', code: 'Code in Zwischenablage kopieren'
     },
     it: {
-      language: 'IT', subtitle: 'Controlla il tuo circuito fisico in tempo reale', themeTitle: 'Cambia tema (Chiaro / Scuro)', themeLight: 'Chiaro', themeDark: 'Scuro',
+      language: 'IT', subtitle: 'Controlla il tuo circuito fisico in tempo reale', themeTitle: 'Cambia tema (Chiaro / Scuro)', themeLight: 'Chiaro', themeDark: 'Scuro', themeCustom: 'Colore personalizzato',
+      themeLabel: 'Tema', languageLabel: 'Lingua', languageTitle: 'Cambia lingua', themeColor: 'Colore', themeColorTitle: 'Colore del tema',
+      secureTransportLabel: 'Connessione HTTPS sicura', secureTransportTitle: 'Usa una connessione crittografata al circuito',
       connected: 'Online', disconnected: 'Non connesso', pingTitle: 'Test segnale / Ping', config: 'Configurazione del circuito fisico', save: 'Salva', apply: 'Applica',
       quick: 'Scorciatoie rapide', allOn: 'Accendi tutto', allOff: 'Spegni tutto', voice: 'Controllo vocale', synthesis: 'Sintesi', wake: 'Ascolto attivo «Irina»',
       ai: 'Modalità IA', gestures: 'Gesti sonori', enableMic: 'Attiva microfono', voiceWakeHint: 'Attiva l’ascolto e dì «Irina» per iniziare un comando.',
@@ -360,7 +370,9 @@ document.addEventListener('DOMContentLoaded', async () => {
       effects: 'Effetti simultanei per LED', networkLog: 'Console di rete e invii HTTP', history: 'Cronologia dei LED accesi', firmware: 'Genera firmware', code: 'Copia codice negli appunti'
     },
     pt: {
-      language: 'PT', subtitle: 'Controle o seu circuito físico em tempo real', themeTitle: 'Alterar tema (Claro / Escuro)', themeLight: 'Claro', themeDark: 'Escuro',
+      language: 'PT', subtitle: 'Controle o seu circuito físico em tempo real', themeTitle: 'Alterar tema (Claro / Escuro)', themeLight: 'Claro', themeDark: 'Escuro', themeCustom: 'Cor personalizada',
+      themeLabel: 'Tema', languageLabel: 'Idioma', languageTitle: 'Alterar idioma', themeColor: 'Cor', themeColorTitle: 'Cor do tema',
+      secureTransportLabel: 'Ligação HTTPS segura', secureTransportTitle: 'Utilizar uma ligação encriptada ao circuito',
       connected: 'Online', disconnected: 'Não conectado', pingTitle: 'Testar sinal / Ping', config: 'Configuração do circuito físico', save: 'Guardar', apply: 'Aplicar',
       quick: 'Atalhos rápidos', allOn: 'Ligar tudo', allOff: 'Desligar tudo', voice: 'Controlo por voz', synthesis: 'Síntese', wake: 'Escuta ativa «Irina»',
       ai: 'Modo IA', gestures: 'Gestos sonoros', enableMic: 'Ativar microfone', voiceWakeHint: 'Ative a escuta e diga «Irina» para iniciar um comando.',
@@ -370,7 +382,9 @@ document.addEventListener('DOMContentLoaded', async () => {
       effects: 'Efeitos simultâneos por LED', networkLog: 'Consola de rede e envios HTTP', history: 'Histórico dos LEDs ligados', firmware: 'Gerar firmware', code: 'Copiar código para a área de transferência'
     },
     nl: {
-      language: 'NL', subtitle: 'Bedien je fysieke circuit in realtime', themeTitle: 'Thema wijzigen (Licht / Donker)', themeLight: 'Licht', themeDark: 'Donker',
+      language: 'NL', subtitle: 'Bedien je fysieke circuit in realtime', themeTitle: 'Thema wijzigen (Licht / Donker)', themeLight: 'Licht', themeDark: 'Donker', themeCustom: 'Aangepaste kleur',
+      themeLabel: 'Thema', languageLabel: 'Taal', languageTitle: 'Taal wijzigen', themeColor: 'Kleur', themeColorTitle: 'Themakleur',
+      secureTransportLabel: 'Beveiligde HTTPS-verbinding', secureTransportTitle: 'Gebruik een versleutelde verbinding met het circuit',
       connected: 'Online', disconnected: 'Niet verbonden', pingTitle: 'Signaal testen / Ping', config: 'Configuratie van fysiek circuit', save: 'Opslaan', apply: 'Toepassen',
       quick: 'Snelle acties', allOn: 'Alles aan', allOff: 'Alles uit', voice: 'Spraakbediening', synthesis: 'Spraaksynthese', wake: 'Actief luisteren “Irina”',
       ai: 'AI-modus', gestures: 'Geluidsgebaren', enableMic: 'Microfoon inschakelen', voiceWakeHint: 'Schakel luisteren in en zeg “Irina” om een opdracht te starten.',
@@ -380,7 +394,9 @@ document.addEventListener('DOMContentLoaded', async () => {
       effects: 'Gelijktijdige effecten per led', networkLog: 'Netwerkconsole en HTTP-verzendingen', history: 'Geschiedenis van ingeschakelde leds', firmware: 'Firmware genereren', code: 'Code naar klembord kopiëren'
     },
     ja: {
-      language: 'JA', subtitle: '物理回路をリアルタイムで操作', themeTitle: 'テーマ変更（ライト / ダーク）', themeLight: 'ライト', themeDark: 'ダーク',
+      language: 'JA', subtitle: '物理回路をリアルタイムで操作', themeTitle: 'テーマ変更（ライト / ダーク）', themeLight: 'ライト', themeDark: 'ダーク', themeCustom: 'カスタムカラー',
+      themeLabel: 'テーマ', languageLabel: '言語', languageTitle: '言語を変更', themeColor: '色', themeColorTitle: 'テーマの色',
+      secureTransportLabel: '安全なHTTPS接続', secureTransportTitle: '回路への暗号化接続を使用',
       connected: 'オンライン', disconnected: '未接続', pingTitle: '信号をテスト / Ping', config: '物理回路の設定', save: '保存', apply: '適用',
       quick: 'クイック操作', allOn: 'すべて点灯', allOff: 'すべて消灯', voice: '音声操作', synthesis: '音声合成', wake: 'アクティブリスニング「Irina」',
       ai: 'AIモード', gestures: 'サウンドジェスチャー', enableMic: 'マイクを有効化', voiceWakeHint: 'リスニングを有効にして「Irina」と言うとコマンドを開始します。',
@@ -390,7 +406,9 @@ document.addEventListener('DOMContentLoaded', async () => {
       effects: 'LEDごとの同時エフェクト', networkLog: 'ネットワークコンソールとHTTP送信', history: '点灯したLEDの履歴', firmware: 'ファームウェア生成', code: 'コードをクリップボードにコピー'
     },
     'zh-CN': {
-      language: '中', subtitle: '实时控制您的物理电路', themeTitle: '切换主题（浅色 / 深色）', themeLight: '浅色', themeDark: '深色',
+      language: '中', subtitle: '实时控制您的物理电路', themeTitle: '切换主题（浅色 / 深色）', themeLight: '浅色', themeDark: '深色', themeCustom: '自定义颜色',
+      themeLabel: '主题', languageLabel: '语言', languageTitle: '切换语言', themeColor: '颜色', themeColorTitle: '主题颜色',
+      secureTransportLabel: '安全 HTTPS 连接', secureTransportTitle: '使用加密连接连接电路',
       connected: '在线', disconnected: '未连接', pingTitle: '测试信号 / Ping', config: '物理电路配置', save: '保存', apply: '应用',
       quick: '快捷操作', allOn: '全部打开', allOff: '全部关闭', voice: '语音控制', synthesis: '语音合成', wake: '主动聆听“Irina”',
       ai: 'AI 模式', gestures: '声音手势', enableMic: '启用麦克风', voiceWakeHint: '启用聆听后，说出“Irina”即可开始实时指令。',
@@ -824,6 +842,41 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
     const voiceWakeHint = document.getElementById('voiceWakeHint');
     if (voiceWakeHint) voiceWakeHint.textContent = t('voiceWakeHint');
+    const stateLanguageLabel = document.querySelector('.language-selector .sr-only');
+    if (stateLanguageLabel) stateLanguageLabel.textContent = t('languageLabel');
+    if (languageSelector) {
+      languageSelector.setAttribute('title', t('languageTitle'));
+      languageSelector.setAttribute('aria-label', t('languageTitle'));
+    }
+    const themeControls = document.getElementById('themeControls');
+    if (themeControls) themeControls.setAttribute('aria-label', t('themeTitle'));
+    const themeModeControl = document.getElementById('themeModeControl');
+    const themeModeLabel = document.getElementById('themeModeLabel');
+    if (themeModeControl) themeModeControl.setAttribute('title', t('themeTitle'));
+    if (themeModeLabel) themeModeLabel.textContent = t('themeLabel');
+    if (themeModeSelector) {
+      themeModeSelector.setAttribute('title', t('themeTitle'));
+      themeModeSelector.setAttribute('aria-label', t('themeTitle'));
+      const optionLabels = {
+        light: t('themeLight'),
+        dark: t('themeDark'),
+        custom: t('themeCustom')
+      };
+      Object.entries(optionLabels).forEach(([value, label]) => {
+        const option = themeModeSelector.querySelector(`option[value="${value}"]`);
+        if (option) option.textContent = label;
+      });
+    }
+    const themeColorControl = document.getElementById('themeColorControl');
+    const themeColorLabel = document.getElementById('themeColorLabel');
+    if (themeColorControl) themeColorControl.setAttribute('title', t('themeColorTitle'));
+    if (themeColorLabel) themeColorLabel.textContent = t('themeColor');
+    const themeColorPicker = document.getElementById('themeColorPicker');
+    if (themeColorPicker) themeColorPicker.setAttribute('aria-label', t('themeColorTitle'));
+    const secureTransportControl = document.getElementById('secureTransportControl');
+    const secureTransportLabel = document.getElementById('secureTransportLabel');
+    if (secureTransportControl) secureTransportControl.setAttribute('title', t('secureTransportTitle'));
+    if (secureTransportLabel) secureTransportLabel.textContent = t('secureTransportLabel');
     const deviceUrlHint = document.getElementById('deviceUrlHint');
     if (deviceUrlHint) deviceUrlHint.innerHTML = deviceUrlHints[currentLanguage] || deviceUrlHints.en;
     document.querySelectorAll('[data-i18n]').forEach((element) => {

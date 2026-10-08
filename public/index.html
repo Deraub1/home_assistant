@@ -341,17 +341,17 @@
             <option value="zh-CN">简体中文</option>
           </select>
         </label>
-        <div class="theme-controls" aria-label="Options du thème">
-          <label class="theme-mode-control" title="Choisir le thème de l'application">
-            <span class="sr-only">Thème</span>
+        <div id="themeControls" class="theme-controls" aria-label="Options du thème">
+          <label id="themeModeControl" class="theme-mode-control" title="Choisir le thème de l'application">
+            <span id="themeModeLabel" class="sr-only">Thème</span>
             <select id="themeModeSelector" aria-label="Choisir le thème de l'application">
               <option value="light">Clair</option>
               <option value="dark">Sombre</option>
               <option value="custom">Couleur personnalisée</option>
             </select>
           </label>
-          <label class="theme-color-control" title="Personnaliser la couleur du thème">
-            <span class="theme-color-label">Couleur</span>
+          <label id="themeColorControl" class="theme-color-control" title="Personnaliser la couleur du thème">
+            <span id="themeColorLabel" class="theme-color-label">Couleur</span>
             <input id="themeColorPicker" type="color" value="#00f0ff" aria-label="Couleur du thème">
           </label>
         </div>
@@ -408,9 +408,9 @@
 
             <div class="form-group">
               <label>Mode Réseau</label>
-              <label class="toggle-speech-feedback network-security-toggle" title="Utiliser une connexion chiffrée vers le circuit">
+              <label id="secureTransportControl" class="toggle-speech-feedback network-security-toggle" title="Utiliser une connexion chiffrée vers le circuit">
                 <input type="checkbox" id="secureTransport" />
-                <span>Connexion sécurisée HTTPS</span>
+                <span id="secureTransportLabel">Connexion sécurisée HTTPS</span>
               </label>
               <span class="field-hint network-mode-note">HTTPS chiffre les échanges ; le circuit doit disposer d’un certificat TLS et autoriser le CORS.</span>
             </div>

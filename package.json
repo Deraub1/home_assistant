@@ -1,0 +1,56 @@
+{
+  "name": "home-assistant-led-controller",
+  "version": "1.0.0",
+  "description": "Interface de pilotage de LEDs pour le Web, Android et Windows",
+  "private": true,
+  "main": "desktop/main.cjs",
+  "scripts": {
+    "android:sync": "cap sync android",
+    "android:open": "cap open android",
+    "windows:icon": "node desktop/create-icon.cjs",
+    "windows:dev": "npm run windows:icon && electron .",
+    "windows:dist": "npm run windows:icon && electron-builder --win nsis --x64"
+  },
+  "dependencies": {
+    "@capacitor/android": "^8.5.2",
+    "@capacitor/cli": "^8.5.2",
+    "@capacitor/core": "^8.5.2"
+  },
+  "devDependencies": {
+    "electron": "^44.7.0",
+    "electron-builder": "^26.15.3",
+    "png-to-ico": "^3.0.2"
+  },
+  "build": {
+    "appId": "com.homeassistant.ledcontroller",
+    "productName": "Home Assistant",
+    "directories": {
+      "output": "artifacts/windows",
+      "buildResources": "desktop"
+    },
+    "files": [
+      "desktop/main.cjs",
+      "public/**/*",
+      "package.json"
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "desktop/app.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "Home Assistant"
+    }
+  }
+}

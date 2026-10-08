@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Home Assistant</string>
+    <string name="title_activity_main">Home Assistant</string>
+    <string name="package_name">com.homeassistant.ledcontroller</string>
+    <string name="custom_url_scheme">com.homeassistant.ledcontroller</string>
+</resources>

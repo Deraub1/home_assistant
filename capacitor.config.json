@@ -1,0 +1,5 @@
+{
+  "appId": "com.homeassistant.ledcontroller",
+  "appName": "Home Assistant",
+  "webDir": "public"
+}

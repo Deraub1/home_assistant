@@ -122,6 +122,13 @@ installateur non signé peut déclencher un avertissement Microsoft Defender
 SmartScreen ; la signature de code nécessite un certificat de signature
 Windows.
 
+Pour éviter les erreurs de verrouillage pendant l'extraction d'Electron sur
+Windows, la commande télécharge et vérifie l'archive officielle, puis prépare
+une copie réutilisable dans
+`%LOCALAPPDATA%\HomeAssistantBuild\electron-v<version>-win32-x64` avant de
+lancer electron-builder. Cette méthode évite le renommage du dossier temporaire
+qui peut échouer sous Windows.
+
 Après chaque modification de `public/`, reconstruisez l'installateur pour
 inclure les nouveaux fichiers. Les données de l'application et le compte local
 restent propres à chaque cible et ne sont pas synchronisés entre navigateur,

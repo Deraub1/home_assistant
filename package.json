@@ -9,7 +9,7 @@
     "android:open": "cap open android",
     "windows:icon": "node desktop/create-icon.cjs",
     "windows:dev": "npm run windows:icon && electron .",
-    "windows:dist": "npm run windows:icon && electron-builder --win nsis --x64"
+    "windows:dist": "node desktop/build-windows.cjs"
   },
   "dependencies": {
     "@capacitor/android": "^8.5.2",

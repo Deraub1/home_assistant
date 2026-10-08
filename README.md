@@ -49,6 +49,7 @@ Android et Electron la fournit dans un véritable installateur Windows.
 home-assistant/
 ├── public/
 │   ├── index.html
+│   ├── downloads.html
 │   ├── app.js
 │   ├── style.css
 │   ├── theme.js
@@ -67,7 +68,7 @@ home-assistant/
 ├── package.json
 ├── .github/
 │   ├── agents/
-│   └── workflows/
+│   └── workflows/            # GitHub Pages et publication des installateurs
 ├── index.html
 └── README.md
 ```
@@ -86,6 +87,8 @@ LED Controller avec ESP8266** (voir [Déploiement avec GitHub
 Pages](#déploiement-avec-github-pages)) et peut aussi être lancée localement
 avec le serveur décrit dans [Utilisation locale](#utilisation-locale). Son
 titre de site reste distinct du nom affiché par les applications installées.
+Les liens d'installation et les versions publiées sont accessibles depuis la
+[page de téléchargement](https://deraub1.github.io/home_assistant/downloads.html).
 
 ### Android
 
@@ -104,6 +107,10 @@ Dans Android Studio, lancez l'application sur un appareil/émulateur ou utilisez
 Après chaque modification de `public/`, relancez `npm run android:sync` avant
 de reconstruire. La connexion HTTP vers un ESP sur le réseau local est activée
 pour cette application ; les commandes ne sont pas chiffrées en HTTP.
+
+Pour distribuer un APK, utilisez une clé de signature Android privée et gardez
+une sauvegarde sécurisée : toutes les mises à jour doivent être signées avec la
+même clé. Ne commitez jamais le fichier de clé ni ses mots de passe.
 
 ### Installateur Windows
 
@@ -136,6 +143,36 @@ Après chaque modification de `public/`, reconstruisez l'installateur pour
 inclure les nouveaux fichiers. Les données de l'application et le compte local
 restent propres à chaque cible et ne sont pas synchronisés entre navigateur,
 téléphone et Windows.
+
+### Téléchargement et publication des versions
+
+La page `public/downloads.html` détecte les fichiers présents dans la dernière
+[GitHub Release](https://github.com/Deraub1/home_assistant/releases). Les
+boutons restent indisponibles tant que le fichier correspondant n'est pas
+publié. Les fichiers binaires ne sont pas ajoutés au dépôt Git.
+
+Le workflow `.github/workflows/release.yml` crée une Release et y joint
+l'installateur Windows lors de la publication d'un tag `v*`. Il construit et
+ajoute également un APK Android signé lorsque la signature est configurée.
+Pour activer cette étape Android :
+
+1. Dans un dossier privé hors du dépôt, créez une clé avec
+   `keytool -genkeypair -v -keystore home-assistant-release.jks -alias home-assistant -keyalg RSA -keysize 4096 -validity 10000`.
+   Keytool demande interactivement les mots de passe et les informations du
+   certificat. Conservez en lieu sûr le fichier `.jks`, l'alias et les mots de
+   passe ; la perte de la clé empêche de publier des mises à jour compatibles.
+2. Dans **GitHub > Settings > Secrets and variables > Actions**, créez les
+   secrets `ANDROID_KEYSTORE_BASE64` (contenu Base64 du fichier `.jks`),
+   `ANDROID_KEYSTORE_PASSWORD`, `ANDROID_KEY_ALIAS` et `ANDROID_KEY_PASSWORD`.
+   Sous PowerShell, copiez le contenu Base64 sans l'afficher dans le terminal
+   avec `[Convert]::ToBase64String([IO.File]::ReadAllBytes("$HOME\home-assistant-release.jks")) | Set-Clipboard`,
+   puis collez-le dans le secret correspondant.
+   Ajoutez la variable de dépôt `ANDROID_RELEASE_ENABLED` avec la valeur
+   `true`. Ne placez jamais ces valeurs dans le code ou dans un commit.
+3. Créez et poussez un tag de version (par exemple `v1.0.0`). Le workflow
+   génère l'installateur Windows et, si les secrets sont présents, l'APK signé
+   puis les joint à la Release. Les boutons de la page de téléchargement
+   s'activent dès que ces fichiers sont disponibles dans la dernière Release.
 
 ### Logique des thèmes
 

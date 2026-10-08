@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#111827">
+  <title>Télécharger Home Assistant - LED Controller</title>
+  <meta name="description" content="Téléchargez Home Assistant - LED Controller pour Android ou Windows depuis les publications GitHub officielles.">
+  <link rel="icon" type="image/png" href="favicon-tab.png?v=20261001-1700">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #111827;
+      --panel: #1f2937;
+      --border: rgba(148, 163, 184, 0.24);
+      --text: #f8fafc;
+      --muted: #cbd5e1;
+      --primary: #8b9aff;
+      --button-text: #101629;
+    }
+    html[data-theme="light"] {
+      color-scheme: light;
+      --bg: #f8fafc;
+      --panel: #fff;
+      --border: rgba(71, 85, 105, 0.2);
+      --text: #0f172a;
+      --muted: #475569;
+      --primary: #4354d8;
+      --button-text: #fff;
+    }
+    * { box-sizing: border-box; }
+    body {
+      min-height: 100vh;
+      margin: 0;
+      padding: 32px 20px;
+      color: var(--text);
+      background: var(--bg);
+      font: 16px/1.6 "Outfit", "Segoe UI", sans-serif;
+    }
+    a { color: var(--primary); }
+    a:focus-visible { outline: 2px solid var(--primary); outline-offset: 4px; }
+    .page-shell { width: min(100%, 900px); margin: 0 auto; }
+    .topbar, .page-footer { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
+    .topbar { margin-bottom: 44px; }
+    .brand { display: inline-flex; align-items: center; gap: 12px; color: var(--text); font-weight: 700; text-decoration: none; }
+    .brand img { width: 42px; height: 42px; object-fit: contain; }
+    .back-link, .page-footer a { font-size: 14px; font-weight: 600; }
+    .eyebrow { margin: 0 0 8px; color: var(--primary); font-size: 13px; font-weight: 700; }
+    h1 { margin: 0; font-size: clamp(32px, 6vw, 48px); line-height: 1.1; }
+    .intro { max-width: 68ch; margin: 16px 0 28px; color: var(--muted); }
+    .download-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+    .download-card { display: flex; flex-direction: column; align-items: flex-start; min-height: 250px; padding: 24px; border: 1px solid var(--border); border-radius: 20px; background: var(--panel); }
+    .platform { margin: 0 0 4px; color: var(--primary); font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; }
+    h2 { margin: 0; font-size: 24px; }
+    .card-copy { margin: 12px 0 18px; color: var(--muted); }
+    .download-button { display: inline-flex; align-items: center; justify-content: center; min-height: 46px; margin-top: auto; padding: 10px 18px; border: 0; border-radius: 12px; color: var(--button-text); background: var(--primary); font: inherit; font-weight: 700; text-decoration: none; }
+    .download-button[aria-disabled="true"] { opacity: .55; pointer-events: none; }
+    .status { min-height: 1.5em; margin: 10px 0 0; color: var(--muted); font-size: 13px; }
+    .notice { margin: 22px 0 0; padding: 16px 18px; border: 1px solid var(--border); border-radius: 14px; color: var(--muted); background: var(--panel); }
+    .release-link { display: inline-block; margin-top: 18px; font-weight: 700; }
+    .page-footer { margin-top: 38px; color: var(--muted); font-size: 13px; }
+    @media (max-width: 640px) {
+      body { padding: 22px 16px; }
+      .topbar { margin-bottom: 34px; }
+      .download-grid { grid-template-columns: 1fr; }
+      .download-card { min-height: 220px; }
+      .page-footer { align-items: flex-start; flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-shell">
+    <header class="topbar">
+      <a class="brand" href="./">
+        <img src="home-assistant-logo.png" alt="Home Assistant">
+        <span>Home Assistant</span>
+      </a>
+      <a class="back-link" href="index.html?skipSplash=1" data-copy="back">Retour à l’application</a>
+    </header>
+
+    <main>
+      <p class="eyebrow" data-copy="eyebrow">Applications officielles</p>
+      <h1 data-copy="heading">Télécharger l’application</h1>
+      <p class="intro" data-copy="intro">Choisissez votre plateforme. Les fichiers sont distribués depuis les publications officielles du projet sur GitHub.</p>
+
+      <section class="download-grid" aria-label="Téléchargements" data-copy-aria="heading">
+        <article class="download-card">
+          <p class="platform">Android</p>
+          <h2 data-copy="androidTitle">Téléphone et tablette</h2>
+          <p class="card-copy" data-copy="androidCopy">Installez le fichier APK sur votre appareil Android. L’installation peut demander l’autorisation des applications provenant de cette source.</p>
+          <a id="androidDownload" class="download-button" aria-disabled="true" data-copy="downloadApk">Télécharger l’APK</a>
+          <p id="androidStatus" class="status" role="status" data-copy="checking">Vérification de la dernière version…</p>
+        </article>
+
+        <article class="download-card">
+          <p class="platform">Windows</p>
+          <h2 data-copy="windowsTitle">Ordinateur Windows</h2>
+          <p class="card-copy" data-copy="windowsCopy">Téléchargez l’installateur, ouvrez-le et suivez les étapes affichées. Windows peut avertir que l’éditeur n’est pas vérifié.</p>
+          <a id="windowsDownload" class="download-button" aria-disabled="true" data-copy="downloadWindows">Télécharger l’installateur</a>
+          <p id="windowsStatus" class="status" role="status" data-copy="checking">Vérification de la dernière version…</p>
+        </article>
+      </section>
+
+      <p class="notice" data-copy="notice">Les mises à jour sont publiées sur GitHub. Sur Android, installez le nouvel APK par-dessus l’application existante pour la mettre à jour.</p>
+      <a class="release-link" href="https://github.com/Deraub1/home_assistant/releases" target="_blank" rel="noopener noreferrer" data-copy="allReleases">Voir toutes les versions sur GitHub</a>
+    </main>
+
+    <footer class="page-footer">
+      <a href="privacy.html" data-copy="privacy">Confidentialité</a>
+      <a href="terms.html" data-copy="terms">Conditions d’utilisation</a>
+      <a href="legal.html" data-copy="legal">Informations de publication</a>
+    </footer>
+  </div>
+  <script src="theme.js?v=20260922-1320"></script>
+  <script>
+    (() => {
+      const translations = {
+        fr: { title: 'Télécharger Home Assistant - LED Controller', description: 'Téléchargez Home Assistant - LED Controller pour Android ou Windows depuis les publications GitHub officielles.', back: 'Retour à l’application', eyebrow: 'Applications officielles', heading: 'Télécharger l’application', intro: 'Choisissez votre plateforme. Les fichiers sont distribués depuis les publications officielles du projet sur GitHub.', downloadLabel: 'Téléchargements', androidTitle: 'Téléphone et tablette', androidCopy: 'Installez le fichier APK sur votre appareil Android. L’installation peut demander l’autorisation des applications provenant de cette source.', downloadApk: 'Télécharger l’APK', windowsTitle: 'Ordinateur Windows', windowsCopy: 'Téléchargez l’installateur, ouvrez-le et suivez les étapes affichées. Windows peut avertir que l’éditeur n’est pas vérifié.', downloadWindows: 'Télécharger l’installateur', checking: 'Vérification de la dernière version…', unavailable: 'Cette version n’est pas encore publiée.', checkFailed: 'Impossible de vérifier les téléchargements. Consultez toutes les versions sur GitHub.', notice: 'Les mises à jour sont publiées sur GitHub. Sur Android, installez le nouvel APK par-dessus l’application existante pour la mettre à jour.', allReleases: 'Voir toutes les versions sur GitHub', privacy: 'Confidentialité', terms: 'Conditions d’utilisation', legal: 'Informations de publication' },
+        en: { title: 'Download Home Assistant - LED Controller', description: 'Download Home Assistant - LED Controller for Android or Windows from the official GitHub releases.', back: 'Back to the app', eyebrow: 'Official apps', heading: 'Download the app', intro: 'Choose your platform. Downloads are provided through the project’s official GitHub releases.', downloadLabel: 'Downloads', androidTitle: 'Phone and tablet', androidCopy: 'Install the APK on your Android device. You may need to allow installs from this source.', downloadApk: 'Download APK', windowsTitle: 'Windows PC', windowsCopy: 'Download and open the installer, then follow its steps. Windows may warn that the publisher is unverified.', downloadWindows: 'Download installer', checking: 'Checking the latest release…', unavailable: 'This version has not been published yet.', checkFailed: 'Downloads could not be checked. Browse all GitHub releases.', notice: 'Updates are published on GitHub. On Android, install the new APK over the existing app to update it.', allReleases: 'Browse all GitHub releases', privacy: 'Privacy', terms: 'Terms of use', legal: 'Publication information' },
+        es: { title: 'Descargar Home Assistant - LED Controller', description: 'Descarga Home Assistant - LED Controller para Android o Windows desde las versiones oficiales de GitHub.', back: 'Volver a la aplicación', eyebrow: 'Aplicaciones oficiales', heading: 'Descargar la aplicación', intro: 'Elige tu plataforma. Las descargas se ofrecen desde las versiones oficiales del proyecto en GitHub.', androidTitle: 'Teléfono y tableta', androidCopy: 'Instala el APK en tu dispositivo Android. Puede que debas permitir instalaciones desde esta fuente.', downloadApk: 'Descargar APK', windowsTitle: 'Ordenador Windows', windowsCopy: 'Descarga y abre el instalador y sigue sus pasos. Windows puede avisar de que el editor no está verificado.', downloadWindows: 'Descargar instalador', checking: 'Comprobando la última versión…', unavailable: 'Esta versión aún no se ha publicado.', checkFailed: 'No se pudieron comprobar las descargas. Consulta las versiones en GitHub.', notice: 'Las actualizaciones se publican en GitHub. En Android, instala el nuevo APK sobre la aplicación existente para actualizarla.', allReleases: 'Ver todas las versiones en GitHub', privacy: 'Privacidad', terms: 'Condiciones de uso', legal: 'Información de publicación' },
+        de: { title: 'Home Assistant - LED Controller herunterladen', description: 'Lade Home Assistant - LED Controller für Android oder Windows aus den offiziellen GitHub-Releases herunter.', back: 'Zurück zur Anwendung', eyebrow: 'Offizielle Apps', heading: 'App herunterladen', intro: 'Wähle deine Plattform. Die Downloads werden über die offiziellen GitHub-Releases des Projekts bereitgestellt.', androidTitle: 'Smartphone und Tablet', androidCopy: 'Installiere die APK auf deinem Android-Gerät. Installationen aus dieser Quelle müssen möglicherweise erlaubt werden.', downloadApk: 'APK herunterladen', windowsTitle: 'Windows-PC', windowsCopy: 'Lade den Installer herunter, öffne ihn und folge den Schritten. Windows kann vor einem unbekannten Herausgeber warnen.', downloadWindows: 'Installer herunterladen', checking: 'Neueste Version wird geprüft…', unavailable: 'Diese Version wurde noch nicht veröffentlicht.', checkFailed: 'Downloads konnten nicht geprüft werden. Alle GitHub-Releases ansehen.', notice: 'Updates werden auf GitHub veröffentlicht. Installiere unter Android die neue APK über der vorhandenen App.', allReleases: 'Alle GitHub-Releases ansehen', privacy: 'Datenschutz', terms: 'Nutzungsbedingungen', legal: 'Veröffentlichungsinformationen' },
+        it: { title: 'Scarica Home Assistant - LED Controller', description: 'Scarica Home Assistant - LED Controller per Android o Windows dalle release ufficiali GitHub.', back: 'Torna all’applicazione', eyebrow: 'App ufficiali', heading: 'Scarica l’app', intro: 'Scegli la piattaforma. I download sono disponibili nelle release ufficiali del progetto su GitHub.', androidTitle: 'Telefono e tablet', androidCopy: 'Installa l’APK sul dispositivo Android. Potrebbe essere necessario consentire le installazioni da questa origine.', downloadApk: 'Scarica APK', windowsTitle: 'PC Windows', windowsCopy: 'Scarica e apri il programma di installazione, quindi segui i passaggi. Windows potrebbe segnalare un editore non verificato.', downloadWindows: 'Scarica il programma di installazione', checking: 'Verifica dell’ultima versione…', unavailable: 'Questa versione non è ancora stata pubblicata.', checkFailed: 'Impossibile verificare i download. Consulta tutte le release GitHub.', notice: 'Gli aggiornamenti vengono pubblicati su GitHub. Su Android, installa il nuovo APK sopra l’app esistente.', allReleases: 'Consulta tutte le release GitHub', privacy: 'Privacy', terms: 'Condizioni d’uso', legal: 'Informazioni di pubblicazione' },
+        pt: { title: 'Transferir Home Assistant - LED Controller', description: 'Transfira o Home Assistant - LED Controller para Android ou Windows a partir das versões oficiais no GitHub.', back: 'Voltar à aplicação', eyebrow: 'Aplicações oficiais', heading: 'Transferir a aplicação', intro: 'Escolha a plataforma. Os ficheiros são disponibilizados nas versões oficiais do projeto no GitHub.', androidTitle: 'Telemóvel e tablet', androidCopy: 'Instale o APK no dispositivo Android. Poderá ter de permitir instalações desta origem.', downloadApk: 'Transferir APK', windowsTitle: 'Computador Windows', windowsCopy: 'Transfira e abra o instalador e siga os passos. O Windows poderá avisar que o editor não foi verificado.', downloadWindows: 'Transferir instalador', checking: 'A verificar a versão mais recente…', unavailable: 'Esta versão ainda não foi publicada.', checkFailed: 'Não foi possível verificar as transferências. Consulte as versões no GitHub.', notice: 'As atualizações são publicadas no GitHub. No Android, instale o novo APK sobre a aplicação existente.', allReleases: 'Ver todas as versões no GitHub', privacy: 'Privacidade', terms: 'Termos de utilização', legal: 'Informações de publicação' },
+        nl: { title: 'Home Assistant - LED Controller downloaden', description: 'Download Home Assistant - LED Controller voor Android of Windows via de officiële GitHub-releases.', back: 'Terug naar de app', eyebrow: 'Officiële apps', heading: 'Download de app', intro: 'Kies je platform. Downloads zijn beschikbaar via de officiële GitHub-releases van het project.', androidTitle: 'Telefoon en tablet', androidCopy: 'Installeer de APK op je Android-apparaat. Mogelijk moet je installaties vanaf deze bron toestaan.', downloadApk: 'APK downloaden', windowsTitle: 'Windows-pc', windowsCopy: 'Download en open het installatieprogramma en volg de stappen. Windows kan waarschuwen dat de uitgever niet is geverifieerd.', downloadWindows: 'Installatieprogramma downloaden', checking: 'Nieuwste versie controleren…', unavailable: 'Deze versie is nog niet gepubliceerd.', checkFailed: 'Downloads konden niet worden gecontroleerd. Bekijk alle GitHub-releases.', notice: 'Updates worden op GitHub gepubliceerd. Installeer op Android de nieuwe APK over de bestaande app om bij te werken.', allReleases: 'Alle GitHub-releases bekijken', privacy: 'Privacy', terms: 'Gebruiksvoorwaarden', legal: 'Publicatie-informatie' },
+        ja: { title: 'Home Assistant - LED Controller をダウンロード', description: '公式 GitHub リリースから Android または Windows 用の Home Assistant - LED Controller をダウンロードします。', back: 'アプリに戻る', eyebrow: '公式アプリ', heading: 'アプリをダウンロード', intro: 'プラットフォームを選択してください。プロジェクトの公式 GitHub リリースからダウンロードできます。', androidTitle: 'スマートフォンとタブレット', androidCopy: 'Android デバイスに APK をインストールします。この提供元からのインストールを許可する必要がある場合があります。', downloadApk: 'APK をダウンロード', windowsTitle: 'Windows PC', windowsCopy: 'インストーラーをダウンロードして開き、手順に従ってください。Windows が発行元を確認できないと警告する場合があります。', downloadWindows: 'インストーラーをダウンロード', checking: '最新リリースを確認中…', unavailable: 'このバージョンはまだ公開されていません。', checkFailed: 'ダウンロードを確認できません。GitHub の全リリースを確認してください。', notice: '更新は GitHub で公開されます。Android では新しい APK を既存のアプリに上書きインストールしてください。', allReleases: 'GitHub の全リリースを見る', privacy: 'プライバシー', terms: '利用規約', legal: '公開情報' },
+        'zh-CN': { title: '下载 Home Assistant - LED Controller', description: '从 GitHub 官方发行版下载适用于 Android 或 Windows 的 Home Assistant - LED Controller。', back: '返回应用', eyebrow: '官方应用', heading: '下载应用', intro: '选择您的平台。安装文件通过项目的 GitHub 官方发行版提供。', androidTitle: '手机和平板电脑', androidCopy: '在 Android 设备上安装 APK。您可能需要允许安装来自此来源的应用。', downloadApk: '下载 APK', windowsTitle: 'Windows 电脑', windowsCopy: '下载并打开安装程序，然后按步骤操作。Windows 可能会提示发布者尚未验证。', downloadWindows: '下载安装程序', checking: '正在检查最新版本…', unavailable: '此版本尚未发布。', checkFailed: '无法检查下载文件。请查看 GitHub 上的所有发行版。', notice: '更新会发布在 GitHub 上。在 Android 上，安装新版 APK 即可覆盖更新现有应用。', allReleases: '查看 GitHub 上的所有发行版', privacy: '隐私', terms: '使用条款', legal: '发布信息' }
+      };
+      const supportedLanguages = Object.keys(translations);
+      const savedLanguage = localStorage.getItem('language_preference');
+      const browserLanguage = (navigator.language || 'en').toLowerCase();
+      const language = supportedLanguages.includes(savedLanguage)
+        ? savedLanguage
+        : (supportedLanguages.includes(browserLanguage) ? browserLanguage : browserLanguage.startsWith('zh') ? 'zh-CN' : browserLanguage.split('-')[0] && supportedLanguages.includes(browserLanguage.split('-')[0]) ? browserLanguage.split('-')[0] : 'en');
+      const copy = translations[language];
+      document.documentElement.lang = language;
+      document.title = copy.title;
+      document.querySelector('meta[name="description"]').content = copy.description;
+      document.querySelectorAll('[data-copy]').forEach((element) => {
+        element.textContent = copy[element.dataset.copy];
+      });
+      document.querySelectorAll('[data-copy-aria]').forEach((element) => {
+        element.setAttribute('aria-label', copy[element.dataset.copyAria]);
+      });
+
+      const assets = {
+        android: { file: 'Home-Assistant-Android.apk', link: document.getElementById('androidDownload'), status: document.getElementById('androidStatus') },
+        windows: { file: 'Home-Assistant-Setup.exe', link: document.getElementById('windowsDownload'), status: document.getElementById('windowsStatus') }
+      };
+      fetch('https://api.github.com/repos/Deraub1/home_assistant/releases/latest', {
+        headers: { Accept: 'application/vnd.github+json' }
+      }).then((response) => {
+        if (response.status === 404) return null;
+        if (!response.ok) throw new Error(`GitHub release lookup failed with HTTP ${response.status}`);
+        return response.json();
+      }).then((release) => {
+        if (!release) {
+          Object.values(assets).forEach(({ status }) => {
+            status.textContent = copy.unavailable;
+          });
+          return;
+        }
+        const availableAssets = new Set((release.assets || []).map((asset) => asset.name));
+        Object.values(assets).forEach(({ file, link, status }) => {
+          if (availableAssets.has(file)) {
+            link.href = `https://github.com/Deraub1/home_assistant/releases/latest/download/${file}`;
+            link.setAttribute('aria-disabled', 'false');
+            link.setAttribute('download', '');
+            status.textContent = `${release.name || release.tag_name} · ${Math.round(release.assets.find((asset) => asset.name === file).size / 1024 / 1024)} MB`;
+          } else {
+            status.textContent = copy.unavailable;
+          }
+        });
+      }).catch((error) => {
+        Object.values(assets).forEach(({ link, status }) => {
+          link.setAttribute('aria-disabled', 'true');
+          status.textContent = copy.checkFailed;
+        });
+        console.error('Unable to load GitHub release downloads.', error);
+      });
+    })();
+  </script>
+</body>
+</html>

@@ -4,17 +4,17 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Contrôleur de LEDs ESP8266 avec Irina | Home Assistant</title>
-  <meta name="description" content="Interface web locale pour piloter un circuit de LEDs avec Irina, la commande vocale et le chatbot.">
+  <title>Home Assistant - LED Controller avec ESP8266</title>
+  <meta name="description" content="Pilotez votre circuit de LEDs avec Home Assistant, un ESP8266 et un expanseur GPIO MCP23017, depuis le Web, Android ou Windows.">
   <meta name="theme-color" content="#0b0f19">
   <meta property="og:type" content="website">
-  <meta property="og:title" content="Contrôleur de LEDs ESP8266 avec Irina | Home Assistant">
-  <meta property="og:description" content="Pilotez votre circuit de LEDs avec Irina depuis votre navigateur.">
+  <meta property="og:title" content="Home Assistant - LED Controller avec ESP8266">
+  <meta property="og:description" content="Pilotez votre circuit de LEDs avec un ESP8266 et un expanseur GPIO MCP23017.">
   <meta property="og:url" content="https://deraub1.github.io/home_assistant/">
   <meta property="og:image" content="https://deraub1.github.io/home_assistant/home-assistant-logo.png">
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="Contrôleur de LEDs ESP8266 avec Irina | Home Assistant">
-  <meta name="twitter:description" content="Pilotez votre circuit de LEDs avec Irina depuis votre navigateur.">
+  <meta name="twitter:title" content="Home Assistant - LED Controller avec ESP8266">
+  <meta name="twitter:description" content="Pilotez votre circuit de LEDs avec un ESP8266 et un expanseur GPIO MCP23017.">
   <link rel="icon" type="image/png" sizes="180x180" href="favicon-tab.png?v=20261001-1700">
   <link rel="apple-touch-icon" sizes="180x180" href="favicon-tab.png?v=20261001-1700">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -377,6 +377,15 @@
           </div>
 
           <div class="form-group">
+            <label for="hardwareType"><span id="hardwareTypeLabel">Matériel de commande</span></label>
+            <select id="hardwareType" class="form-select">
+              <option value="esp8266">ESP8266 seul — maximum 5 LEDs</option>
+              <option value="esp8266_mcp23017">ESP8266 + MCP23017 — maximum 19 LEDs</option>
+            </select>
+            <span id="hardwareTypeHint" class="field-hint">Avec le MCP23017, D1/D2 servent au bus I²C : trois LEDs utilisent D5/D6/D7, puis jusqu'à 16 LEDs utilisent l'expanseur.</span>
+          </div>
+
+          <div class="form-group">
             <label for="deviceUrl">Adresse IP / URL de la LED (ESP8266 / ESP32 / Arduino / RPi)</label>
             <div class="input-with-btn">
               <input type="url" id="deviceUrl" placeholder="/api/led ou http://192.168.1.45/api/led"
@@ -390,10 +399,10 @@
           <div class="form-group">
             <label for="totalLedsInput"><svg class="ui-icon" aria-hidden="true"><use href="#icon-lightbulb"></use></svg> Nombre de LEDs dans le circuit</label>
             <div class="input-with-btn">
-              <input type="number" id="totalLedsInput" min="1" max="100" value="1" required />
+              <input type="number" id="totalLedsInput" min="1" max="19" value="1" required />
               <button id="btnUpdateTotalLeds" class="btn btn-secondary">Appliquer</button>
             </div>
-            <span class="field-hint">Définit le nombre total de LEDs physiques du circuit.</span>
+            <span id="totalLedsHint" class="field-hint">Définit le nombre total de LEDs physiques du circuit. Maximum selon le matériel sélectionné : 5.</span>
           </div>
 
           <div class="form-row">
@@ -599,11 +608,11 @@
     <div id="codeModal" class="modal-overlay hidden">
       <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="firmwareModalTitle" aria-describedby="firmwareModalDescription">
         <div class="modal-header">
-          <h3><svg class="ui-icon" aria-hidden="true"><use href="#icon-code"></use></svg> <span id="firmwareModalTitle">Code C++ prêt pour ESP8266WebServer</span></h3>
+          <h3><svg class="ui-icon" aria-hidden="true"><use href="#icon-code"></use></svg> <span id="firmwareModalTitle">Générateur de firmware ESP8266</span></h3>
           <button id="btnCloseModal" class="btn-close" type="button" aria-label="Fermer">&times;</button>
         </div>
         <div class="modal-body">
-          <p id="firmwareModalDescription">Configurez le nombre de LEDs et la carte utilisée pour générer automatiquement le firmware correspondant.</p>
+          <p id="firmwareModalDescription">Configurez le nombre de LEDs et le matériel sélectionné pour générer le firmware correspondant.</p>
           <div class="firmware-options">
             <label for="firmwareBoard"><span id="firmwareBoardLabel">Carte</span>
               <select id="firmwareBoard" class="form-select">
@@ -612,10 +621,10 @@
               </select>
             </label>
             <label for="firmwareLedCount"><span id="firmwareLedCountLabel">Nombre de LEDs</span>
-              <input id="firmwareLedCount" type="number" min="1" max="100" value="5" />
+              <input id="firmwareLedCount" type="number" min="1" max="19" value="1" />
             </label>
           </div>
-          <p id="firmwareModalHint" class="field-hint">Pour des LEDs simples, utilisez une résistance de 220 à 330 ohms par LED. Les broches proposées sont D1, D2, D5, D6 et D7.</p>
+          <p id="firmwareModalHint" class="field-hint">Pour des LEDs simples, utilisez une résistance de 220 à 330 ohms par LED. Le MCP23017 utilise D1/D2 pour I²C et fournit jusqu'à 16 sorties supplémentaires. Un PWM logiciel est utilisé sur ses sorties.</p>
 
           <div class="code-block-wrapper">
             <pre><code id="espCodeSnippet" class="font-mono">Générez le firmware avec les options ci-dessus.</code></pre>

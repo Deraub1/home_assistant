@@ -460,54 +460,147 @@ document.addEventListener('DOMContentLoaded', async () => {
     fr: 'Langue changée en français.', en: 'Language switched to English.', es: 'Idioma cambiado a español.', de: 'Sprache auf Deutsch geändert.',
     it: 'Lingua cambiata in italiano.', pt: 'Idioma alterado para português.', nl: 'Taal gewijzigd naar Nederlands.', ja: '言語を日本語に変更しました。', 'zh-CN': '语言已切换为简体中文。'
   };
+  const hardwareText = {
+    fr: {
+      label: 'Matériel de commande',
+      esp8266: 'ESP8266 seul — maximum 5 LEDs',
+      mcp23017: 'ESP8266 + MCP23017 — maximum 19 LEDs',
+      espHint: 'Le firmware ESP8266 seul utilise jusqu’à cinq sorties : D1, D2, D5, D6 et D7.',
+      mcpHint: 'Le MCP23017 utilise D1/D2 pour I²C : 3 LEDs maximum sur D5/D6/D7 et 16 sur le MCP23017.',
+      countHint: 'Nombre de LEDs permis par le matériel sélectionné :',
+      firmwareEsp: 'Chaque LED utilise une sortie GPIO de l’ESP8266. Utilisez une résistance adaptée.',
+      firmwareMcp: 'Installez Adafruit MCP23X17 et Adafruit BusIO. Le MCP23017 utilise D1/D2 (I²C, adresse 0x20) ; les trois premières LEDs utilisent D5/D6/D7 et les suivantes jusqu’aux broches GPA7/GPB7. Le MCP utilise un PWM logiciel.'
+    },
+    en: {
+      label: 'Controller hardware',
+      esp8266: 'ESP8266 only — maximum 5 LEDs',
+      mcp23017: 'ESP8266 + MCP23017 — maximum 19 LEDs',
+      espHint: 'The ESP8266-only firmware uses up to five outputs: D1, D2, D5, D6, and D7.',
+      mcpHint: 'The MCP23017 uses D1/D2 for I²C: up to 3 LEDs on D5/D6/D7 and 16 on the MCP23017.',
+      countHint: 'LEDs allowed by the selected hardware:',
+      firmwareEsp: 'Each LED uses an ESP8266 GPIO output. Use an appropriate resistor.',
+      firmwareMcp: 'Install Adafruit MCP23X17 and Adafruit BusIO. The MCP23017 uses D1/D2 (I²C, address 0x20); the first three LEDs use D5/D6/D7 and the rest use up to GPA7/GPB7. MCP outputs use software PWM.'
+    },
+    es: {
+      label: 'Hardware de control',
+      esp8266: 'Solo ESP8266 — máximo 5 LED',
+      mcp23017: 'ESP8266 + MCP23017 — máximo 19 LED',
+      espHint: 'El firmware ESP8266 usa hasta cinco salidas: D1, D2, D5, D6 y D7.',
+      mcpHint: 'El MCP23017 usa D1/D2 para I²C: hasta 3 LED en D5/D6/D7 y 16 en el MCP23017.',
+      countHint: 'LED permitidos por el hardware seleccionado:',
+      firmwareEsp: 'Cada LED usa una salida GPIO del ESP8266. Utiliza una resistencia adecuada.',
+      firmwareMcp: 'Instala Adafruit MCP23X17 y Adafruit BusIO. El MCP23017 usa D1/D2 (I²C, dirección 0x20); los tres primeros LED usan D5/D6/D7 y los demás hasta GPA7/GPB7. Las salidas MCP usan PWM por software.'
+    },
+    de: {
+      label: 'Steuerungshardware',
+      esp8266: 'Nur ESP8266 — maximal 5 LEDs',
+      mcp23017: 'ESP8266 + MCP23017 — maximal 19 LEDs',
+      espHint: 'Die reine ESP8266-Firmware verwendet bis zu fünf Ausgänge: D1, D2, D5, D6 und D7.',
+      mcpHint: 'Der MCP23017 verwendet D1/D2 für I²C: bis zu 3 LEDs an D5/D6/D7 und 16 am MCP23017.',
+      countHint: 'Mit der ausgewählten Hardware mögliche LEDs:',
+      firmwareEsp: 'Jede LED verwendet einen ESP8266-GPIO-Ausgang. Einen passenden Widerstand verwenden.',
+      firmwareMcp: 'Adafruit MCP23X17 und Adafruit BusIO installieren. Der MCP23017 verwendet D1/D2 (I²C, Adresse 0x20); die ersten drei LEDs nutzen D5/D6/D7, weitere bis zu GPA7/GPB7. MCP-Ausgänge verwenden Software-PWM.'
+    },
+    it: {
+      label: 'Hardware di controllo',
+      esp8266: 'Solo ESP8266 — massimo 5 LED',
+      mcp23017: 'ESP8266 + MCP23017 — massimo 19 LED',
+      espHint: 'Il firmware ESP8266 usa fino a cinque uscite: D1, D2, D5, D6 e D7.',
+      mcpHint: 'Il MCP23017 usa D1/D2 per I²C: fino a 3 LED su D5/D6/D7 e 16 sul MCP23017.',
+      countHint: 'LED consentiti dall’hardware selezionato:',
+      firmwareEsp: 'Ogni LED usa un’uscita GPIO dell’ESP8266. Usa una resistenza adeguata.',
+      firmwareMcp: 'Installa Adafruit MCP23X17 e Adafruit BusIO. Il MCP23017 usa D1/D2 (I²C, indirizzo 0x20); i primi tre LED usano D5/D6/D7 e gli altri fino a GPA7/GPB7. Le uscite MCP usano PWM software.'
+    },
+    pt: {
+      label: 'Hardware de controlo',
+      esp8266: 'Apenas ESP8266 — máximo 5 LEDs',
+      mcp23017: 'ESP8266 + MCP23017 — máximo 19 LEDs',
+      espHint: 'O firmware ESP8266 usa até cinco saídas: D1, D2, D5, D6 e D7.',
+      mcpHint: 'O MCP23017 usa D1/D2 para I²C: até 3 LEDs em D5/D6/D7 e 16 no MCP23017.',
+      countHint: 'LEDs permitidos pelo hardware selecionado:',
+      firmwareEsp: 'Cada LED usa uma saída GPIO do ESP8266. Utilize uma resistência adequada.',
+      firmwareMcp: 'Instale Adafruit MCP23X17 e Adafruit BusIO. O MCP23017 usa D1/D2 (I²C, endereço 0x20); os três primeiros LEDs usam D5/D6/D7 e os restantes até GPA7/GPB7. As saídas MCP usam PWM por software.'
+    },
+    nl: {
+      label: 'Besturingshardware',
+      esp8266: 'Alleen ESP8266 — maximaal 5 leds',
+      mcp23017: 'ESP8266 + MCP23017 — maximaal 19 leds',
+      espHint: 'De ESP8266-firmware gebruikt maximaal vijf uitgangen: D1, D2, D5, D6 en D7.',
+      mcpHint: 'De MCP23017 gebruikt D1/D2 voor I²C: maximaal 3 leds op D5/D6/D7 en 16 op de MCP23017.',
+      countHint: 'Aantal leds toegestaan door de geselecteerde hardware:',
+      firmwareEsp: 'Elke led gebruikt een ESP8266-GPIO-uitgang. Gebruik een geschikte weerstand.',
+      firmwareMcp: 'Installeer Adafruit MCP23X17 en Adafruit BusIO. De MCP23017 gebruikt D1/D2 (I²C, adres 0x20); de eerste drie leds gebruiken D5/D6/D7 en de overige maximaal GPA7/GPB7. MCP-uitgangen gebruiken software-PWM.'
+    },
+    ja: {
+      label: '制御ハードウェア',
+      esp8266: 'ESP8266 のみ — 最大 5 個',
+      mcp23017: 'ESP8266 + MCP23017 — 最大 19 個',
+      espHint: 'ESP8266 のみのファームウェアでは、D1、D2、D5、D6、D7 の最大 5 出力を使用します。',
+      mcpHint: 'MCP23017 は I²C に D1/D2 を使用します。D5/D6/D7 に最大 3 個、MCP23017 に 16 個接続できます。',
+      countHint: '選択したハードウェアで使用できる LED 数：',
+      firmwareEsp: '各 LED は ESP8266 の GPIO 出力を使用します。適切な抵抗を使用してください。',
+      firmwareMcp: 'Adafruit MCP23X17 と Adafruit BusIO をインストールしてください。MCP23017 は D1/D2（I²C、アドレス 0x20）を使用し、最初の 3 個は D5/D6/D7、残りは GPA7/GPB7 まで接続します。MCP 出力はソフトウェア PWM を使用します。'
+    },
+    'zh-CN': {
+      label: '控制硬件',
+      esp8266: '仅 ESP8266 — 最多 5 个 LED',
+      mcp23017: 'ESP8266 + MCP23017 — 最多 19 个 LED',
+      espHint: '仅 ESP8266 固件最多使用五个输出：D1、D2、D5、D6 和 D7。',
+      mcpHint: 'MCP23017 使用 D1/D2 进行 I²C 通信：D5/D6/D7 最多连接 3 个 LED，MCP23017 可连接 16 个。',
+      countHint: '所选硬件支持的 LED 数量：',
+      firmwareEsp: '每个 LED 使用一个 ESP8266 GPIO 输出。请使用合适的限流电阻。',
+      firmwareMcp: '请安装 Adafruit MCP23X17 和 Adafruit BusIO。MCP23017 使用 D1/D2（I²C，地址 0x20）；前三个 LED 使用 D5/D6/D7，其余最多使用 GPA7/GPB7。MCP 输出使用软件 PWM。'
+    }
+  };
   const firmwareText = {
     fr: {
-      title: 'Code C++ prêt pour ESP8266WebServer', description: 'Configurez le nombre de LEDs et la carte utilisée pour générer automatiquement le firmware correspondant.',
+      title: 'Générateur de firmware ESP8266', description: 'Configurez le nombre de LEDs et le matériel sélectionné pour générer le firmware correspondant.',
       board: 'Carte', ledCount: 'Nombre de LEDs', hint: 'Pour des LEDs simples, utilisez une résistance de 220 à 330 ohms par LED. Les broches proposées sont D1, D2, D5, D6 et D7.',
       initial: 'Générez le firmware avec les options ci-dessus.', generate: 'Générer le firmware', copy: 'Copier le code dans le presse-papier', copied: 'Code copié dans le presse-papier !'
     },
     en: {
-      title: 'C++ code ready for ESP8266WebServer', description: 'Configure the LED count and board to automatically generate the matching firmware.',
+      title: 'ESP8266 firmware generator', description: 'Set the LED count and selected hardware to generate matching firmware.',
       board: 'Board', ledCount: 'Number of LEDs', hint: 'For individual LEDs, use a 220–330 ohm resistor per LED. Available pins are D1, D2, D5, D6, and D7.',
       initial: 'Generate the firmware with the options above.', generate: 'Generate firmware', copy: 'Copy code to clipboard', copied: 'Code copied to clipboard!'
     },
     es: {
-      title: 'Código C++ listo para ESP8266WebServer', description: 'Configura el número de LED y la placa para generar automáticamente el firmware correspondiente.',
+      title: 'Generador de firmware ESP8266', description: 'Configura el número de LED y el hardware seleccionado para generar el firmware correspondiente.',
       board: 'Placa', ledCount: 'Número de LED', hint: 'Para LED individuales, utiliza una resistencia de 220 a 330 ohmios por LED. Pines disponibles: D1, D2, D5, D6 y D7.',
       initial: 'Genera el firmware con las opciones anteriores.', generate: 'Generar firmware', copy: 'Copiar código al portapapeles', copied: '¡Código copiado al portapapeles!'
     },
     de: {
-      title: 'C++-Code für ESP8266WebServer bereit', description: 'Konfiguriere die LED-Anzahl und das Board, um automatisch die passende Firmware zu erzeugen.',
+      title: 'ESP8266-Firmware-Generator', description: 'Lege die LED-Anzahl und die ausgewählte Hardware fest, um die passende Firmware zu erzeugen.',
       board: 'Board', ledCount: 'Anzahl der LEDs', hint: 'Verwende für einzelne LEDs einen Widerstand von 220 bis 330 Ohm pro LED. Verfügbare Pins: D1, D2, D5, D6 und D7.',
       initial: 'Erzeuge die Firmware mit den obigen Optionen.', generate: 'Firmware erzeugen', copy: 'Code in die Zwischenablage kopieren', copied: 'Code in die Zwischenablage kopiert!'
     },
     it: {
-      title: 'Codice C++ pronto per ESP8266WebServer', description: 'Configura il numero di LED e la scheda per generare automaticamente il firmware corrispondente.',
+      title: 'Generatore firmware ESP8266', description: 'Configura il numero di LED e l’hardware selezionato per generare il firmware corrispondente.',
       board: 'Scheda', ledCount: 'Numero di LED', hint: 'Per LED singoli, usa una resistenza da 220 a 330 ohm per LED. Pin disponibili: D1, D2, D5, D6 e D7.',
       initial: 'Genera il firmware con le opzioni sopra.', generate: 'Genera firmware', copy: 'Copia codice negli appunti', copied: 'Codice copiato negli appunti!'
     },
     pt: {
-      title: 'Código C++ pronto para ESP8266WebServer', description: 'Configure o número de LEDs e a placa para gerar automaticamente o firmware correspondente.',
+      title: 'Gerador de firmware ESP8266', description: 'Configure o número de LEDs e o hardware selecionado para gerar o firmware correspondente.',
       board: 'Placa', ledCount: 'Número de LEDs', hint: 'Para LEDs individuais, use uma resistência de 220 a 330 ohms por LED. Pinos disponíveis: D1, D2, D5, D6 e D7.',
       initial: 'Gere o firmware com as opções acima.', generate: 'Gerar firmware', copy: 'Copiar código para a área de transferência', copied: 'Código copiado para a área de transferência!'
     },
     nl: {
-      title: 'C++-code klaar voor ESP8266WebServer', description: 'Stel het aantal leds en het board in om automatisch de juiste firmware te genereren.',
+      title: 'ESP8266-firmwaregenerator', description: 'Stel het aantal leds en de geselecteerde hardware in om de juiste firmware te genereren.',
       board: 'Board', ledCount: 'Aantal leds', hint: 'Gebruik voor afzonderlijke leds een weerstand van 220 tot 330 ohm per led. Beschikbare pinnen: D1, D2, D5, D6 en D7.',
       initial: 'Genereer de firmware met de bovenstaande opties.', generate: 'Firmware genereren', copy: 'Code naar klembord kopiëren', copied: 'Code naar klembord gekopieerd!'
     },
     ja: {
-      title: 'ESP8266WebServer用C++コードの準備完了', description: 'LED数とボードを設定して、対応するファームウェアを自動生成します。',
+      title: 'ESP8266 ファームウェアジェネレーター', description: 'LED 数と選択したハードウェアを設定して、対応するファームウェアを生成します。',
       board: 'ボード', ledCount: 'LED数', hint: '個別のLEDには、LEDごとに220～330Ωの抵抗を使用してください。使用可能なピンはD1、D2、D5、D6、D7です。',
       initial: '上のオプションでファームウェアを生成してください。', generate: 'ファームウェアを生成', copy: 'コードをクリップボードにコピー', copied: 'コードをクリップボードにコピーしました！'
     },
     'zh-CN': {
-      title: 'ESP8266WebServer C++ 代码已准备就绪', description: '配置 LED 数量和开发板，自动生成匹配的固件。',
+      title: 'ESP8266 固件生成器', description: '设置 LED 数量和所选硬件，以生成相应的固件。',
       board: '开发板', ledCount: 'LED 数量', hint: '对于单个 LED，请为每个 LED 使用 220 至 330 欧姆的电阻。可用引脚：D1、D2、D5、D6 和 D7。',
       initial: '请使用上面的选项生成固件。', generate: '生成固件', copy: '复制代码到剪贴板', copied: '代码已复制到剪贴板！'
     }
   };
   const getFirmwareText = (key) => firmwareText[currentLanguage]?.[key] || firmwareText.en[key];
+  const getHardwareCopy = (key) => hardwareText[currentLanguage]?.[key] || hardwareText.en[key];
   const uiText = (french, english) => currentLanguage === 'fr'
     ? french
     : (localizedStaticText[french]?.[currentLanguage] || localizedStaticText[english]?.[currentLanguage] || english);
@@ -636,12 +729,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     'Configuration enregistrée:': 'Configuration saved:',
     'Mode IA indisponible, interpréteur standard utilisé:': 'AI mode unavailable, standard interpreter used:',
     'Erreur reconnaissance vocale:': 'Speech recognition error:',
-    'Code C++ prêt pour ESP8266WebServer': 'C++ code ready for ESP8266WebServer',
+    'Générateur de firmware ESP8266': 'ESP8266 firmware generator',
     'Console nettoyée.': 'Console cleared.',
     'Code copié dans le presse-papier !': 'Code copied to clipboard!',
     'Générez le firmware avec les options ci-dessus.': 'Generate firmware with the options above.',
     'Carte': 'Board', 'Nombre de LEDs': 'Number of LEDs',
-    'Configurez le nombre de LEDs et la carte utilisée pour générer automatiquement le firmware correspondant.': 'Configure the LED count and board to automatically generate the matching firmware.',
+    'Configurez le nombre de LEDs et le matériel sélectionné pour générer le firmware correspondant.': 'Set the LED count and selected hardware to generate matching firmware.',
     'Pour des LEDs simples, utilisez une résistance de 220 à 330 ohms par LED. Les broches proposées sont D1, D2, D5, D6 et D7.': 'For individual LEDs, use a 220–330 ohm resistor per LED. Available pins are D1, D2, D5, D6, and D7.'
     ,
     'Changer de langue': 'Change language',
@@ -704,7 +797,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     'Raccourcis Rapides': { fr: 'Raccourcis Rapides', en: 'Quick shortcuts', es: 'Accesos rápidos', de: 'Schnellzugriffe', it: 'Scorciatoie rapide', pt: 'Atalhos rápidos', nl: 'Snelkoppelingen', ja: 'クイックショートカット', 'zh-CN': '快捷操作' },
     'Commande Vocale (Speech)': { fr: 'Commande Vocale (Speech)', en: 'Voice Control (Speech)', es: 'Control por voz', de: 'Sprachsteuerung', it: 'Controllo vocale', pt: 'Controlo por voz', nl: 'Spraakbesturing', ja: '音声操作', 'zh-CN': '语音控制' },
     'Dernière instruction vocale :': { fr: 'Dernière instruction vocale :', en: 'Latest voice instruction:', es: 'Última instrucción de voz:', de: 'Letzte Sprachanweisung:', it: 'Ultima istruzione vocale:', pt: 'Última instrução de voz:', nl: 'Laatste spraakinstructie:', ja: '最新の音声指示：', 'zh-CN': '最后的语音指令：' },
-    'Code C++ prêt pour ESP8266WebServer': { fr: 'Code C++ prêt pour ESP8266WebServer', en: 'C++ code ready for ESP8266WebServer', es: 'Código C++ listo para ESP8266WebServer', de: 'C++-Code für ESP8266WebServer bereit', it: 'Codice C++ pronto per ESP8266WebServer', pt: 'Código C++ pronto para ESP8266WebServer', nl: 'C++-code klaar voor ESP8266WebServer', ja: 'ESP8266WebServer用C++コードの準備完了', 'zh-CN': 'ESP8266WebServer C++ 代码已准备就绪' },
+    'Générateur de firmware ESP8266': { fr: 'Générateur de firmware ESP8266', en: 'ESP8266 firmware generator', es: 'Generador de firmware ESP8266', de: 'ESP8266-Firmware-Generator', it: 'Generatore firmware ESP8266', pt: 'Gerador de firmware ESP8266', nl: 'ESP8266-firmwaregenerator', ja: 'ESP8266 ファームウェアジェネレーター', 'zh-CN': 'ESP8266 固件生成器' },
     'Carte': { fr: 'Carte', en: 'Board', es: 'Placa', de: 'Board', it: 'Scheda', pt: 'Placa', nl: 'Board', ja: 'ボード', 'zh-CN': '开发板' },
     'Nombre de LEDs': { fr: 'Nombre de LEDs', en: 'Number of LEDs', es: 'Número de LED', de: 'Anzahl der LEDs', it: 'Numero di LED', pt: 'Número de LEDs', nl: 'Aantal leds', ja: 'LED数', 'zh-CN': 'LED 数量' },
     'Générer le firmware': { fr: 'Générer le firmware', en: 'Generate firmware', es: 'Generar firmware', de: 'Firmware erzeugen', it: 'Genera firmware', pt: 'Gerar firmware', nl: 'Firmware genereren', ja: 'ファームウェアを生成', 'zh-CN': '生成固件' },
@@ -941,7 +1034,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (firmwareModalDescription) firmwareModalDescription.textContent = getFirmwareText('description');
     if (firmwareBoardLabel) firmwareBoardLabel.textContent = getFirmwareText('board');
     if (firmwareLedCountLabel) firmwareLedCountLabel.textContent = getFirmwareText('ledCount');
-    if (firmwareModalHint) firmwareModalHint.textContent = getFirmwareText('hint');
+    if (firmwareModalHint) firmwareModalHint.textContent = getHardwareCopy(state.hardwareType === 'esp8266_mcp23017' ? 'firmwareMcp' : 'firmwareEsp');
+    applyHardwareText();
     if (espCodeSnippet && !espCodeSnippet.dataset.generated) espCodeSnippet.textContent = getFirmwareText('initial');
     if (btnGenerateFirmware) btnGenerateFirmware.textContent = getFirmwareText('generate');
     if (btnCopyCode && !btnCopyCode.dataset.copied) {
@@ -1064,6 +1158,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   // Configuration du nombre de LEDs DOM
   const totalLedsInput = document.getElementById('totalLedsInput');
   const btnUpdateTotalLeds = document.getElementById('btnUpdateTotalLeds');
+  const hardwareTypeSelect = document.getElementById('hardwareType');
 
   // Commande Vocale DOM
   const btnVoiceMic = document.getElementById('btnVoiceMic');
@@ -1250,15 +1345,24 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   // --- État Local de la LED & Matériel ---
   const defaultDeviceUrl = 'http://192.168.1.45/api/led';
+  const maximumLedCounts = {
+    esp8266: 5,
+    esp8266_mcp23017: 19
+  };
+  const storedHardwareType = localStorage.getItem('led_hardware_type');
+  const initialHardwareType = Object.hasOwn(maximumLedCounts, storedHardwareType)
+    ? storedHardwareType
+    : 'esp8266';
   const savedLedCount = Number.parseInt(localStorage.getItem('led_total_count'), 10);
-  const initialLedCount = Number.isInteger(savedLedCount) && savedLedCount >= 1 && savedLedCount <= 100
-    ? savedLedCount
+  const initialLedCount = Number.isInteger(savedLedCount) && savedLedCount >= 1
+    ? Math.min(savedLedCount, maximumLedCounts[initialHardwareType])
     : 1;
 
   let state = {
     isOn: false,
     selectedLed: '1', // '1', '2', '3', ... 'ALL'
     totalLeds: initialLedCount,
+    hardwareType: initialHardwareType,
     brightness: parseInt(brightnessRange.value, 10) || 80,
     mode: 'solid',
     deviceUrl: localStorage.getItem('led_device_url') || defaultDeviceUrl,
@@ -1279,7 +1383,43 @@ document.addEventListener('DOMContentLoaded', async () => {
   deviceUrlInput.value = state.deviceUrl;
   httpMethodSelect.value = state.httpMethod;
   secureTransport.checked = state.secureTransport;
+  hardwareTypeSelect.value = state.hardwareType;
   if (totalLedsInput) totalLedsInput.value = state.totalLeds;
+  if (firmwareLedCount) firmwareLedCount.value = state.totalLeds;
+
+  function getMaximumLedCount(hardwareType = state.hardwareType) {
+    return maximumLedCounts[hardwareType] || maximumLedCounts.esp8266;
+  }
+
+  function applyHardwareText() {
+    if (!hardwareTypeSelect) return;
+    const hardwareModeLabel = document.getElementById('hardwareTypeLabel');
+    const hardwareTypeHint = document.getElementById('hardwareTypeHint');
+    const totalLedsHint = document.getElementById('totalLedsHint');
+    const maximumLedCount = getMaximumLedCount();
+    const mcpEnabled = state.hardwareType === 'esp8266_mcp23017';
+
+    if (hardwareModeLabel) hardwareModeLabel.textContent = getHardwareCopy('label');
+    const espOption = hardwareTypeSelect.querySelector('option[value="esp8266"]');
+    const mcpOption = hardwareTypeSelect.querySelector('option[value="esp8266_mcp23017"]');
+    if (espOption) espOption.textContent = getHardwareCopy('esp8266');
+    if (mcpOption) mcpOption.textContent = getHardwareCopy('mcp23017');
+    if (hardwareTypeHint) hardwareTypeHint.textContent = getHardwareCopy(mcpEnabled ? 'mcpHint' : 'espHint');
+    if (totalLedsHint) totalLedsHint.textContent = `${getHardwareCopy('countHint')} ${maximumLedCount}.`;
+
+    if (totalLedsInput) totalLedsInput.max = String(maximumLedCount);
+    if (firmwareLedCount) {
+      firmwareLedCount.max = String(maximumLedCount);
+      firmwareLedCount.value = String(Math.min(
+        Number.parseInt(firmwareLedCount.value, 10) || state.totalLeds,
+        maximumLedCount
+      ));
+    }
+    const firmwareModalHint = document.getElementById('firmwareModalHint');
+    if (firmwareModalHint) {
+      firmwareModalHint.textContent = getHardwareCopy(mcpEnabled ? 'firmwareMcp' : 'firmwareEsp');
+    }
+  }
 
   // --- Regénération dynamique de la liste déroulante de sélection des LEDs ---
 
@@ -2740,7 +2880,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       'set_power {targets:["1","2"] ou ["ALL"], on:true|false},',
       'set_brightness {targets:["1"] ou ["ALL"], value:0..100},',
       'set_mode {targets:["1"] ou ["ALL"], mode:"solid"|"pulse"|"blink"|"strobe"},',
-      'set_led_count {value:1..100}, add_led_count {value:1..100} pour une demande comme « ajoute deux LEDs », set_led_name {target:"1", name:string},',
+      `set_led_count {value:1..${getMaximumLedCount()}}, add_led_count {value:1..${getMaximumLedCount()}} pour une demande comme « ajoute deux LEDs », set_led_name {target:"1", name:string},`,
       'set_led_color {target:"1", color:"red"|"yellow"|"green"|"blue"|"purple"|"orange"|"white"},',
       'set_theme_color {value:"#RRGGBB"} pour changer la couleur générale de toute l’application.',
       'logout {} pour « log out », « déconnecte-moi » ou « annule ma connexion ».',
@@ -2753,7 +2893,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       'set_secure_transport {value:true|false}, set_panel {panel:"log"|"history", open:true|false},',
       'set_brightness_scope {all:true|false}, set_speech_feedback {enabled:true|false},',
       'set_wake_word {enabled:true|false}, set_voice_ai {enabled:true|false}, set_sound_gestures {enabled:true|false},',
-      'set_firmware_board {value:"nodemcu"|"d1mini"}, set_firmware_led_count {value:1..100},',
+      `set_firmware_board {value:"nodemcu"|"d1mini"}, set_firmware_led_count {value:1..${getMaximumLedCount()}},`,
       'clear_panel {panel:"log"|"history"}, open_firmware_generator {}, generate_firmware {}, check_connection {},',
       'save_config {url:string} pour modifier l’URL du circuit.',
       'Pour « ajoute N LEDs » ou « N LEDs de plus », utilise add_led_count et conserve le nombre actuel; pour « configure à N LEDs », utilise set_led_count.',
@@ -2883,7 +3023,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
         case 'set_led_count': {
           const value = Number(action.value);
-          if (!Number.isInteger(value) || value < 1 || value > 100 || !totalLedsInput || !btnUpdateTotalLeds) break;
+          if (!Number.isInteger(value) || value < 1 || value > getMaximumLedCount() || !totalLedsInput || !btnUpdateTotalLeds) break;
           totalLedsInput.value = String(value);
           btnUpdateTotalLeds.click();
           feedback.push(`Nombre de LEDs réglé à ${value}`);
@@ -2893,7 +3033,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         case 'add_led_count': {
           const value = Number(action.value);
           if (!Number.isInteger(value) || value < 1 || !totalLedsInput || !btnUpdateTotalLeds) break;
-          const total = Math.min(100, state.totalLeds + value);
+          const total = Math.min(getMaximumLedCount(), state.totalLeds + value);
           totalLedsInput.value = String(total);
           btnUpdateTotalLeds.click();
           feedback.push(`Nombre de LEDs augmenté à ${total}`);
@@ -3049,7 +3189,7 @@ document.addEventListener('DOMContentLoaded', async () => {
           break;
         case 'set_firmware_led_count': {
           const value = Number(action.value);
-          if (!firmwareLedCount || !Number.isInteger(value) || value < 1 || value > 100) break;
+          if (!firmwareLedCount || !Number.isInteger(value) || value < 1 || value > getMaximumLedCount()) break;
           firmwareLedCount.value = String(value);
           feedback.push(`Nombre de LEDs du firmware réglé à ${value}`);
           break;
@@ -3270,7 +3410,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     );
     if (additionalLedsMatch && totalLedsInput && btnUpdateTotalLeds) {
       const increment = Number(additionalLedsMatch[1] || additionalLedsMatch[2]);
-      const value = Math.min(100, state.totalLeds + increment);
+      const value = Math.min(getMaximumLedCount(), state.totalLeds + increment);
       totalLedsInput.value = String(value);
       btnUpdateTotalLeds.click();
       spokenFeedback = currentLanguage === 'en'
@@ -3298,7 +3438,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     );
     if (requestedLedCount) {
       const value = Number(requestedLedCount[1] || requestedLedCount[2]);
-      if (Number.isInteger(value) && value >= 1 && value <= 100 && totalLedsInput && btnUpdateTotalLeds) {
+      if (Number.isInteger(value) && value >= 1 && value <= getMaximumLedCount() && totalLedsInput && btnUpdateTotalLeds) {
         totalLedsInput.value = String(value);
         btnUpdateTotalLeds.click();
         spokenFeedback = currentLanguage === 'en'
@@ -3693,9 +3833,10 @@ document.addEventListener('DOMContentLoaded', async () => {
   if (btnUpdateTotalLeds) {
     btnUpdateTotalLeds.addEventListener('click', () => {
       const val = parseInt(totalLedsInput.value, 10);
-      if (val && val >= 1 && val <= 100) {
+      if (val && val >= 1 && val <= getMaximumLedCount()) {
         state.totalLeds = val;
         localStorage.setItem('led_total_count', val);
+        if (firmwareLedCount) firmwareLedCount.value = String(val);
         rebuildLedSelectDropdown();
         rebuildLedOrbs();
         state.leds = Array.from({ length: state.totalLeds }, (_, index) => ({
@@ -3710,10 +3851,31 @@ document.addEventListener('DOMContentLoaded', async () => {
         syncControlsFromSelection();
         updateVisualLEDState();
         addLog(`[CFG] ${uiText('Nombre total de LEDs du circuit configuré à', 'Total circuit LEDs set to')} ${val}`, 'info');
+        generateFirmwareCode();
         sendHardwareRequest();
       }
     });
   }
+
+  hardwareTypeSelect?.addEventListener('change', () => {
+    const selectedHardware = hardwareTypeSelect.value;
+    if (!Object.hasOwn(maximumLedCounts, selectedHardware)) {
+      hardwareTypeSelect.value = state.hardwareType;
+      return;
+    }
+
+    state.hardwareType = selectedHardware;
+    localStorage.setItem('led_hardware_type', selectedHardware);
+    applyHardwareText();
+
+    const maximumLedCount = getMaximumLedCount();
+    if (state.totalLeds > maximumLedCount) {
+      totalLedsInput.value = String(maximumLedCount);
+      btnUpdateTotalLeds.click();
+    } else {
+      generateFirmwareCode();
+    }
+  });
 
   btnSaveConfig.addEventListener('click', () => {
     const enteredUrl = deviceUrlInput.value.trim();
@@ -3814,8 +3976,25 @@ document.addEventListener('DOMContentLoaded', async () => {
   });
 
   function generateFirmwareCode() {
-    const count = Math.max(1, Math.min(100, parseInt(firmwareLedCount.value, 10) || 1));
-    const pins = ['D1', 'D2', 'D5', 'D6', 'D7'].slice(0, count);
+    const count = Math.max(1, Math.min(getMaximumLedCount(), parseInt(firmwareLedCount.value, 10) || 1));
+    const mcpEnabled = state.hardwareType === 'esp8266_mcp23017' && count > 3;
+    const directPins = state.hardwareType === 'esp8266_mcp23017'
+      ? ['D5', 'D6', 'D7']
+      : ['D1', 'D2', 'D5', 'D6', 'D7'];
+    const directLedCount = Math.min(count, directPins.length);
+    const mcpLedCount = count - directLedCount;
+    const mcpIncludes = mcpEnabled
+      ? '#include <Wire.h>\n#include <Adafruit_MCP23X17.h>'
+      : '';
+    const mcpDeclarations = mcpEnabled
+      ? `Adafruit_MCP23X17 mcp;\nuint16_t mcpOutputMask = 0xFFFF;`
+      : '';
+    const mcpSetup = mcpEnabled
+      ? `  if (!mcp.begin_I2C(0x20)) {\n    Serial.println("MCP23017 not found at I2C address 0x20");\n    return;\n  }\n  for (uint8_t i = 0; i < MCP_LED_COUNT; i++) mcp.pinMode(i, OUTPUT);\n  mcp.writeGPIOAB(0);`
+      : '';
+    const mcpUpdate = mcpEnabled
+      ? `  uint16_t outputMask = 0;\n  uint16_t pwmPhase = (now % 20UL) * 51UL;\n  for (uint8_t i = 0; i < MCP_LED_COUNT; i++) {\n    if (outputFor(leds[ESP_LED_COUNT + i], now) > pwmPhase) outputMask |= (uint16_t)1 << i;\n  }\n  if (outputMask != mcpOutputMask) {\n    mcp.writeGPIOAB(outputMask);\n    mcpOutputMask = outputMask;\n  }`
+      : '';
     firmwareLedCount.value = count;
     const boardName = firmwareBoard.value === 'd1mini' ? 'Wemos D1 mini ESP8266' : 'NodeMCU ESP8266';
 
@@ -3824,13 +4003,17 @@ document.addEventListener('DOMContentLoaded', async () => {
 #include <ESP8266WiFi.h>
 #include <ESP8266WebServer.h>
 #include <ArduinoJson.h>
+${mcpIncludes}
 #include <math.h>
 
 const char* WIFI_SSID = "VOTRE_WIFI_SSID";
 const char* WIFI_PASSWORD = "VOTRE_WIFI_PASSWORD";
 ESP8266WebServer server(80);
-const uint8_t LED_PINS[${count}] = {${pins.join(', ')}};
 const uint8_t LED_COUNT = ${count};
+const uint8_t ESP_LED_COUNT = ${directLedCount};
+const uint8_t MCP_LED_COUNT = ${mcpLedCount};
+const uint8_t LED_PINS[${directPins.length}] = {${directPins.join(', ')}};
+${mcpDeclarations}
 
 struct LedState {
   bool on = false;
@@ -3863,9 +4046,10 @@ uint16_t outputFor(const LedState& led, unsigned long now) {
 
 void updateLeds() {
   unsigned long now = millis();
-  for (uint8_t i = 0; i < LED_COUNT; i++) {
+  for (uint8_t i = 0; i < ESP_LED_COUNT; i++) {
     analogWrite(LED_PINS[i], outputFor(leds[i], now));
   }
+${mcpUpdate}
 }
 
 void handleOptions() {
@@ -3908,10 +4092,11 @@ void handleLedCommand() {
 
 void setup() {
   Serial.begin(115200);
-  for (uint8_t i = 0; i < LED_COUNT; i++) {
+  for (uint8_t i = 0; i < ESP_LED_COUNT; i++) {
     pinMode(LED_PINS[i], OUTPUT);
     analogWrite(LED_PINS[i], 0);
   }
+${mcpSetup}
   WiFi.mode(WIFI_STA);
   WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
   unsigned long wifiStart = millis();

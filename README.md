@@ -1,14 +1,16 @@
-# Home Assistant LED Controller
+# Home Assistant - LED Controller avec ESP8266
 
 Application de pilotage de LEDs via un ESP8266 (NodeMCU ou Wemos D1 mini),
-disponible sur le Web, Android et Windows. Les trois versions réutilisent
-l'interface de `public/` ; Capacitor l'intègre dans l'application Android et
-Electron la fournit dans un véritable installateur Windows.
+avec prise en charge d'un expanseur GPIO MCP23017 pour piloter davantage de
+LEDs. Disponible sur le Web, Android et Windows : les trois versions
+réutilisent l'interface de `public/` ; Capacitor l'intègre dans l'application
+Android et Electron la fournit dans un véritable installateur Windows.
 
 ## Fonctionnalités
 
 - Interface responsive adaptée aux ordinateurs, tablettes et téléphones.
-- Gestion dynamique de 1 à 5 LEDs.
+- Nombre de LEDs configuré en fonction du matériel : jusqu'à 5 avec l'ESP8266
+  seul, ou jusqu'à 19 avec l'ESP8266 et un MCP23017.
 - Nommage des LEDs par couleur : rouge, jaune, vert, bleu, violet, orange et
   blanc.
 - Commande individuelle ou globale des LEDs.
@@ -79,7 +81,8 @@ aucun dossier de firmware séparé n'est requis dans ce dépôt.
 
 ### Web
 
-La version Web est publiée sur GitHub Pages (voir [Déploiement avec GitHub
+La version Web est publiée sur GitHub Pages sous le titre **Home Assistant -
+LED Controller avec ESP8266** (voir [Déploiement avec GitHub
 Pages](#déploiement-avec-github-pages)) et peut aussi être lancée localement
 avec le serveur décrit dans [Utilisation locale](#utilisation-locale). Son
 titre de site reste distinct du nom affiché par les applications installées.
@@ -298,17 +301,23 @@ Le firmware généré par l'application utilise :
 - `ESP8266WiFi.h` ;
 - `ESP8266WebServer.h` ;
 - `ArduinoJson.h`.
+- Pour la configuration avec MCP23017, les bibliothèques **Adafruit
+  MCP23X17** et **Adafruit BusIO**.
 
 Avant le téléversement :
 
 1. Installez le support des cartes ESP8266 dans l'IDE Arduino.
 2. Installez la bibliothèque **ArduinoJson**.
-3. Sélectionnez votre carte NodeMCU ou Wemos D1 mini.
-4. Remplacez `VOTRE_WIFI_SSID` et `VOTRE_WIFI_PASSWORD`.
-5. Vérifiez le nombre de LEDs et les broches utilisées.
-6. Téléversez le firmware.
-7. Ouvrez le moniteur série pour relever l'adresse IP de l'ESP8266.
-8. Saisissez cette adresse dans la configuration réseau de l'application.
+3. Dans la configuration avec MCP23017, installez aussi **Adafruit
+   MCP23X17** et **Adafruit BusIO** depuis le gestionnaire de bibliothèques.
+4. Sélectionnez votre carte NodeMCU ou Wemos D1 mini et le matériel utilisé
+   dans l'application : ESP8266 seul (1 à 5 LEDs) ou ESP8266 + MCP23017
+   (1 à 19 LEDs).
+5. Remplacez `VOTRE_WIFI_SSID` et `VOTRE_WIFI_PASSWORD`.
+6. Vérifiez le nombre de LEDs et les broches utilisées.
+7. Téléversez le firmware.
+8. Ouvrez le moniteur série pour relever l'adresse IP de l'ESP8266.
+9. Saisissez cette adresse dans la configuration réseau de l'application.
 
 Les broches proposées par défaut sont :
 
@@ -320,10 +329,27 @@ Les broches proposées par défaut sont :
 | LED 4 | D6 |
 | LED 5 | D7 |
 
-Pour des LEDs simples à deux broches, utilisez une résistance de 220 à
-330 ohms par LED. Respectez les limites électriques de l'ESP8266 et évitez de
-brancher directement une charge nécessitant davantage de courant qu'une sortie
-GPIO ne peut fournir.
+### Raccordement du MCP23017
+
+Le mode **ESP8266 + MCP23017** réserve les broches I²C habituelles de
+l'ESP8266 : **D1/SCL** et **D2/SDA**. Les LEDs 1 à 3 sont pilotées directement
+par **D5, D6 et D7** ; les LEDs 4 à 19 utilisent les 16 sorties du MCP23017,
+de **GPA0 à GPA7**, puis de **GPB0 à GPB7**. Le module est configuré à
+l'adresse I²C **0x20** : reliez **A0, A1 et A2 à GND**. Reliez aussi SDA, SCL,
+VDD (3,3 V) et les masses communes conformément au module utilisé.
+
+Le firmware généré utilise un PWM logiciel sur les sorties du MCP23017 pour
+la luminosité et les effets. Les sorties du MCP23017 ne fournissent pas de PWM
+matériel. Chaque LED doit avoir sa résistance de limitation de courant.
+Respectez les limites de courant du MCP23017 et de l'ESP8266 ; pour des charges
+qui dépassent celles des GPIO, utilisez des transistors ou des pilotes adaptés
+plutôt que d'alimenter directement la charge depuis le module.
+
+Sans MCP23017, le firmware génère jusqu'à cinq sorties LED sur D1, D2, D5, D6
+et D7. Avec le MCP23017, D1/D2 étant réservées à I²C, il génère trois sorties
+directes plus 16 sorties MCP, soit 19 LEDs au maximum. Le sélecteur de
+matériel ajuste automatiquement la limite du nombre de LEDs dans l'interface,
+les commandes vocales/chat et le générateur de firmware.
 
 ## Communication réseau
 
@@ -394,14 +420,15 @@ Active le mode respiration sur toutes les LEDs
 
 - Le pilotage physique doit être testé sur le matériel réel après le
   téléversement du firmware.
-- La configuration automatique proposée utilise au maximum cinq sorties GPIO.
+- Le matériel sélectionné limite le circuit à 5 LEDs (ESP8266 seul) ou à
+  19 LEDs (ESP8266 + un MCP23017). La limite correspondante est appliquée dans
+  l'interface et lors de la génération du firmware.
 - Les LEDs doivent être câblées avec les résistances et l'alimentation
   appropriées.
 - La disponibilité de la reconnaissance vocale dépend du navigateur.
 - Le firmware fourni n'implémente pas d'authentification réseau.
-
-Pour plus de cinq LEDs, un expanseur GPIO tel qu'un MCP23017 ou un contrôleur
-LED dédié devra être ajouté et pris en charge par un firmware spécifique.
+- Le MCP23017 ne fournit pas de PWM matériel ; la luminosité de ses sorties
+  est produite par le PWM logiciel du firmware généré.
 
 ## Licence
 

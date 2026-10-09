@@ -93,6 +93,8 @@ async function buildInstaller() {
     '--win',
     'nsis',
     '--x64',
+    '--publish',
+    'never',
     `--config.electronDist=${cacheDirectory}`
   ]);
 }

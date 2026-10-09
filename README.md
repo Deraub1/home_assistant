@@ -96,6 +96,9 @@ La version Android utilise Capacitor et porte le nom d'application
 **Home Assistant**. Prérequis : Node.js/npm, Android Studio et un SDK Android
 compatible. Depuis la racine du dépôt :
 
+L’icône du lanceur utilise un symbole centré sur un fond sombre pour rester
+lisible malgré le masque circulaire ou arrondi appliqué par les téléphones.
+
 ```powershell
 npm install
 npm run android:sync

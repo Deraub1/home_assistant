@@ -60,7 +60,7 @@ jobs:
         uses: actions/setup-java@v4
         with:
           distribution: temurin
-          java-version: '21'
+          java-version: '25'
 
       - name: Set up Android SDK
         uses: android-actions/setup-android@v3
@@ -81,12 +81,11 @@ jobs:
           echo "ANDROID_KEYSTORE_PATH=$RUNNER_TEMP/home-assistant-release.jks" >> "$GITHUB_ENV"
 
       - name: Build signed release APK
-        working-directory: android
         env:
           ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
           ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
           ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
-        run: ./gradlew --no-daemon assembleRelease
+        run: bash android/gradlew --no-daemon -p android assembleRelease
 
       - name: Name Android release asset
         run: cp android/app/build/outputs/apk/release/app-release.apk android/app/build/outputs/apk/release/Home-Assistant-Android.apk

@@ -125,7 +125,7 @@ npm run windows:dist
 ```
 
 `windows:dev` lance l'application de bureau. `windows:dist` génère
-`artifacts/windows/Home Assistant Setup 1.0.2.exe`, avec raccourcis du menu Démarrer et
+`artifacts/windows/Home Assistant Setup 1.0.3.exe`, avec raccourcis du menu Démarrer et
 du bureau et choix du dossier d'installation. L'icône de l'installateur et de
 l'application est générée à partir de l'icône mobile Android. Distribuer un
 installateur non signé peut déclencher un avertissement Microsoft Defender
@@ -169,7 +169,7 @@ Pour activer cette étape Android :
    puis collez-le dans le secret correspondant.
    Ajoutez la variable de dépôt `ANDROID_RELEASE_ENABLED` avec la valeur
    `true`. Ne placez jamais ces valeurs dans le code ou dans un commit.
-3. Créez et poussez un tag de version (par exemple `v1.0.2`). Le workflow
+3. Créez et poussez un tag de version (par exemple `v1.0.3`). Le workflow
    génère l'installateur Windows et, si les secrets sont présents, l'APK signé
    puis les joint à la Release. Les boutons de la page de téléchargement
    s'activent dès que ces fichiers sont disponibles dans la dernière Release.

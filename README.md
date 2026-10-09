@@ -469,7 +469,8 @@ Active le mode respiration sur toutes les LEDs
 
 ## Licence
 
-Ajoutez ici la licence de votre choix avant de distribuer publiquement le
-projet. En l'absence de licence, le code reste protégé par le droit d'auteur
-et son utilisation ou sa redistribution ne sont pas automatiquement
-autorisées.
+Le projet est publié sans licence de logiciel : aucun fichier `LICENSE`
+n'accorde de droits généraux de réutilisation, de modification ou de
+redistribution. Le code reste protégé par le droit d'auteur ; la visibilité
+publique du dépôt ne constitue pas, à elle seule, une autorisation de ces
+usages. Contactez les titulaires des droits pour demander une autorisation.

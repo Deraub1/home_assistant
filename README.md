@@ -64,6 +64,8 @@ home-assistant/
 │   ├── app-icon-512.png
 │   └── splash-circuits.svg
 ├── android/                  # Projet Android natif généré/maintenu avec Capacitor
+│   └── icon-source/
+│       └── launcher-foreground.png
 ├── desktop/
 │   ├── main.cjs              # Processus principal Electron
 │   └── create-icon.cjs       # Génération de l'icône Windows .ico
@@ -97,12 +99,14 @@ Les liens d'installation et les versions publiées sont accessibles depuis la
 
 La version Android utilise Capacitor et porte le nom d'application
 **Home Assistant**. `public/app-icon.png` est la source carrée de 1024 × 1024
-utilisée sans recadrage ni recomposition pour les icônes de lancement Android.
-Les ressources Android sont uniquement redimensionnées aux densités requises ;
-le lanceur du téléphone applique son propre masque aux icônes adaptatives.
-L’image `public/favicon-tab.png` reste indépendante et sert à l’icône Windows
-et au favicon du site. Prérequis : Node.js/npm, Android Studio et un SDK
-Android compatible. Depuis la racine du dépôt :
+conservée intacte. L’icône adaptative Android sépare le fond bleu nuit du
+symbole central, préparé dans `android/icon-source/launcher-foreground.png`
+puis redimensionné aux densités Android. Cette composition évite de réduire
+le symbole avec le cadre carré sous le masque circulaire ou arrondi du
+téléphone. Le lanceur applique toujours son propre masque. L’image
+`public/favicon-tab.png` reste indépendante pour Windows et le favicon du site.
+Prérequis : Node.js/npm, Android Studio et un SDK Android compatible. Depuis
+la racine du dépôt :
 
 ```powershell
 npm install

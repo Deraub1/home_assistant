@@ -96,8 +96,9 @@ La version Android utilise Capacitor et porte le nom d'application
 **Home Assistant**. Prérequis : Node.js/npm, Android Studio et un SDK Android
 compatible. Depuis la racine du dépôt :
 
-L’icône du lanceur utilise un symbole centré sur un fond sombre pour rester
-lisible malgré le masque circulaire ou arrondi appliqué par les téléphones.
+L’icône Android reprend l’image complète de l’application dans ses ressources
+de lanceur. Android peut appliquer un masque circulaire ou arrondi selon le
+téléphone.
 
 ```powershell
 npm install
@@ -128,7 +129,7 @@ npm run windows:dist
 ```
 
 `windows:dev` lance l'application de bureau. `windows:dist` génère
-`artifacts/windows/Home Assistant Setup 1.0.5.exe`, avec raccourcis du menu Démarrer et
+`artifacts/windows/Home Assistant Setup 1.0.6.exe`, avec raccourcis du menu Démarrer et
 du bureau et choix du dossier d'installation. L'icône de l'installateur et de
 l'application est générée à partir de l'icône mobile Android. Distribuer un
 installateur non signé peut déclencher un avertissement Microsoft Defender
@@ -172,7 +173,7 @@ Pour activer cette étape Android :
    puis collez-le dans le secret correspondant.
    Ajoutez la variable de dépôt `ANDROID_RELEASE_ENABLED` avec la valeur
    `true`. Ne placez jamais ces valeurs dans le code ou dans un commit.
-3. Créez et poussez un tag de version (par exemple `v1.0.5`). Le workflow
+3. Créez et poussez un tag de version (par exemple `v1.0.6`). Le workflow
    génère l'installateur Windows et, si les secrets sont présents, l'APK signé
    puis les joint à la Release. Les boutons de la page de téléchargement
    s'activent dès que ces fichiers sont disponibles dans la dernière Release.

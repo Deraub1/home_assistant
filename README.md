@@ -176,6 +176,8 @@ Pour activer cette étape Android :
    génère l'installateur Windows et, si les secrets sont présents, l'APK signé
    puis les joint à la Release. Les boutons de la page de téléchargement
    s'activent dès que ces fichiers sont disponibles dans la dernière Release.
+   Pour chaque mise à jour Android, augmentez également `versionCode` dans
+   `android/app/build.gradle` afin que les appareils acceptent le nouvel APK.
 
 ### Logique des thèmes
 

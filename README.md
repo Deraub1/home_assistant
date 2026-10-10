@@ -97,13 +97,14 @@ Les liens d'installation et les versions publiées sont accessibles depuis la
 
 La version Android utilise Capacitor et porte le nom d'application
 **Home Assistant**. `public/app-icon.png` est la source carrée de 1024 × 1024
-de l’icône complète. Android utilise cette composition comme arrière-plan
-adaptatif, sur un fond bleu nuit pour remplir les transparences ; le premier
-plan est vide afin de ne pas réduire le visuel dans la zone sûre. Le téléphone
-applique son masque circulaire ou arrondi à l’image complète. `public/app-icon.png`
-reste inchangée, et `public/favicon-tab.png` reste la source de l’icône Windows
-et du favicon du site. Prérequis : Node.js/npm, Android Studio et un SDK
-Android compatible. Depuis la racine du dépôt :
+de l’icône complète et reste inchangée. À chaque build Android, Gradle génère
+depuis cette source une variante dédiée agrandie uniformément de 10 % et
+recadrée au centre. Elle sert d’arrière-plan adaptatif, sur un fond bleu nuit
+qui remplit les transparences ; le premier plan reste vide afin de ne pas
+réduire le visuel une seconde fois. Le téléphone applique son masque circulaire
+ou arrondi. `public/favicon-tab.png` reste la source de l’icône Windows et du
+favicon du site. Prérequis : Node.js/npm, Android Studio et un SDK Android
+compatible. Depuis la racine du dépôt :
 
 ```powershell
 npm install

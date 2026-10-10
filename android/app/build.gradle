@@ -1,4 +1,12 @@
+import java.awt.RenderingHints
+import java.awt.image.BufferedImage
+import javax.imageio.ImageIO
+
 apply plugin: 'com.android.application'
+
+def adaptiveIconSource = rootProject.file('../public/app-icon.png')
+def adaptiveIconResourceDir = layout.buildDirectory.dir('generated/res/adaptiveIcon')
+def adaptiveIconOutput = adaptiveIconResourceDir.get().file('drawable-nodpi/app_icon_adaptive.png').asFile
 
 android {
     namespace = "com.homeassistant.ledcontroller"
@@ -14,6 +22,11 @@ android {
              // Files and dirs to omit from the packaged assets dir, modified to accommodate modern web apps.
              // Default: https://android.googlesource.com/platform/frameworks/base/+/282e181b58cf72b6ca770dc7ca5f91f135444502/tools/aapt/AaptAssets.cpp#61
             ignoreAssetsPattern = '!.svn:!.git:!.ds_store:!*.scc:.*:!CVS:!thumbs.db:!picasa.ini:!*~'
+        }
+    }
+    sourceSets {
+        main {
+            res.srcDir(adaptiveIconResourceDir)
         }
     }
     signingConfigs {
@@ -37,6 +50,42 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+}
+
+def generateAdaptiveIcon = tasks.register('generateAdaptiveIcon') {
+    inputs.file(adaptiveIconSource)
+    outputs.file(adaptiveIconOutput)
+
+    doLast {
+        def source = ImageIO.read(adaptiveIconSource)
+        if (source == null || source.width != 1024 || source.height != 1024) {
+            throw new GradleException('public/app-icon.png must be a readable 1024x1024 PNG.')
+        }
+
+        def scaledSize = 1126
+        int cropOffset = (scaledSize - source.width).intdiv(2)
+        def adaptiveIcon = new BufferedImage(1024, 1024, BufferedImage.TYPE_INT_ARGB)
+        def graphics = adaptiveIcon.createGraphics()
+        try {
+            graphics.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC)
+            graphics.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY)
+            graphics.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY)
+            graphics.drawImage(source, -cropOffset, -cropOffset, scaledSize, scaledSize, null)
+        } finally {
+            graphics.dispose()
+        }
+
+        if (!adaptiveIconOutput.parentFile.mkdirs() && !adaptiveIconOutput.parentFile.isDirectory()) {
+            throw new GradleException("Could not create Android adaptive icon resource directory: ${adaptiveIconOutput.parentFile}")
+        }
+        if (!ImageIO.write(adaptiveIcon, 'png', adaptiveIconOutput)) {
+            throw new GradleException('Could not write the generated Android adaptive icon.')
+        }
+    }
+}
+
+tasks.named('preBuild').configure {
+    dependsOn(generateAdaptiveIcon)
 }
 
 repositories {

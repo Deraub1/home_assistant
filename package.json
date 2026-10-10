@@ -1,6 +1,6 @@
 {
   "name": "home-assistant-led-controller",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "description": "Interface de pilotage de LEDs pour le Web, Android et Windows",
   "private": true,
   "main": "desktop/main.cjs",

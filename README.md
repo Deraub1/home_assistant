@@ -99,14 +99,14 @@ Les liens d'installation et les versions publiées sont accessibles depuis la
 
 La version Android utilise Capacitor et porte le nom d'application
 **Home Assistant**. `public/app-icon.png` est la source carrée de 1024 × 1024
-conservée intacte. L’icône adaptative Android sépare le fond bleu nuit du
-symbole central, préparé dans `android/icon-source/launcher-foreground.png`
-puis redimensionné aux densités Android. Cette composition évite de réduire
-le symbole avec le cadre carré sous le masque circulaire ou arrondi du
-téléphone. Le lanceur applique toujours son propre masque. L’image
-`public/favicon-tab.png` reste indépendante pour Windows et le favicon du site.
-Prérequis : Node.js/npm, Android Studio et un SDK Android compatible. Depuis
-la racine du dépôt :
+conservée intacte pour l’icône complète. Pour Android, le premier plan
+adaptatif est une copie exacte du symbole transparent `public/favicon-tab.png`,
+conservée dans `android/icon-source/launcher-foreground.png` puis mise à
+l’échelle uniformément dans la zone sûre Android, sans détourage ni
+recomposition. Le fond bleu nuit est une couche séparée ; le téléphone applique
+son masque circulaire ou arrondi. `public/favicon-tab.png` reste aussi la
+source de l’icône Windows et du favicon du site. Prérequis : Node.js/npm,
+Android Studio et un SDK Android compatible. Depuis la racine du dépôt :
 
 ```powershell
 npm install

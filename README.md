@@ -64,8 +64,6 @@ home-assistant/
 │   ├── app-icon-512.png
 │   └── splash-circuits.svg
 ├── android/                  # Projet Android natif généré/maintenu avec Capacitor
-│   └── icon-source/
-│       └── launcher-foreground.png
 ├── desktop/
 │   ├── main.cjs              # Processus principal Electron
 │   └── create-icon.cjs       # Génération de l'icône Windows .ico
@@ -99,14 +97,13 @@ Les liens d'installation et les versions publiées sont accessibles depuis la
 
 La version Android utilise Capacitor et porte le nom d'application
 **Home Assistant**. `public/app-icon.png` est la source carrée de 1024 × 1024
-conservée intacte pour l’icône complète. Pour Android, le premier plan
-adaptatif est une copie exacte du symbole transparent `public/favicon-tab.png`,
-conservée dans `android/icon-source/launcher-foreground.png` puis mise à
-l’échelle uniformément dans la zone sûre Android, sans détourage ni
-recomposition. Le fond bleu nuit est une couche séparée ; le téléphone applique
-son masque circulaire ou arrondi. `public/favicon-tab.png` reste aussi la
-source de l’icône Windows et du favicon du site. Prérequis : Node.js/npm,
-Android Studio et un SDK Android compatible. Depuis la racine du dépôt :
+de l’icône complète. Android utilise cette composition comme arrière-plan
+adaptatif, sur un fond bleu nuit pour remplir les transparences ; le premier
+plan est vide afin de ne pas réduire le visuel dans la zone sûre. Le téléphone
+applique son masque circulaire ou arrondi à l’image complète. `public/app-icon.png`
+reste inchangée, et `public/favicon-tab.png` reste la source de l’icône Windows
+et du favicon du site. Prérequis : Node.js/npm, Android Studio et un SDK
+Android compatible. Depuis la racine du dépôt :
 
 ```powershell
 npm install
@@ -116,6 +113,10 @@ npm run android:open
 
 Dans Android Studio, lancez l'application sur un appareil/émulateur ou utilisez
 **Build > Build Bundle(s) / APK(s) > Build APK(s)** pour produire un APK.
+Pour essayer le rendu de l’icône sans remplacer l’application installée,
+générez une APK de prévisualisation distincte avec
+`android\gradlew.bat -p android assembleDebug -PiconPreview` ; elle s’installe
+à côté sous le nom **Home Assistant**.
 Après chaque modification de `public/`, relancez `npm run android:sync` avant
 de reconstruire. La connexion HTTP vers un ESP sur le réseau local est activée
 pour cette application ; les commandes ne sont pas chiffrées en HTTP.

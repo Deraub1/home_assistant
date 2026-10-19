@@ -97,14 +97,15 @@ Les liens d'installation et les versions publiées sont accessibles depuis la
 
 La version Android utilise Capacitor et porte le nom d'application
 **Home Assistant**. `public/app-icon.png` est la source carrée de 1024 × 1024
-de l’icône complète et reste inchangée. À chaque build Android, Gradle génère
-depuis cette source une variante dédiée agrandie uniformément de 10 % et
-recadrée au centre. Elle sert d’arrière-plan adaptatif, sur un fond bleu nuit
-qui remplit les transparences ; le premier plan reste vide afin de ne pas
-réduire le visuel une seconde fois. Le téléphone applique son masque circulaire
-ou arrondi. `public/favicon-tab.png` reste la source de l’icône Windows et du
-favicon du site. Prérequis : Node.js/npm, Android Studio et un SDK Android
-compatible. Depuis la racine du dépôt :
+de l’icône complète et reste inchangée. Android utilise à la place le symbole
+transparent de `public/favicon-tab.png` comme premier plan adaptatif, agrandi
+pour remplir la zone sûre du masque du lanceur, sur un fond bleu nuit séparé.
+Gradle génère également les icônes carrées de secours pour les anciennes
+versions d’Android. Ainsi, le cadre carré inclus dans l’illustration complète
+n’est pas affiché en double ni réduit par le masque du téléphone.
+`public/favicon-tab.png` reste aussi la source de l’icône Windows et du favicon
+du site. Prérequis : Node.js/npm, Android Studio et un SDK Android compatible.
+Depuis la racine du dépôt :
 
 ```powershell
 npm install
@@ -139,9 +140,9 @@ npm run windows:dist
 ```
 
 `windows:dev` lance l'application de bureau. `windows:dist` génère
-`artifacts/windows/Home Assistant Setup 1.0.12.exe`, avec raccourcis du menu Démarrer et
+`artifacts/windows/Home Assistant Setup 1.0.13.exe`, avec raccourcis du menu Démarrer et
 du bureau et choix du dossier d'installation. L'icône de l'installateur et de
-l'application est générée à partir de l'icône mobile Android. Distribuer un
+l'application est générée à partir de `public/favicon-tab.png`. Distribuer un
 installateur non signé peut déclencher un avertissement Microsoft Defender
 SmartScreen ; la signature de code nécessite un certificat de signature
 Windows.
@@ -183,7 +184,7 @@ Pour activer cette étape Android :
    puis collez-le dans le secret correspondant.
    Ajoutez la variable de dépôt `ANDROID_RELEASE_ENABLED` avec la valeur
    `true`. Ne placez jamais ces valeurs dans le code ou dans un commit.
-3. Créez et poussez un tag de version (par exemple `v1.0.12`). Le workflow
+3. Créez et poussez un tag de version (par exemple `v1.0.13`). Le workflow
    génère l'installateur Windows et, si les secrets sont présents, l'APK signé
    puis les joint à la Release. Les boutons de la page de téléchargement
    s'activent dès que ces fichiers sont disponibles dans la dernière Release.
